@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Digikala">
         <activity android:name=".controller.activities.SingleFragmentActivity"></activity>
-        <activity android:name=".controller.activities.DigikalaActivity">
+        <activity android:name=".controller.activities.HomePageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

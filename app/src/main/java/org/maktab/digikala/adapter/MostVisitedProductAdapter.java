@@ -11,16 +11,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
-import org.maktab.digikala.databinding.ItemProductBinding;
+import org.maktab.digikala.databinding.ItemHighestScoreBinding;
+import org.maktab.digikala.databinding.ItemMostVisitedBinding;
 import org.maktab.digikala.model.Product;
-
 
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder>{
+public class MostVisitedProductAdapter extends RecyclerView.Adapter<MostVisitedProductAdapter.ProductHolder>{
 
     private Context mContext;
     private List<Product> mProductList;
+
+    public MostVisitedProductAdapter(Context context, List<Product> productList) {
+        mContext = context;
+        mProductList = productList;
+    }
 
     public List<Product> getProductList() {
         return mProductList;
@@ -30,27 +35,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         mProductList = productList;
     }
 
-    public ProductAdapter(Context context, List<Product> items) {
-        mContext = context;
-        mProductList = items;
-    }
-
     @NonNull
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        ItemProductBinding binding =
+        ItemMostVisitedBinding binding =
                 DataBindingUtil.inflate(LayoutInflater.from(mContext),
-                        R.layout.item_product,
+                        R.layout.item_most_visited,
                         parent,
                         false);
 
-        return new ProductHolder(binding);
+        return new MostVisitedProductAdapter.ProductHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductAdapter.ProductHolder holder, int position) {
-        holder.bindProductItem(mProductList.get(position));
+    public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
+
     }
 
     @Override
@@ -60,20 +59,22 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
     class ProductHolder extends RecyclerView.ViewHolder{
 
-        private ItemProductBinding mBinding;
+        private ItemMostVisitedBinding mBinding;
 
-        public ProductHolder(ItemProductBinding binding) {
+        public ProductHolder(ItemMostVisitedBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
         }
 
-        private void bindProductItem(Product product){
+        private void bindHighestScoreProductItem(Product product){
 
-            mBinding.textProduct.setText(product.getTitle());
+            mBinding.textMostVisited.setText(product.getTitle());
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())
-                    .into(mBinding.imageProduct);
+                    .into(mBinding.imageMostVisited);
         }
     }
-}
+
+
+    }
 

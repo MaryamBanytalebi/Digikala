@@ -3,33 +3,27 @@ package org.maktab.digikala.controller.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.maktab.digikala.R;
-import org.maktab.digikala.databinding.FragmentDigikalaBinding;
-import org.maktab.digikala.databinding.ListItemProductBinding;
-import org.maktab.digikala.model.ProductItem;
+import org.maktab.digikala.databinding.FragmentHomepageBinding;
 
-import java.util.List;
+public class HomePageFragment extends Fragment {
 
-public class DigiKalaFragment extends Fragment {
-
-    private FragmentDigikalaBinding mBinding;
+    private FragmentHomepageBinding mBinding;
     private Context mContext;
-    public DigiKalaFragment() {
+    public HomePageFragment() {
         // Required empty public constructor
     }
 
-    public static DigiKalaFragment newInstance() {
-        DigiKalaFragment fragment = new DigiKalaFragment();
+    public static HomePageFragment newInstance() {
+        HomePageFragment fragment = new HomePageFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -46,7 +40,7 @@ public class DigiKalaFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = DataBindingUtil.inflate(inflater,
-                R.layout.fragment_digikala,
+                R.layout.fragment_homepage,
                 container,
                 false);
 
@@ -56,7 +50,7 @@ public class DigiKalaFragment extends Fragment {
     }
 
     private void initViews() {
-        mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
+        mBinding.recyclerHighestScoreProduct.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL,false));
     }
 }
