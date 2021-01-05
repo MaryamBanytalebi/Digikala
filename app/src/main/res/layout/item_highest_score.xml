@@ -2,6 +2,12 @@
 <layout  xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <variable
+            name="product"
+            type="org.maktab.digikala.model.Product" />
+        <variable
+            name="productHolder"
+            type="org.maktab.digikala.adapter.HighestScoreProductAdapter.ProductHolder" />
 
     </data>
 <LinearLayout

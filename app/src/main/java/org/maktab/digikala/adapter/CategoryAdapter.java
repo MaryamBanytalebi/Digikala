@@ -1,7 +1,10 @@
 package org.maktab.digikala.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.icu.util.ULocale;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,10 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
+import org.maktab.digikala.controller.activities.SubCategoryActivity;
+import org.maktab.digikala.databinding.ItemCategoryBinding;
 import org.maktab.digikala.databinding.ItemProductBinding;
 import org.maktab.digikala.model.ProductCategory;
 
 import java.util.List;
+import java.util.Locale;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryHolder> {
 
@@ -37,9 +43,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @NonNull
     @Override
     public CategoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemProductBinding binding =
+        ItemCategoryBinding binding =
                 DataBindingUtil.inflate(LayoutInflater.from(mContext),
-                        R.layout.item_product,
+                        R.layout.item_category,
                         parent,
                         false);
         return new CategoryHolder(binding);
@@ -59,19 +65,30 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     class CategoryHolder extends RecyclerView.ViewHolder{
 
-        private ItemProductBinding mBinding;
+        private ItemCategoryBinding mBinding;
 
-        public CategoryHolder(ItemProductBinding binding) {
+        public CategoryHolder(ItemCategoryBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
+            ProductCategory productCategory = binding.getCategory();  // as mProductCategory = ProductCategory
+
+            mBinding.imageCategory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mContext.startActivity(SubCategoryActivity.newIntent(
+                            mContext,
+                            productCategory.getId(),
+                            productCategory.getName()));
+                }
+            });
         }
 
         private void bindCategoryItem(ProductCategory category){
 
-            mBinding.textProduct.setText(category.getName());
+            mBinding.textCategory.setText(category.getName());
             Picasso.get()
                     .load(category.getImage())
-                    .into(mBinding.imageProduct);
+                    .into(mBinding.imageCategory);
         }
     }
 }

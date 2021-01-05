@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Digikala">
-        <activity android:name=".controller.activities.SingleFragmentActivity"></activity>
+        <activity android:name=".controller.activities.SubCategoryActivity"></activity>
+        <activity android:name=".controller.activities.ProductDetailActivity" />
+        <activity android:name=".controller.activities.SingleFragmentActivity" />
         <activity android:name=".controller.activities.HomePageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

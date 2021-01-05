@@ -3,6 +3,12 @@
 <layout    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <variable
+            name="product"
+            type="org.maktab.digikala.model.Product" />
+        <variable
+            name="productHolder"
+            type="org.maktab.digikala.adapter.ProductAdapter.ProductHolder" />
 
     </data>
     <RelativeLayout
@@ -18,7 +24,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"/>
 
         <TextView
             android:id="@+id/text_product"

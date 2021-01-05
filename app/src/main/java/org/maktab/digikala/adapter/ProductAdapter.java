@@ -1,7 +1,9 @@
 package org.maktab.digikala.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
+import org.maktab.digikala.controller.activities.ProductDetailActivity;
 import org.maktab.digikala.databinding.ItemProductBinding;
 import org.maktab.digikala.model.Product;
 
@@ -65,11 +68,22 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         public ProductHolder(ItemProductBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
+            Product product = binding.getProduct();   // as this :  mProduct = product
+
+            binding.imageProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = ProductDetailActivity.newIntent(mContext,product.getId());
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         private void bindProductItem(Product product){
 
-            mBinding.textProduct.setText(product.getTitle());
+            mBinding.setProduct(product);
+            //mBinding.textProduct.setText(product.getTitle());
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())
                     .into(mBinding.imageProduct);

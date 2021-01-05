@@ -1,7 +1,9 @@
 package org.maktab.digikala.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
+import org.maktab.digikala.controller.activities.ProductDetailActivity;
 import org.maktab.digikala.databinding.ItemHighestScoreBinding;
 import org.maktab.digikala.databinding.ItemMostVisitedBinding;
 import org.maktab.digikala.model.Product;
@@ -64,6 +67,15 @@ public class MostVisitedProductAdapter extends RecyclerView.Adapter<MostVisitedP
         public ProductHolder(ItemMostVisitedBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
+            Product product = binding.getProduct();
+
+            binding.imageMostVisited.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = ProductDetailActivity.newIntent(mContext,product.getId());
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         private void bindHighestScoreProductItem(Product product){
