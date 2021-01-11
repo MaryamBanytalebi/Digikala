@@ -15,13 +15,11 @@ import com.squareup.picasso.Picasso;
 import org.maktab.digikala.R;
 import org.maktab.digikala.controller.activities.ProductDetailActivity;
 import org.maktab.digikala.databinding.ItemHighestScoreBinding;
-import org.maktab.digikala.databinding.ItemProductBinding;
 import org.maktab.digikala.model.Product;
 
 import java.util.List;
 
-public class HighestScoreProductAdapter extends RecyclerView.Adapter<HighestScoreProductAdapter
-        .ProductHolder>{
+public class HighestScoreProductAdapter extends RecyclerView.Adapter<HighestScoreProductAdapter.ProductHolder>{
 
     private Context mContext;
     private List<Product> mProductList;
@@ -64,16 +62,17 @@ public class HighestScoreProductAdapter extends RecyclerView.Adapter<HighestScor
     class ProductHolder extends RecyclerView.ViewHolder{
 
         private ItemHighestScoreBinding mBinding;
+        private Product mProduct;
 
         public ProductHolder(ItemHighestScoreBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
-            Product product = binding.getProduct();
+            //Product product = binding.getProduct();
 
             binding.imageHighestScore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = ProductDetailActivity.newIntent(mContext,product.getId());
+                    Intent intent = ProductDetailActivity.newIntent(mContext,mProduct.getId());
                     mContext.startActivity(intent);
                 }
             });

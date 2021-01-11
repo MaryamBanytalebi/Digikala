@@ -34,9 +34,10 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mLatestProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mHighestScoreProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mProductItemsLiveData = new MutableLiveData<>();
-    private MutableLiveData<Product> mProductLiveData = new MutableLiveData<>();
-    private MutableLiveData<Product> mProductWithParentIdLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Product>> mProductWithParentIdLiveData = new MutableLiveData<>();
     private MutableLiveData<List<ProductCategory>> mProductCategoryLiveData = new MutableLiveData<>();
+    private MutableLiveData<Product> mProductLiveData = new MutableLiveData<>();
+
 
     public MutableLiveData<List<Product>> getMostVisitedProductsLiveData() {
         return mMostVisitedProductsLiveData;
@@ -58,7 +59,7 @@ public class ProductRepository {
         return mProductLiveData;
     }
 
-    public MutableLiveData<Product> getProductWithParentIdLiveData() {
+    public MutableLiveData<List<Product>> getProductWithParentIdLiveData() {
         return mProductWithParentIdLiveData;
     }
 
@@ -77,6 +78,14 @@ public class ProductRepository {
 
         Retrofit retrofitCategoryProduct = RetrofitInstanceCategory.getInstance().getRetrofit();
         mAPIServiceCategory = retrofitCategoryProduct.create(APIService.class);
+    }
+
+    public String getPage() {
+        return mPage;
+    }
+
+    public void setPage(String page) {
+        mPage = page;
     }
 
     //This method can be run on background Thread
@@ -226,6 +235,7 @@ public class ProductRepository {
 
             //this run on main thread
             @Override
+            //use call back
             public void onResponse(Call<List<ProductCategory>> call, Response<List<ProductCategory>> response) {
                 List<ProductCategory> items = response.body();
 

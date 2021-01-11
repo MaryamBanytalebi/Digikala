@@ -14,9 +14,6 @@ public class Images {
         mSrc = src;
     }
 
-    public Images() {
-    }
-
     public int getId() {
         return mId;
     }

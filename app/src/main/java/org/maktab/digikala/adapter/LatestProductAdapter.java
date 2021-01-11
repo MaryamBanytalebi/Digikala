@@ -20,10 +20,11 @@ import org.maktab.digikala.model.Product;
 
 import java.util.List;
 
-public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdapter.productHolder>{
+public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdapter.ProductHolder>{
 
     private Context mContext;
     private List<Product> mProductList;
+    private OnBottomReachedListener mOnBottomReachedListener;
 
     public LatestProductAdapter(Context context, List<Product> productList) {
         mContext = context;
@@ -38,20 +39,25 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
         mProductList = productList;
     }
 
+    public void setOnBottomReachedListener(OnBottomReachedListener onBottomReachedListener){
+
+        mOnBottomReachedListener = onBottomReachedListener;
+    }
+
     @NonNull
     @Override
-    public productHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemLatestBinding binding =
                 DataBindingUtil.inflate(LayoutInflater.from(mContext),
                         R.layout.item_latest,
                         parent,
                         false);
 
-        return new productHolder(binding);
+        return new ProductHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull productHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
 
         holder.bindLatestProductItem(mProductList.get(position));
     }
@@ -61,24 +67,25 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
         return mProductList.size();
     }
 
-    class productHolder extends RecyclerView.ViewHolder{
+    class ProductHolder extends RecyclerView.ViewHolder{
 
         private ItemLatestBinding mBinding;
+        private Product mProduct;
 
-        public productHolder(ItemLatestBinding binding) {
+        public ProductHolder(ItemLatestBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
-            Product product = mBinding.getProduct();
+            //Product product = mBinding.getProduct();
 
-            mBinding.textLatest.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-            mBinding.textLatest.setSingleLine(true);
-            mBinding.textLatest.setSelected(true);
-            mBinding.textLatest.setMarqueeRepeatLimit(-1);
+            binding.textLatest.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            binding.textLatest.setSingleLine(true);
+            binding.textLatest.setSelected(true);
+            binding.textLatest.setMarqueeRepeatLimit(-1);
 
-            mBinding.imageLatest.setOnClickListener(new View.OnClickListener() {
+            binding.imageLatest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = ProductDetailActivity.newIntent(mContext, product.getId());
+                    Intent intent = ProductDetailActivity.newIntent(mContext, mProduct.getId());
                     mContext.startActivity(intent);
                 }
             });
@@ -86,8 +93,8 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
 
         private void bindLatestProductItem(Product product){
 
-            //mBinding.textLatest.setText(product.getPrice());
-            mBinding.setProduct(product);
+            mBinding.textLatest.setText(product.getPrice());
+            //mBinding.setProduct(product);
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())
                     .into(mBinding.imageLatest);

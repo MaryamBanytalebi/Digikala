@@ -13,7 +13,6 @@ import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
 import org.maktab.digikala.databinding.ItemHighestScoreBinding;
-import org.maktab.digikala.databinding.ItemProductBinding;
 import org.maktab.digikala.model.Images;
 import org.maktab.digikala.model.Product;
 
@@ -45,13 +44,14 @@ public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdap
                         R.layout.item_highest_score,
                         parent,
                         false);
-        return new ProductDetailAdapter.ProductHolder(binding);
+        return new ProductHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
 
-        holder.bindProduct(mImages.get(position));
+        Images images = mImages.get(position);
+        holder.bindProduct(images);
     }
 
     @Override

@@ -13,14 +13,13 @@ public class NetWorkParams {
     public static final String CONSUMER_KEY = "ck_a4f339d5c040a41c47ae982c1008bd9a6d61de56";
     public static final String CONSUMER_SECRET = "cs_74c2f0d6cc6f9bcf6538b264a6ab515a1afec16e";
 
-    public static final String PAGE = "page";
     public static final String FILTER_ORDER = "filter[order]";
     public static final String RATING_COUNT = "crating count";
     public static final String DESC = "DESC";
     public static final String FIELDS = "fields";
     public static final String AVERAGE_RATING = "average rating";
     public static final String CREATED_AT = "created_at";
-    public static final String  PARENT_CATEGORY = "0";
+    public static final String PARENT_CATEGORY = "0";
     public static final String PARENT_OF_CATEGORY = "parent";
 
     public static final Map<String, String> BASE_OPTIONS = new HashMap<String, String>() {{
@@ -32,7 +31,7 @@ public class NetWorkParams {
 
         Map<String,String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
-        products.put(PAGE,page);
+        products.put("page",page);
 
         return products;
     }

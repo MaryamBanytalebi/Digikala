@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable
-            name="category"
-            type="org.maktab.digikala.model.ProductCategory" />
-        <variable
-            name="categoryHolder"
-            type="org.maktab.digikala.adapter.CategoryAdapter" />
+
 
     </data>
 

@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.maktab.digikala.NetWorkParams;
 import org.maktab.digikala.model.Product;
+import org.maktab.digikala.model.ProductCategory;
 
 import java.lang.reflect.Type;
 
@@ -18,6 +19,7 @@ public class RetrofitInstanceCategory {
     private static RetrofitInstanceCategory sInstance;
     private Retrofit mRetrofit;
 
+    //retrofit instance should be singletone
     public static RetrofitInstanceCategory getInstance() {
         if (sInstance == null)
             sInstance = new RetrofitInstanceCategory();
@@ -37,11 +39,11 @@ public class RetrofitInstanceCategory {
     }
 
     private static Converter.Factory createGsonConverter() {
-        Type type = new TypeToken<Product>() {
+        Type type = new TypeToken<ProductCategory>() {
         }.getType();
 
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(type, new GetProductDeserializer());
+        gsonBuilder.registerTypeAdapter(type, new GetCategoryProductDeserializer());
         Gson gson = gsonBuilder.create();
 
         return GsonConverterFactory.create(gson);

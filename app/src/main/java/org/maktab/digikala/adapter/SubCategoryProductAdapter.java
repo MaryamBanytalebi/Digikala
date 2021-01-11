@@ -14,8 +14,6 @@ import com.squareup.picasso.Picasso;
 import org.maktab.digikala.R;
 import org.maktab.digikala.controller.activities.SubCategoryActivity;
 import org.maktab.digikala.databinding.ItemCategoryBinding;
-import org.maktab.digikala.databinding.ItemProductBinding;
-import org.maktab.digikala.model.Product;
 import org.maktab.digikala.model.ProductCategory;
 
 import java.util.List;
@@ -64,11 +62,12 @@ public class SubCategoryProductAdapter extends RecyclerView.Adapter<SubCategoryP
     class CategoryHolder extends RecyclerView.ViewHolder{
 
         private ItemCategoryBinding mBinding;
+        private ProductCategory mProductCategory;
 
         public CategoryHolder(ItemCategoryBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
-            ProductCategory productCategory = binding.getCategory();
+            //ProductCategory productCategory = binding.getCategory();
 
             binding.imageCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -76,8 +75,8 @@ public class SubCategoryProductAdapter extends RecyclerView.Adapter<SubCategoryP
 
                     mContext.startActivity(SubCategoryActivity.newIntent(
                             mContext,
-                            productCategory.getId(),
-                            productCategory.getName()));
+                            mProductCategory.getId(),
+                            mProductCategory.getName()));
                 }
             });
         }

@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
 import org.maktab.digikala.controller.activities.ProductDetailActivity;
-import org.maktab.digikala.databinding.ItemProductBinding;
+import org.maktab.digikala.databinding.ItemCategoryBinding;
 import org.maktab.digikala.model.Product;
 
 
@@ -33,7 +33,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         mProductList = productList;
     }
 
-    public ProductAdapter(Context context, List<Product> items) {
+    public ProductAdapter( List<Product> items,Context context) {
         mContext = context;
         mProductList = items;
     }
@@ -42,9 +42,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        ItemProductBinding binding =
+        ItemCategoryBinding binding =
                 DataBindingUtil.inflate(LayoutInflater.from(mContext),
-                        R.layout.item_product,
+                        R.layout.item_category,
                         parent,
                         false);
 
@@ -52,7 +52,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductAdapter.ProductHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
         holder.bindProductItem(mProductList.get(position));
     }
 
@@ -63,18 +63,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
     class ProductHolder extends RecyclerView.ViewHolder{
 
-        private ItemProductBinding mBinding;
+        private ItemCategoryBinding mBinding;
+        private Product mProduct;
 
-        public ProductHolder(ItemProductBinding binding) {
+        public ProductHolder(ItemCategoryBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
-            Product product = binding.getProduct();   // as this :  mProduct = product
+            //Product product = binding.getProduct();
+            // as this :  mProduct = product;
 
-            binding.imageProduct.setOnClickListener(new View.OnClickListener() {
+            binding.imageCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    Intent intent = ProductDetailActivity.newIntent(mContext,product.getId());
+                    Intent intent = ProductDetailActivity.newIntent(mContext,mProduct.getId());
                     mContext.startActivity(intent);
                 }
             });
@@ -82,11 +84,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
         private void bindProductItem(Product product){
 
-            mBinding.setProduct(product);
-            //mBinding.textProduct.setText(product.getTitle());
+            //mBinding.setProduct(product);
+            mBinding.textCategory.setText(product.getTitle());
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())
-                    .into(mBinding.imageProduct);
+                    .into(mBinding.imageCategory);
         }
     }
 }

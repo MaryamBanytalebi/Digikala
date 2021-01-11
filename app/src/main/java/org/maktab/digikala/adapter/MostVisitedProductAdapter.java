@@ -47,7 +47,7 @@ public class MostVisitedProductAdapter extends RecyclerView.Adapter<MostVisitedP
                         parent,
                         false);
 
-        return new MostVisitedProductAdapter.ProductHolder(binding);
+        return new ProductHolder(binding);
     }
 
     @Override
@@ -63,16 +63,17 @@ public class MostVisitedProductAdapter extends RecyclerView.Adapter<MostVisitedP
     class ProductHolder extends RecyclerView.ViewHolder{
 
         private ItemMostVisitedBinding mBinding;
+        private Product mProduct;
 
         public ProductHolder(ItemMostVisitedBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
-            Product product = binding.getProduct();
+            //Product product = binding.getProduct();
 
             binding.imageMostVisited.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = ProductDetailActivity.newIntent(mContext,product.getId());
+                    Intent intent = ProductDetailActivity.newIntent(mContext,mProduct.getId());
                     mContext.startActivity(intent);
                 }
             });

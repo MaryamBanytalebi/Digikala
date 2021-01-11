@@ -8,6 +8,7 @@ import org.maktab.digikala.NetWorkParams;
 import org.maktab.digikala.model.Product;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 import retrofit2.Converter;
 import retrofit2.Retrofit;
@@ -38,11 +39,11 @@ public class RetrofitInstanceListOfProduct {
     }
 
     private static Converter.Factory createGsonConverter() {
-        Type type = new TypeToken<Product>() {
+        Type type = new TypeToken<List<Product>>() {
         }.getType();
 
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(type, new GetProductDeserializer());
+        gsonBuilder.registerTypeAdapter(type, new GetListOfProductDeserializer());
         Gson gson = gsonBuilder.create();
 
         return GsonConverterFactory.create(gson);
