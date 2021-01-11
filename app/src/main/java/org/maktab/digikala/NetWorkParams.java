@@ -21,6 +21,8 @@ public class NetWorkParams {
     public static final String CREATED_AT = "created_at";
     public static final String PARENT_CATEGORY = "0";
     public static final String PARENT_OF_CATEGORY = "parent";
+    public static final String CATEGORY = "category";
+
 
     public static final Map<String, String> BASE_OPTIONS = new HashMap<String, String>() {{
         put("consumer_key", CONSUMER_KEY);
@@ -66,7 +68,7 @@ public class NetWorkParams {
     public static Map<String, String> getProductsWithParentId(String parentName) {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
-        products.put("filter[category]",parentName);
+        products.put(CATEGORY,parentName);
 
         return products;
     }
