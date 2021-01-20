@@ -2,6 +2,7 @@ package org.maktab.digikala.controller.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -14,15 +15,17 @@ import android.view.Menu;
 import com.google.android.material.navigation.NavigationView;
 
 import org.maktab.digikala.R;
+import org.maktab.digikala.databinding.ActivityHomePageBinding;
 
 public class HomePageActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private ActivityHomePageBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
+        mBinding = DataBindingUtil.setContentView(this,R.layout.activity_home_page);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
        /* FloatingActionButton fab = findViewById(R.id.fab);
@@ -43,7 +46,7 @@ public class HomePageActivity extends AppCompatActivity {
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        NavigationUI.setupWithNavController(mBinding.navView, navController);
     }
 
     @Override
