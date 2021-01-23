@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/splash"
         android:id="@+id/splash_layout"
-        tools:context=".controller.activities.SplashActivity">
+        tools:context=".view.activities.SplashActivity">
 
         <ProgressBar
             android:id="@+id/progressBar"

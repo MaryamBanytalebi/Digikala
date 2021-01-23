@@ -1,13 +1,11 @@
-package org.maktab.digikala.controller.activities;
+package org.maktab.digikala.view.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
-import org.maktab.digikala.controller.fragments.ProductDetailFragment;
+import org.maktab.digikala.view.fragments.ProductDetailFragment;
 
 public class ProductDetailActivity extends SingleFragmentActivity {
 

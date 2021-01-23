@@ -1,4 +1,4 @@
-package org.maktab.digikala.controller.fragments;
+package org.maktab.digikala.view.fragments;
 
 import android.os.Bundle;
 

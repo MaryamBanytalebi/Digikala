@@ -1,8 +1,6 @@
 package org.maktab.digikala.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.icu.util.ULocale;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
-import org.maktab.digikala.controller.activities.SubCategoryActivity;
+import org.maktab.digikala.view.activities.SubCategoryActivity;
 import org.maktab.digikala.databinding.ItemCategoryBinding;
 import org.maktab.digikala.model.ProductCategory;
 
 import java.util.List;
-import java.util.Locale;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryHolder> {
 

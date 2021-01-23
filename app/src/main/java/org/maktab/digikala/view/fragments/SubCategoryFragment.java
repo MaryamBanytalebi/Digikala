@@ -1,4 +1,4 @@
-package org.maktab.digikala.controller.fragments;
+package org.maktab.digikala.view.fragments;
 
 import android.os.Bundle;
 
@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;

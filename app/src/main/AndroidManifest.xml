@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Digikala">
-        <activity android:name=".controller.activities.SplashActivity">
+        <activity android:name=".view.activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,13 +20,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".controller.activities.HomePageActivity"
+            android:name=".view.activities.HomePageActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.Digikala.NoActionBar">
         </activity>
-        <activity android:name=".controller.activities.SubCategoryActivity" />
-        <activity android:name=".controller.activities.ProductDetailActivity" />
-        <activity android:name=".controller.activities.SingleFragmentActivity" />
+        <activity android:name=".view.activities.SubCategoryActivity" />
+        <activity android:name=".view.activities.ProductDetailActivity" />
+        <activity android:name=".view.activities.SingleFragmentActivity" />
     </application>
 
 </manifest>

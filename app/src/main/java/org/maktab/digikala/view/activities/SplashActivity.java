@@ -1,4 +1,4 @@
-package org.maktab.digikala.controller.activities;
+package org.maktab.digikala.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

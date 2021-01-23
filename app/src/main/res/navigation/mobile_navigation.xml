@@ -8,12 +8,12 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="org.maktab.digikala.controller.fragments.HomePageFragment"
+        android:name="org.maktab.digikala.view.fragments.HomePageFragment"
         android:label="HomePageFragment"
         tools:layout="@layout/fragment_homepage"/>
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="org.maktab.digikala.controller.fragments.CategoryFragment"
+        android:name="org.maktab.digikala.view.fragments.CategoryFragment"
         android:label="CategoryFragment"
         tools:layout="@layout/fragment_category"/>
 </navigation>

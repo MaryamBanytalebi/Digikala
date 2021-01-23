@@ -1,13 +1,11 @@
-package org.maktab.digikala.controller.activities;
+package org.maktab.digikala.view.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
-import org.maktab.digikala.controller.fragments.SubCategoryFragment;
+import org.maktab.digikala.view.fragments.SubCategoryFragment;
 
 public class SubCategoryActivity extends SingleFragmentActivity {
 

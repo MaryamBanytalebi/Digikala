@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
-import org.maktab.digikala.controller.activities.SubCategoryActivity;
+import org.maktab.digikala.view.activities.SubCategoryActivity;
 import org.maktab.digikala.databinding.ItemCategoryBinding;
 import org.maktab.digikala.model.ProductCategory;
 
