@@ -6,6 +6,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import org.maktab.digikala.databinding.FragmentProductDetailBinding;
 import org.maktab.digikala.model.Images;
 import org.maktab.digikala.model.Product;
 import org.maktab.digikala.repository.ProductRepository;
+import org.maktab.digikala.viewmodel.ProductViewModel;
 
 import java.util.List;
 
@@ -25,11 +28,11 @@ public class ProductDetailFragment extends Fragment {
     public static final String BUNDLE_KEY_PRODUCT_ID = "bundle key product id";
 
     private int mProductId;
-    private ProductRepository mRepository;
     private ProductDetailAdapter mDetailAdapter;
     private LiveData<Product> mProductLiveData;
     private Product mProduct;
-    private FragmentProductDetailBinding mBinding;
+    private FragmentProductDetailBinding mProductDetailBinding;
+    private ProductViewModel mProductViewModel;
 
     public ProductDetailFragment() {
         // Required empty public constructor
@@ -50,10 +53,14 @@ public class ProductDetailFragment extends Fragment {
             mProductId = getArguments().getInt(BUNDLE_KEY_PRODUCT_ID,0);
         }
 
-        mRepository = new ProductRepository();
-        mRepository.fetchProductItemsAsync(mProductId);
-        mProductLiveData = mRepository.getProductLiveData();
+        getProductFromProductViewModel();
         setObserver();
+    }
+
+    private void getProductFromProductViewModel() {
+        mProductViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        mProductViewModel.getProductItems(mProductId);
+        mProductLiveData = mProductViewModel.getLiveDateProduct();
     }
 
     private void setObserver() {
@@ -64,18 +71,18 @@ public class ProductDetailFragment extends Fragment {
                 mProduct = product;
                 List<Images> imagesList = product.getImages();
                 setAdapterProductDetail(imagesList);
-                mBinding.textProductName.setText(mProduct.getTitle());
+                mProductDetailBinding.textProductName.setText(mProduct.getTitle());
                 String detail = mProduct.getShortDescription() + "\n" + mProduct.getDescription()
                         + "\n" + " Average Rating: \t " + mProduct.getAverageRating() + "\n\n"
                         + " Price: \t" + mProduct.getPrice() + "\n\n";
-                mBinding.textViewProductDetail.setText(detail);
+                mProductDetailBinding.textViewProductDetail.setText(detail);
             }
         });
     }
 
     private void setAdapterProductDetail(List<Images> imagesList) {
         mDetailAdapter = new ProductDetailAdapter(imagesList, getActivity());
-        mBinding.recyclerProductDetail.setAdapter(mDetailAdapter);
+        mProductDetailBinding.recyclerProductDetail.setAdapter(mDetailAdapter);
     }
 
     @Override
@@ -87,7 +94,15 @@ public class ProductDetailFragment extends Fragment {
                         R.layout.fragment_product_detail,
                         container,
                         false);
+        initView();
 
         return binding.getRoot();
+    }
+
+    private void initView() {
+        mProductDetailBinding.recyclerProductDetail
+                .setLayoutManager(new LinearLayoutManager(getContext(),
+                        LinearLayoutManager.HORIZONTAL,
+                        false));
     }
 }

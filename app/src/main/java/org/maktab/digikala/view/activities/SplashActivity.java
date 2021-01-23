@@ -1,6 +1,7 @@
 package org.maktab.digikala.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,12 +17,12 @@ import org.maktab.digikala.databinding.ActivitySplashBinding;
 
 public class SplashActivity extends AppCompatActivity {
     private Context mContext = this;
-    private ActivitySplashBinding mBinding;
+    private ActivitySplashBinding mSplashBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        mSplashBinding = DataBindingUtil.setContentView(this,R.layout.activity_splash);
 
         getSupportActionBar().hide();
         Handler handler = new Handler();
@@ -30,9 +31,9 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 //Write whatever to want to do after delay specified (1 sec)
                 if (!isOnline()) {
-                    mBinding.progressBar.setVisibility(View.GONE);
+                    mSplashBinding.progressBar.setVisibility(View.GONE);
                     Snackbar snackbar = Snackbar
-                            .make(mBinding.splashLayout,
+                            .make(mSplashBinding.splashLayout,
                                     "No Internet Access",
                                     Snackbar.LENGTH_INDEFINITE)
                             .setAction("Retry", new View.OnClickListener() {

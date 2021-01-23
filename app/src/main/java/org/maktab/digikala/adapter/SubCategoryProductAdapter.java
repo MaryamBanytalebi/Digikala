@@ -75,8 +75,7 @@ public class SubCategoryProductAdapter extends RecyclerView.Adapter<SubCategoryP
 
                     mContext.startActivity(SubCategoryActivity.newIntent(
                             mContext,
-                            mProductCategory.getId(),
-                            mProductCategory.getName()));
+                            mProductCategory.getId()));
                 }
             });
         }

@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -17,17 +18,17 @@ import org.maktab.digikala.adapter.CategoryAdapter;
 import org.maktab.digikala.databinding.FragmentCategoryBinding;
 import org.maktab.digikala.model.ProductCategory;
 import org.maktab.digikala.repository.ProductRepository;
+import org.maktab.digikala.viewmodel.CategoryViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryFragment extends Fragment {
 
-    private ProductRepository mRepository;
-    private List<ProductCategory> mCategoryList;
     private CategoryAdapter mCategoryAdapter;
     private LiveData<List<ProductCategory>> mCategoryItemsLiveData;
-    private FragmentCategoryBinding mBinding;
+    private FragmentCategoryBinding mCategoryBinding;
+    private CategoryViewModel mCategoryViewModel;
 
     public CategoryFragment() {
         // Required empty public constructor
@@ -44,11 +45,12 @@ public class CategoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mCategoryList = new ArrayList<>();
+        /*mCategoryList = new ArrayList<>();
         mRepository = new ProductRepository();
         mRepository.fetchCategoryItemsAsync();
-        mCategoryItemsLiveData = mRepository.getProductCategoryLiveData();
+        mCategoryItemsLiveData = mRepository.getProductCategoryLiveData();*/
 
+        getCategoryFromCategoryViewModel();
         setObserver();
     }
 
@@ -56,30 +58,35 @@ public class CategoryFragment extends Fragment {
         mCategoryItemsLiveData.observe(this, new Observer<List<ProductCategory>>() {
             @Override
             public void onChanged(List<ProductCategory> categories) {
-                mCategoryList.addAll(categories);
-                setAdapter(mCategoryList);
+                setAdapter(categories);
             }
         });
     }
 
     private void setAdapter(List<ProductCategory> categories) {
         mCategoryAdapter = new CategoryAdapter(getActivity(), categories);
-        mBinding.recyclerCategory.setAdapter(mCategoryAdapter);
+        mCategoryBinding.recyclerCategory.setAdapter(mCategoryAdapter);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(
+        mCategoryBinding = DataBindingUtil.inflate(
                 inflater,
                 R.layout.fragment_category, container,
                 false);
 
         initViews();
-        return mBinding.getRoot();
+        return mCategoryBinding.getRoot();
     }
 
     private void initViews() {
-        mBinding.recyclerCategory.setLayoutManager(new LinearLayoutManager(getContext()));
+        mCategoryBinding.recyclerCategory.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void getCategoryFromCategoryViewModel() {
+        mCategoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        mCategoryViewModel.getCategoryItems();
+        mCategoryItemsLiveData = mCategoryViewModel.getLiveDataCategoryItems();
     }
 }

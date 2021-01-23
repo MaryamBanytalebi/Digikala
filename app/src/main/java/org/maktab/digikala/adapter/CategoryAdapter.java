@@ -74,8 +74,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 public void onClick(View view) {
                     mContext.startActivity(SubCategoryActivity.newIntent(
                             mContext,
-                            mProductCategory.getId(),
-                            mProductCategory.getName()));
+                            mProductCategory.getId()));
                 }
             });
         }

@@ -2,9 +2,11 @@ package org.maktab.digikala.view.fragments;
 
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import org.maktab.digikala.databinding.FragmentSubCategoryBinding;
 import org.maktab.digikala.model.Product;
 import org.maktab.digikala.model.ProductCategory;
 import org.maktab.digikala.repository.ProductRepository;
+import org.maktab.digikala.viewmodel.CategoryViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,26 +29,23 @@ public class SubCategoryFragment extends Fragment {
 
     public static final String BUNDLE_PARENT_ID = "bundle_parent_id";
     public static final String BUNDLE_PARENT_NAME = "bundle_parent_name";
-    private ProductRepository mRepository;
     private SubCategoryProductAdapter mCategoryAdapter;
     private ProductAdapter mProductAdapter;
-    private List<ProductCategory> mSubCategoryList;
     private LiveData<List<ProductCategory>> mCategoryItemsLiveData;
     private LiveData<List<Product>> mProductsLiveData;
-    private String mParentName;
+    private CategoryViewModel mCategoryViewModel;
     private int mParentId;
-    private FragmentSubCategoryBinding mBinding;
+    private FragmentSubCategoryBinding mSubCategoryBinding;
 
     public SubCategoryFragment() {
 
     }
 
 
-    public static SubCategoryFragment newInstance(int id, String parentName) {
+    public static SubCategoryFragment newInstance(int id) {
         SubCategoryFragment fragment = new SubCategoryFragment();
         Bundle args = new Bundle();
         args.putInt(BUNDLE_PARENT_ID,id);
-        args.putString(BUNDLE_PARENT_NAME,parentName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,11 +54,7 @@ public class SubCategoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mParentId = getArguments().getInt(BUNDLE_PARENT_ID);
-        mParentName = getArguments().getString(BUNDLE_PARENT_NAME);
-        mSubCategoryList = new ArrayList<>();
-        mRepository = new ProductRepository();
-        mRepository.fetchSubCategoryItemsAsync(String.valueOf(mParentId));
-        mCategoryItemsLiveData = mRepository.getProductCategoryLiveData();
+        getSubCategoryFromCategoryViewModel();
         setObserver();
 
     }
@@ -71,12 +67,18 @@ public class SubCategoryFragment extends Fragment {
 //                    mSubCategoryList.addAll(categories);
                     setSubCategoryAdapter(categories);
                 } else {
-                    mRepository.fetchGetProductWithIdItemsAsync(String.valueOf(mParentId));
-                    mProductsLiveData = mRepository.getProductWithParentIdLiveData();
+                    mCategoryViewModel.getProductItemsWithParentId(String.valueOf(mParentId));
+                    mProductsLiveData = mCategoryViewModel.getLiveDataProductWithParentId();
                     setObserverForProduct();
                 }
             }
         });
+    }
+
+    private void getSubCategoryFromCategoryViewModel() {
+        mCategoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        mCategoryViewModel.getSubCategoryItems(String.valueOf(mParentId));
+        mCategoryItemsLiveData = mCategoryViewModel.getLiveDataCategoryItems();
     }
 
     private void setObserverForProduct() {
@@ -90,24 +92,31 @@ public class SubCategoryFragment extends Fragment {
         });
     }
 
-    private void setSubCategoryAdapter(List<ProductCategory> categories) {
-        mCategoryAdapter = new SubCategoryProductAdapter(getActivity(), categories);
-        mBinding.recyclerSubCategory.setAdapter(mCategoryAdapter);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        mSubCategoryBinding = DataBindingUtil.inflate(inflater,
+                R.layout.fragment_sub_category,
+                container,
+                false);
+
+        initView();
+
+        return mSubCategoryBinding.getRoot();
+
     }
 
     private void setProductAdapter(List<Product> productList) {
         mProductAdapter = new ProductAdapter(productList, getActivity());
-        mBinding.recyclerSubCategory.setAdapter(mProductAdapter);
+        mSubCategoryBinding.recyclerSubCategory.setAdapter(mProductAdapter);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_sub_category, container, false);
-
+    private void setSubCategoryAdapter(List<ProductCategory> categories) {
+        mCategoryAdapter = new SubCategoryProductAdapter(getActivity(), categories);
+        mSubCategoryBinding.recyclerSubCategory.setAdapter(mCategoryAdapter);
     }
 
     private void initView() {
-        mBinding.recyclerSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
+        mSubCategoryBinding.recyclerSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 }
