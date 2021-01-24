@@ -22,6 +22,8 @@ public class NetWorkParams {
     public static final String PARENT_CATEGORY = "0";
     public static final String PARENT_OF_CATEGORY = "parent";
     public static final String CATEGORY = "category";
+    public static final String SEARCH = "search";
+
 
 
     public static final Map<String, String> BASE_OPTIONS = new HashMap<String, String>() {{
@@ -84,6 +86,14 @@ public class NetWorkParams {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
         products.put(PARENT_OF_CATEGORY, parentId);
+
+        return products;
+    }
+
+    public static Map<String, String> getSearchProducts(String query) {
+        Map<String, String> products = new HashMap<>();
+        products.putAll(BASE_OPTIONS);
+        products.put(SEARCH, query);
 
         return products;
     }

@@ -36,6 +36,7 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mProductItemsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mProductWithParentIdLiveData = new MutableLiveData<>();
     private MutableLiveData<List<ProductCategory>> mProductCategoryLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Product>> mSearchProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<Product> mProductLiveData = new MutableLiveData<>();
 
 
@@ -65,6 +66,10 @@ public class ProductRepository {
 
     public MutableLiveData<List<ProductCategory>> getProductCategoryLiveData() {
         return mProductCategoryLiveData;
+    }
+
+    public MutableLiveData<List<Product>> getSearchProductsLiveData() {
+        return mSearchProductsLiveData;
     }
 
     public ProductRepository() {
@@ -246,6 +251,25 @@ public class ProductRepository {
             //this run on main thread
             @Override
             public void onFailure(Call<List<ProductCategory>> call, Throwable t) {
+                Log.e(TAG, t.getMessage(), t);
+            }
+        });
+    }
+
+    public void fetchSearchItemsAsync(String query) {
+        Call<List<Product>> call =
+                mAPIServiceProduct.Products(NetWorkParams.getSearchProducts(query));
+
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                List<Product> items = response.body();
+
+                mSearchProductsLiveData.postValue(items);
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.e(TAG, t.getMessage(), t);
             }
         });
