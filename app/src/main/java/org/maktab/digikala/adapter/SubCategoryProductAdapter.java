@@ -2,45 +2,38 @@ package org.maktab.digikala.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
-import org.maktab.digikala.view.activities.SubCategoryActivity;
 import org.maktab.digikala.databinding.ItemCategoryBinding;
 import org.maktab.digikala.model.ProductCategory;
-
-import java.util.List;
+import org.maktab.digikala.viewmodel.CategoryViewModel;
 
 public class SubCategoryProductAdapter extends RecyclerView.Adapter<SubCategoryProductAdapter.CategoryHolder> {
 
-    private Context mContext;
-    private List<ProductCategory> mCategoryList;
+    private final LifecycleOwner mOwner;
+    private final CategoryViewModel mCategoryViewModel;
+    private OnBottomReachedListener mOnBottomReachedListener;
 
-    public SubCategoryProductAdapter(Context context, List<ProductCategory> categoryList) {
-        mContext = context;
-        mCategoryList = categoryList;
+    public SubCategoryProductAdapter(LifecycleOwner owner, Context context, CategoryViewModel categoryViewModel) {
+        mOwner = owner;
+        mCategoryViewModel = categoryViewModel;
+        mCategoryViewModel.setContext(context);
     }
 
-    public List<ProductCategory> getCategoryList() {
-        return mCategoryList;
-    }
-
-    public void setCategoryList(List<ProductCategory> categoryList) {
-        mCategoryList = categoryList;
-    }
 
     @NonNull
     @Override
     public CategoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemCategoryBinding binding =
-                DataBindingUtil.inflate(LayoutInflater.from(mContext),
+                DataBindingUtil.inflate(LayoutInflater.from(mCategoryViewModel.getApplication()),
                         R.layout.item_category,
                         parent,
                         false);
@@ -50,42 +43,36 @@ public class SubCategoryProductAdapter extends RecyclerView.Adapter<SubCategoryP
     @Override
     public void onBindViewHolder(@NonNull CategoryHolder holder, int position) {
 
-        holder.bindSubCategoryProductItem(mCategoryList.get(position));
+        holder.bindSubCategoryProductItem(mCategoryViewModel.getCategoryList().get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mCategoryList.size();
+        return mCategoryViewModel.getCategoryList().size();
     }
 
 
     class CategoryHolder extends RecyclerView.ViewHolder{
 
-        private ItemCategoryBinding mBinding;
+        private ItemCategoryBinding mItemCategoryBinding;
         private ProductCategory mProductCategory;
 
         public CategoryHolder(ItemCategoryBinding binding) {
             super(binding.getRoot());
-            mBinding = binding;
+            mItemCategoryBinding = binding;
             //ProductCategory productCategory = binding.getCategory();
-
-            binding.imageCategory.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    mContext.startActivity(SubCategoryActivity.newIntent(
-                            mContext,
-                            mProductCategory.getId()));
-                }
-            });
+            mItemCategoryBinding.setCategoryViewModel(mCategoryViewModel);
+            mItemCategoryBinding.setState("category");
+            mItemCategoryBinding.setLifecycleOwner(mOwner);
         }
 
         private void bindSubCategoryProductItem(ProductCategory category){
 
-            mBinding.textCategory.setText(category.getName());
+            mItemCategoryBinding.setParentId(category.getId());
+            mItemCategoryBinding.textCategory.setText(category.getName());
             Picasso.get()
                     .load(category.getImage())
-                    .into(mBinding.imageCategory);
+                    .into(mItemCategoryBinding.imageCategory);
         }
     }
 }

@@ -65,9 +65,10 @@ public class SubCategoryFragment extends Fragment {
             public void onChanged(List<ProductCategory> categories) {
                 if (categories.size() != 0) {
 //                    mSubCategoryList.addAll(categories);
-                    setSubCategoryAdapter(categories);
+                    mCategoryViewModel.setCategoryList(categories);
+                    setSubCategoryAdapter();
                 } else {
-                    mCategoryViewModel.getProductItemsWithParentId(String.valueOf(mParentId));
+                    mCategoryViewModel.fetchProductItemsWithParentId(String.valueOf(mParentId));
                     mProductsLiveData = mCategoryViewModel.getLiveDataProductWithParentId();
                     setObserverForProduct();
                 }
@@ -77,7 +78,7 @@ public class SubCategoryFragment extends Fragment {
 
     private void getSubCategoryFromCategoryViewModel() {
         mCategoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-        mCategoryViewModel.getSubCategoryItems(String.valueOf(mParentId));
+        mCategoryViewModel.fetchSubCategoryItems(String.valueOf(mParentId));
         mCategoryItemsLiveData = mCategoryViewModel.getLiveDataCategoryItems();
     }
 
@@ -86,7 +87,7 @@ public class SubCategoryFragment extends Fragment {
             @Override
             public void onChanged(List<Product> productList) {
 
-                setProductAdapter(productList);
+                setProductAdapter();
 
             }
         });
@@ -106,13 +107,13 @@ public class SubCategoryFragment extends Fragment {
 
     }
 
-    private void setProductAdapter(List<Product> productList) {
-        mProductAdapter = new ProductAdapter(productList, getActivity());
+    private void setProductAdapter() {
+        mProductAdapter = new ProductAdapter(this, getActivity(), mCategoryViewModel);
         mSubCategoryBinding.recyclerSubCategory.setAdapter(mProductAdapter);
     }
 
-    private void setSubCategoryAdapter(List<ProductCategory> categories) {
-        mCategoryAdapter = new SubCategoryProductAdapter(getActivity(), categories);
+    private void setSubCategoryAdapter() {
+        mCategoryAdapter = new SubCategoryProductAdapter(this, getActivity(), mCategoryViewModel);
         mSubCategoryBinding.recyclerSubCategory.setAdapter(mCategoryAdapter);
     }
 

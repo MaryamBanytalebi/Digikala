@@ -20,6 +20,8 @@ public class ProductViewModel extends AndroidViewModel {
     private List<Product> mProductListLatest;
     private List<Product> mProductListHighestScore;
     private Context mContext;
+    private Product mDetailedProduct;
+
 
     public ProductViewModel(@NonNull Application application) {
         super(application);
@@ -76,6 +78,30 @@ public class ProductViewModel extends AndroidViewModel {
 
     public void setContext(Context context) {
         mContext = context;
+    }
+
+    public Product getDetailedProduct() {
+        return mDetailedProduct;
+    }
+
+    public void setDetailedProduct(Product detailedProduct) {
+        mDetailedProduct = detailedProduct;
+    }
+
+    public void fetchProductItems(int productId){
+        mRepository.fetchProductItemsAsync(productId);
+    }
+
+    public void fetchMostVisitedProductItems(){
+        mRepository.fetchMostVisitedItemsAsync();
+    }
+
+    public void fetchLatestProductItems(){
+        mRepository.fetchLatestItemsAsync();
+    }
+
+    public void fetchHighestScoreProductItems(){
+        mRepository.fetchHighestScoreItemsAsync();
     }
 
     public LiveData<List<Product>> getLiveDateMostVisitedProducts(){

@@ -30,7 +30,6 @@ public class ProductDetailFragment extends Fragment {
     private int mProductId;
     private ProductDetailAdapter mDetailAdapter;
     private LiveData<Product> mProductLiveData;
-    private Product mProduct;
     private FragmentProductDetailBinding mProductDetailBinding;
     private ProductViewModel mProductViewModel;
 
@@ -59,7 +58,7 @@ public class ProductDetailFragment extends Fragment {
 
     private void getProductFromProductViewModel() {
         mProductViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-        mProductViewModel.getProductItems(mProductId);
+        mProductViewModel.fetchProductItems(mProductId);
         mProductLiveData = mProductViewModel.getLiveDateProduct();
     }
 
@@ -68,20 +67,19 @@ public class ProductDetailFragment extends Fragment {
             @Override
             public void onChanged(Product product) {
 
-                mProduct = product;
-                List<Images> imagesList = product.getImages();
-                setAdapterProductDetail(imagesList);
-                mProductDetailBinding.textProductName.setText(mProduct.getTitle());
-                String detail = mProduct.getShortDescription() + "\n" + mProduct.getDescription()
-                        + "\n" + " Average Rating: \t " + mProduct.getAverageRating() + "\n\n"
-                        + " Price: \t" + mProduct.getPrice() + "\n\n";
+                mProductViewModel.setDetailedProduct(product);
+                setAdapterProductDetail();
+                mProductDetailBinding.textProductName.setText(product.getTitle());
+                String detail = product.getShortDescription() + "\n" + product.getDescription()
+                        + "\n" + " Average Rating: \t " + product.getAverageRating() + "\n\n"
+                        + " Price: \t" + product.getPrice() + "\n\n";
                 mProductDetailBinding.textViewProductDetail.setText(detail);
             }
         });
     }
 
-    private void setAdapterProductDetail(List<Images> imagesList) {
-        mDetailAdapter = new ProductDetailAdapter(imagesList, getActivity());
+    private void setAdapterProductDetail() {
+        mDetailAdapter = new ProductDetailAdapter(this,mProductViewModel);
         mProductDetailBinding.recyclerProductDetail.setAdapter(mDetailAdapter);
     }
 

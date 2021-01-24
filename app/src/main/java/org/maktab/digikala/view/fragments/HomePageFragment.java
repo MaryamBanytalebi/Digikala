@@ -84,9 +84,9 @@ public class HomePageFragment extends Fragment {
 
     private void getProductsFromProductViewModel() {
         mProductViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-        mProductViewModel.getMostVisitedProductItems();
-        mProductViewModel.getLatestProductItems();
-        mProductViewModel.getHighestScoreProductItems();
+        mProductViewModel.fetchMostVisitedProductItems();
+        mProductViewModel.fetchLatestProductItems();
+        mProductViewModel.fetchHighestScoreProductItems();
         mMostVisitedProductItemsLiveData = mProductViewModel.getLiveDateMostVisitedProducts();
         mLatestProductItemsLiveData = mProductViewModel.getLiveDateLatestProducts();
         mHighestScoreProductItemsLiveData = mProductViewModel.getLiveDateHighestScoreProducts();

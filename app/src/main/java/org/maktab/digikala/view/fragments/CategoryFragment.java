@@ -58,13 +58,14 @@ public class CategoryFragment extends Fragment {
         mCategoryItemsLiveData.observe(this, new Observer<List<ProductCategory>>() {
             @Override
             public void onChanged(List<ProductCategory> categories) {
-                setAdapter(categories);
+                mCategoryViewModel.setCategoryList(categories);
+                setAdapter();
             }
         });
     }
 
-    private void setAdapter(List<ProductCategory> categories) {
-        mCategoryAdapter = new CategoryAdapter(getActivity(), categories);
+    private void setAdapter() {
+        mCategoryAdapter = new CategoryAdapter(this, getActivity(), mCategoryViewModel);
         mCategoryBinding.recyclerCategory.setAdapter(mCategoryAdapter);
     }
 
@@ -86,7 +87,7 @@ public class CategoryFragment extends Fragment {
 
     private void getCategoryFromCategoryViewModel() {
         mCategoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-        mCategoryViewModel.getCategoryItems();
+        mCategoryViewModel.fetchCategoryItems();
         mCategoryItemsLiveData = mCategoryViewModel.getLiveDataCategoryItems();
     }
 }

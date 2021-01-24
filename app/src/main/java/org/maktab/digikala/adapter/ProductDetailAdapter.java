@@ -2,11 +2,11 @@ package org.maktab.digikala.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -14,33 +14,24 @@ import com.squareup.picasso.Picasso;
 import org.maktab.digikala.R;
 import org.maktab.digikala.databinding.ItemHighestScoreBinding;
 import org.maktab.digikala.model.Images;
-import org.maktab.digikala.model.Product;
-
-import java.util.List;
+import org.maktab.digikala.viewmodel.ProductViewModel;
 
 public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdapter.ProductHolder>{
 
-    private List<Images> mImages;
-    private Context mContext;
+    private final ProductViewModel mProductViewModel;
+    private final LifecycleOwner mOwner;
 
-    public List<Images> getImages() {
-        return mImages;
+    public ProductDetailAdapter(LifecycleOwner owner, ProductViewModel productViewModel ) {
+        mProductViewModel = productViewModel;
+        mOwner = owner;
     }
 
-    public void setImages(List<Images> images) {
-        mImages = images;
-    }
-
-    public ProductDetailAdapter(List<Images> images, Context context) {
-        mImages = images;
-        mContext = context;
-    }
 
     @NonNull
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemHighestScoreBinding binding =
-                DataBindingUtil.inflate(LayoutInflater.from(mContext),
+                DataBindingUtil.inflate(LayoutInflater.from(mProductViewModel.getApplication()),
                         R.layout.item_highest_score,
                         parent,
                         false);
@@ -50,23 +41,25 @@ public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdap
     @Override
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
 
-        Images images = mImages.get(position);
+        Images images = mProductViewModel.getDetailedProduct().getImages().get(position);
         holder.bindProduct(images);
     }
 
     @Override
     public int getItemCount() {
-        return mImages.size();
+        return mProductViewModel.getDetailedProduct().getImages().size();
     }
 
     class ProductHolder extends RecyclerView.ViewHolder{
 
-        ItemHighestScoreBinding mBinding;
+        ItemHighestScoreBinding mItemHighestScoreBinding;
         private Images mImage;
 
         public ProductHolder(ItemHighestScoreBinding binding) {
             super(binding.getRoot());
-            mBinding = binding;
+            mItemHighestScoreBinding = binding;
+            mItemHighestScoreBinding.setLifecycleOwner(mOwner);
+
         }
 
         public void bindProduct(Images image) {
@@ -74,7 +67,7 @@ public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdap
 
             Picasso.get()
                     .load(image.getSrc())
-                    .into(mBinding.imageHighestScore);
+                    .into(mItemHighestScoreBinding.imageHighestScore);
         }
     }
 }

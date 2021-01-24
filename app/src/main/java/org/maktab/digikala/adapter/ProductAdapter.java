@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -16,34 +17,26 @@ import org.maktab.digikala.R;
 import org.maktab.digikala.view.activities.ProductDetailActivity;
 import org.maktab.digikala.databinding.ItemCategoryBinding;
 import org.maktab.digikala.model.Product;
-
-
-import java.util.List;
+import org.maktab.digikala.viewmodel.CategoryViewModel;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder>{
 
-    private Context mContext;
-    private List<Product> mProductList;
+    private final LifecycleOwner mOwner;
+    private final CategoryViewModel mCategoryViewModel;
 
-    public List<Product> getProductList() {
-        return mProductList;
+    public ProductAdapter(LifecycleOwner owner, Context context, CategoryViewModel categoryViewModel) {
+        mOwner = owner;
+        mCategoryViewModel = categoryViewModel;
+        mCategoryViewModel.setContext(context);
     }
 
-    public void setProductList(List<Product> productList) {
-        mProductList = productList;
-    }
-
-    public ProductAdapter( List<Product> items,Context context) {
-        mContext = context;
-        mProductList = items;
-    }
 
     @NonNull
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         ItemCategoryBinding binding =
-                DataBindingUtil.inflate(LayoutInflater.from(mContext),
+                DataBindingUtil.inflate(LayoutInflater.from(mCategoryViewModel.getApplication()),
                         R.layout.item_category,
                         parent,
                         false);
@@ -53,42 +46,36 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
     @Override
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
-        holder.bindProductItem(mProductList.get(position));
+        holder.bindProductItem(mCategoryViewModel.getProductList().get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mProductList.size();
+        return mCategoryViewModel.getProductList().size();
     }
 
     class ProductHolder extends RecyclerView.ViewHolder{
 
-        private ItemCategoryBinding mBinding;
+        private ItemCategoryBinding mItemCategoryBinding;
         private Product mProduct;
 
         public ProductHolder(ItemCategoryBinding binding) {
             super(binding.getRoot());
-            mBinding = binding;
+            mItemCategoryBinding = binding;
             //Product product = binding.getProduct();
             // as this :  mProduct = product;
-
-            binding.imageCategory.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    Intent intent = ProductDetailActivity.newIntent(mContext,mProduct.getId());
-                    mContext.startActivity(intent);
-                }
-            });
+            mItemCategoryBinding.setCategoryViewModel(mCategoryViewModel);
+            mItemCategoryBinding.setState("product");
+            mItemCategoryBinding.setLifecycleOwner(mOwner);
         }
 
         private void bindProductItem(Product product){
-
+            mItemCategoryBinding.setParentId(product.getId());
             //mBinding.setProduct(product);
-            mBinding.textCategory.setText(product.getTitle());
+            mItemCategoryBinding.textCategory.setText(product.getTitle());
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())
-                    .into(mBinding.imageCategory);
+                    .into(mItemCategoryBinding.imageCategory);
         }
     }
 }
