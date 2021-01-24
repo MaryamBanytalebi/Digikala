@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -16,32 +17,29 @@ import org.maktab.digikala.R;
 import org.maktab.digikala.view.activities.ProductDetailActivity;
 import org.maktab.digikala.databinding.ItemMostVisitedBinding;
 import org.maktab.digikala.model.Product;
-
-import java.util.List;
+import org.maktab.digikala.viewmodel.ProductViewModel;
 
 public class MostVisitedProductAdapter extends RecyclerView.Adapter<MostVisitedProductAdapter.ProductHolder>{
 
-    private Context mContext;
-    private List<Product> mProductList;
+    private final LifecycleOwner mOwner;
+    private ProductViewModel mProductViewModel;
+    private OnBottomReachedListener mOnBottomReachedListener;
 
-    public MostVisitedProductAdapter(Context context, List<Product> productList) {
-        mContext = context;
-        mProductList = productList;
+    public MostVisitedProductAdapter(LifecycleOwner owner, Context context, ProductViewModel productViewModel) {
+        mOwner = owner;
+        mProductViewModel = productViewModel;
     }
 
-    public List<Product> getProductList() {
-        return mProductList;
-    }
+    public void setOnBottomReachedListener(OnBottomReachedListener onBottomReachedListener){
 
-    public void setProductList(List<Product> productList) {
-        mProductList = productList;
+        mOnBottomReachedListener = onBottomReachedListener;
     }
 
     @NonNull
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemMostVisitedBinding binding =
-                DataBindingUtil.inflate(LayoutInflater.from(mContext),
+                DataBindingUtil.inflate(LayoutInflater.from(mProductViewModel.getApplication()),
                         R.layout.item_most_visited,
                         parent,
                         false);
@@ -52,41 +50,36 @@ public class MostVisitedProductAdapter extends RecyclerView.Adapter<MostVisitedP
     @Override
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
 
+        Product product = mProductViewModel.getProductListMostVisited().get(position);
     }
 
     @Override
     public int getItemCount() {
-        return mProductList.size();
+        return mProductViewModel.getProductListMostVisited().size();
     }
 
     class ProductHolder extends RecyclerView.ViewHolder{
 
-        private ItemMostVisitedBinding mBinding;
+        private final ItemMostVisitedBinding mItemMostVisitedBinding;
         private Product mProduct;
 
         public ProductHolder(ItemMostVisitedBinding binding) {
             super(binding.getRoot());
-            mBinding = binding;
+            mItemMostVisitedBinding = binding;
             //Product product = binding.getProduct();
-
-            binding.imageMostVisited.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = ProductDetailActivity.newIntent(mContext,mProduct.getId());
-                    mContext.startActivity(intent);
-                }
-            });
+            mItemMostVisitedBinding.setProductViewModel(mProductViewModel);
+            mItemMostVisitedBinding.setLifecycleOwner(mOwner);
         }
 
         private void bindHighestScoreProductItem(Product product){
 
-            mBinding.textMostVisited.setText(product.getTitle());
+            mItemMostVisitedBinding.setProductId(product.getId());
+            mItemMostVisitedBinding.textMostVisited.setText(product.getTitle());
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())
-                    .into(mBinding.imageMostVisited);
+                    .into(mItemMostVisitedBinding.imageMostVisited);
         }
     }
 
-
-    }
+}
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -16,73 +17,68 @@ import org.maktab.digikala.R;
 import org.maktab.digikala.view.activities.ProductDetailActivity;
 import org.maktab.digikala.databinding.ItemHighestScoreBinding;
 import org.maktab.digikala.model.Product;
-
-import java.util.List;
+import org.maktab.digikala.viewmodel.ProductViewModel;
 
 public class HighestScoreProductAdapter extends RecyclerView.Adapter<HighestScoreProductAdapter.ProductHolder>{
 
-    private Context mContext;
-    private List<Product> mProductList;
+    private final LifecycleOwner mOwner;
+    private ProductViewModel mProductViewModel;
+    private OnBottomReachedListener mOnBottomReachedListener;
 
-    public HighestScoreProductAdapter(Context context, List<Product> productList) {
-        mContext = context;
-        mProductList = productList;
+    public HighestScoreProductAdapter(LifecycleOwner owner, Context context, ProductViewModel productViewModel) {
+        mOwner = owner;
+        mProductViewModel.setContext(context);
+        mProductViewModel = productViewModel;
     }
 
-    public List<Product> getProductList() {
-        return mProductList;
-    }
 
-    public void setProductList(List<Product> productList) {
-        mProductList = productList;
+    public void setOnBottomReachedListener(OnBottomReachedListener onBottomReachedListener){
+
+        mOnBottomReachedListener = onBottomReachedListener;
     }
 
     @NonNull
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemHighestScoreBinding binding =
-                DataBindingUtil.inflate(LayoutInflater.from(mContext),
+        ItemHighestScoreBinding highestScoreBinding =
+                DataBindingUtil.inflate(LayoutInflater.from(mProductViewModel.getApplication()),
                         R.layout.item_highest_score,
                         parent,
                         false);
 
-        return new ProductHolder(binding);
+        return new ProductHolder(highestScoreBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
-        holder.bindHighestScoreProductItem(mProductList.get(position));
+        //holder.bindHighestScoreProductItem(mProductList.get(position));
+        Product product = mProductViewModel.getProductListHighestScore().get(position);
+
     }
 
     @Override
     public int getItemCount() {
-        return mProductList.size();
+        return mProductViewModel.getProductListHighestScore().size();
     }
 
     class ProductHolder extends RecyclerView.ViewHolder{
 
-        private ItemHighestScoreBinding mBinding;
+        private final ItemHighestScoreBinding mItemHighestScoreBinding;
         private Product mProduct;
 
-        public ProductHolder(ItemHighestScoreBinding binding) {
-            super(binding.getRoot());
-            mBinding = binding;
-            //Product product = binding.getProduct();
-
-            binding.imageHighestScore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = ProductDetailActivity.newIntent(mContext,mProduct.getId());
-                    mContext.startActivity(intent);
-                }
-            });
+        public ProductHolder(ItemHighestScoreBinding itemHighestScoreBinding) {
+            super(itemHighestScoreBinding.getRoot());
+            mItemHighestScoreBinding = itemHighestScoreBinding;
+            mItemHighestScoreBinding.setProductViewModel(mProductViewModel);
+            mItemHighestScoreBinding.setLifecycleOwner(mOwner);
         }
 
         private void bindHighestScoreProductItem(Product product){
+            mItemHighestScoreBinding.setProductId(product.getId());
 
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())
-                    .into(mBinding.imageHighestScore);
+                    .into(mItemHighestScoreBinding.imageHighestScore);
         }
     }
 }

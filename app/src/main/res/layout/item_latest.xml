@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <variable
+            name="productViewModel"
+            type="org.maktab.digikala.viewmodel.ProductViewModel" />
+        <variable
+            name="productId"
+            type="Integer" />
 
     </data>
 
@@ -10,7 +16,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         xmlns:card_view="http://schemas.android.com/tools"
-        android:layout_gravity="center|top">
+        android:layout_gravity="center|top"
+        android:onClick="@{() -> productViewModel.onClickListItem(productId)}">>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_latest"

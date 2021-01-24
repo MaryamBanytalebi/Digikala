@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -17,27 +18,20 @@ import org.maktab.digikala.R;
 import org.maktab.digikala.view.activities.ProductDetailActivity;
 import org.maktab.digikala.databinding.ItemLatestBinding;
 import org.maktab.digikala.model.Product;
-
-import java.util.List;
+import org.maktab.digikala.viewmodel.ProductViewModel;
 
 public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdapter.ProductHolder>{
 
-    private Context mContext;
-    private List<Product> mProductList;
+    private final LifecycleOwner mOwner;
+    private ProductViewModel mProductViewModel;
     private OnBottomReachedListener mOnBottomReachedListener;
 
-    public LatestProductAdapter(Context context, List<Product> productList) {
-        mContext = context;
-        mProductList = productList;
+    public LatestProductAdapter(LifecycleOwner owner, Context context, ProductViewModel productViewModel) {
+        mOwner = owner;
+        mProductViewModel.setContext(context);
+        mProductViewModel = productViewModel;
     }
 
-    public List<Product> getProductList() {
-        return mProductList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        mProductList = productList;
-    }
 
     public void setOnBottomReachedListener(OnBottomReachedListener onBottomReachedListener){
 
@@ -48,7 +42,7 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemLatestBinding binding =
-                DataBindingUtil.inflate(LayoutInflater.from(mContext),
+                DataBindingUtil.inflate(LayoutInflater.from(mProductViewModel.getApplication()),
                         R.layout.item_latest,
                         parent,
                         false);
@@ -59,22 +53,22 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
     @Override
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
 
-        holder.bindLatestProductItem(mProductList.get(position));
+        Product product = mProductViewModel.getProductListLatest().get(position);
     }
 
     @Override
     public int getItemCount() {
-        return mProductList.size();
+        return mProductViewModel.getProductListLatest().size();
     }
 
     class ProductHolder extends RecyclerView.ViewHolder{
 
-        private ItemLatestBinding mBinding;
+        private final ItemLatestBinding mItemLatestBinding;
         private Product mProduct;
 
         public ProductHolder(ItemLatestBinding binding) {
             super(binding.getRoot());
-            mBinding = binding;
+            mItemLatestBinding = binding;
             //Product product = mBinding.getProduct();
 
             binding.textLatest.setEllipsize(TextUtils.TruncateAt.MARQUEE);
@@ -82,22 +76,18 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
             binding.textLatest.setSelected(true);
             binding.textLatest.setMarqueeRepeatLimit(-1);
 
-            binding.imageLatest.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = ProductDetailActivity.newIntent(mContext, mProduct.getId());
-                    mContext.startActivity(intent);
-                }
-            });
+            binding.setProductViewModel(mProductViewModel);
+            binding.setLifecycleOwner(mOwner);
         }
 
         private void bindLatestProductItem(Product product){
 
-            mBinding.textLatest.setText(product.getPrice());
+            mItemLatestBinding.setProductId(product.getId());
+            mItemLatestBinding.textLatest.setText(product.getPrice());
             //mBinding.setProduct(product);
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())
-                    .into(mBinding.imageLatest);
+                    .into(mItemLatestBinding.imageLatest);
 
         }
     }
