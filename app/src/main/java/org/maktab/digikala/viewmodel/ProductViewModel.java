@@ -20,8 +20,6 @@ public class ProductViewModel extends AndroidViewModel {
     private List<Product> mProductListMostVisited;
     private List<Product> mProductListLatest;
     private List<Product> mProductListHighestScore;
-    private List<Product> mProductList;
-    private List<Product> mSearchProduct;
     private Context mContext;
     private Product mDetailedProduct;
 
@@ -91,22 +89,6 @@ public class ProductViewModel extends AndroidViewModel {
         mDetailedProduct = detailedProduct;
     }
 
-    public List<Product> getProductList() {
-        return mProductList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        mProductList = productList;
-    }
-
-    public List<Product> getSearchProduct() {
-        return mSearchProduct;
-    }
-
-    public void setSearchProduct(List<Product> searchProduct) {
-        mSearchProduct = searchProduct;
-    }
-
     public void fetchProductItems(int productId){
         mRepository.fetchProductItemsAsync(productId);
     }
@@ -139,9 +121,9 @@ public class ProductViewModel extends AndroidViewModel {
         return mRepository.getHighestScoreProductsLiveData();
     }
 
-    public LiveData<List<Product>> getSearchItemsLiveData() {
+    /*public LiveData<List<Product>> getSearchItemsLiveData() {
         return mRepository.getSearchProductsLiveData();
-    }
+    }*/
 
     public void onClickListItem(int productId) {
         mContext.startActivity(ProductDetailActivity.newIntent(mContext,productId));

@@ -39,7 +39,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
-                        android:text="Name"
+                        android:text="@string/filter"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
                         android:textColor="@android:color/white" />
 
@@ -64,7 +64,7 @@
             </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.core.widget.NestedScrollView
-                android:id="@+id/bottomSheet"
+                android:id="@+id/bottomSheetFilter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true">

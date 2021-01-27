@@ -29,6 +29,7 @@ public class ProductRepository {
     private APIService mAPIServiceCategory;
 
     private String mPage;
+    private static int mSort;
 
     private MutableLiveData<List<Product>> mMostVisitedProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mLatestProductsLiveData = new MutableLiveData<>();
@@ -37,8 +38,18 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mProductWithParentIdLiveData = new MutableLiveData<>();
     private MutableLiveData<List<ProductCategory>> mProductCategoryLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSearchProductsLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Product>> mSortedLowToHighSearchProductsLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Product>> mSortedHighToLowSearchProductsLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Product>> mSortedTopSellersSearchProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<Product> mProductLiveData = new MutableLiveData<>();
 
+    public static int getSort() {
+        return mSort;
+    }
+
+    public static void setSort(int mSort) {
+        ProductRepository.mSort = mSort;
+    }
 
     public MutableLiveData<List<Product>> getMostVisitedProductsLiveData() {
         return mMostVisitedProductsLiveData;
@@ -70,6 +81,18 @@ public class ProductRepository {
 
     public MutableLiveData<List<Product>> getSearchProductsLiveData() {
         return mSearchProductsLiveData;
+    }
+
+    public MutableLiveData<List<Product>> getSortedLowToHighSearchProductsLiveData() {
+        return mSortedLowToHighSearchProductsLiveData;
+    }
+
+    public MutableLiveData<List<Product>> getSortedHighToLowSearchProductsLiveData() {
+        return mSortedHighToLowSearchProductsLiveData;
+    }
+
+    public MutableLiveData<List<Product>> getSortedTopSellersSearchProductsLiveData() {
+        return mSortedTopSellersSearchProductsLiveData;
     }
 
     public ProductRepository() {
@@ -266,6 +289,43 @@ public class ProductRepository {
                 List<Product> items = response.body();
 
                 mSearchProductsLiveData.postValue(items);
+            }
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.e(TAG, t.getMessage(), t);
+            }
+        });
+    }
+
+    public void fetchSortedLowToHighSearchItemsAsync(String query) {
+        Call<List<Product>> call =
+                mAPIServiceProduct.Products(NetWorkParams.getSortedLowToHighSearchProducts(query));
+
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                List<Product> items = response.body();
+
+                mSortedLowToHighSearchProductsLiveData.postValue(items);
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.e(TAG, t.getMessage(), t);
+            }
+        });
+    }
+
+    public void fetchSortedHighToLowSearchItemsAsync(String query) {
+        Call<List<Product>> call =
+                mAPIServiceProduct.Products(NetWorkParams.getSortedHighToLowSearchProducts(query));
+
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                List<Product> items = response.body();
+
+                mSortedHighToLowSearchProductsLiveData.postValue(items);
             }
 
             @Override

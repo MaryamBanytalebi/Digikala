@@ -13,7 +13,6 @@ public class NetWorkParams {
     public static final String CONSUMER_KEY = "ck_a4f339d5c040a41c47ae982c1008bd9a6d61de56";
     public static final String CONSUMER_SECRET = "cs_74c2f0d6cc6f9bcf6538b264a6ab515a1afec16e";
 
-    public static final String FILTER_ORDER = "filter[order]";
     public static final String RATING_COUNT = "crating count";
     public static final String DESC = "DESC";
     public static final String FIELDS = "fields";
@@ -23,6 +22,10 @@ public class NetWorkParams {
     public static final String PARENT_OF_CATEGORY = "parent";
     public static final String CATEGORY = "category";
     public static final String SEARCH = "search";
+    public static final String FILTER_ORDERBY = "filter[orderby]";
+    public static final String FILTER_ORDERBY_META_KEY = "filter[orderby_meta_key]";
+    public static final String PRICE = "price";
+    public static final String META_VALUE_NUM = "meta_value_num";
 
 
 
@@ -43,7 +46,7 @@ public class NetWorkParams {
     public static Map<String, String> getMostVisitedProducts() {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
-        products.put(FILTER_ORDER, DESC);
+        products.put(FILTER_ORDERBY, DESC);
         products.put(FIELDS, RATING_COUNT);
 
         return products;
@@ -52,7 +55,7 @@ public class NetWorkParams {
     public static Map<String,String> getHighestScoreProduct(){
         Map<String,String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
-        products.put(FILTER_ORDER, DESC);
+        products.put(FILTER_ORDERBY, DESC);
         products.put(FIELDS, AVERAGE_RATING);
 
         return products;
@@ -61,7 +64,7 @@ public class NetWorkParams {
     public static Map<String, String> getLatestProducts() {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
-        products.put(FILTER_ORDER, DESC);
+        products.put(FILTER_ORDERBY, DESC);
         products.put(FIELDS, CREATED_AT);
 
         return products;
@@ -94,6 +97,36 @@ public class NetWorkParams {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
         products.put(SEARCH, query);
+
+        return products;
+    }
+
+    public static Map<String, String> getSortedLowToHighSearchProducts(String query) {
+        Map<String, String> products = new HashMap<>();
+        products.putAll(BASE_OPTIONS);
+        products.put(SEARCH, query);
+        products.put(FILTER_ORDERBY, META_VALUE_NUM);
+        products.put(FILTER_ORDERBY_META_KEY, PRICE);
+
+        return products;
+    }
+
+    public static Map<String, String> getSortedHighToLowSearchProducts(String query) {
+        Map<String, String> products = new HashMap<>();
+        products.putAll(BASE_OPTIONS);
+        products.put(SEARCH, query+"&DESC");
+        products.put(FILTER_ORDERBY, META_VALUE_NUM);
+        products.put(FILTER_ORDERBY_META_KEY, PRICE);
+
+        return products;
+    }
+
+    public static Map<String, String> getSortedBestSellersSearchProducts(String query) {
+        Map<String, String> products = new HashMap<>();
+        products.putAll(BASE_OPTIONS);
+        products.put(SEARCH, query);
+        products.put(FILTER_ORDERBY, META_VALUE_NUM);
+        products.put(FILTER_ORDERBY_META_KEY, PRICE);
 
         return products;
     }

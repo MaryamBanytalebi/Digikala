@@ -16,17 +16,20 @@ public interface APIService {
     @GET("products")
     Call<List<Product>> Products(@QueryMap Map<String,String> options);
 
-    @GET("products")
+   /* @GET("products")
     Call<List<Product>> getProductWithParentId(@QueryMap Map<String,String> options);
-
+*/
     @GET("products/categories")
     Call<List<ProductCategory>> productCategory(@QueryMap Map<String,String> options);
 
-    @GET("products/categories")
-    Call<List<ProductCategory>> subProductCategory(@QueryMap Map<String,String> options);
+    /*@GET("products/categories")
+    Call<List<ProductCategory>> subProductCategory(@QueryMap Map<String,String> options);*/
 
     @GET("products/{id}")
     Call<Product> getProduct(@Path("id") int id,@QueryMap Map<String,String> options);
+
+    @GET("reports/sales/top_sellers")
+    Call<List<Product>> topSellers(@QueryMap Map<String,String> options);
 
 
 }

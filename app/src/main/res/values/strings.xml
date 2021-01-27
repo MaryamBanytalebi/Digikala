@@ -14,4 +14,11 @@
     <string name="menu_category">Category</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="search">Search</string>
+    <string name="sort">Sort</string>
+    <string name="filter">Filter</string>
+    <string name="the_total_sales">The total sales</string>
+    <string name="prices_from_high_to_low">Prices from high to low</string>
+    <string name="prices_from_low_to_high">Prices from low to high</string>
+    <string name="newest">Newest</string>
+
 </resources>
