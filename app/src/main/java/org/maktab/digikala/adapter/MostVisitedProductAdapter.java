@@ -28,6 +28,7 @@ public class MostVisitedProductAdapter extends RecyclerView.Adapter<MostVisitedP
     public MostVisitedProductAdapter(LifecycleOwner owner, Context context, ProductViewModel productViewModel) {
         mOwner = owner;
         mProductViewModel = productViewModel;
+        mProductViewModel.setContext(context);
     }
 
     public void setOnBottomReachedListener(OnBottomReachedListener onBottomReachedListener){

@@ -28,8 +28,8 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
 
     public LatestProductAdapter(LifecycleOwner owner, Context context, ProductViewModel productViewModel) {
         mOwner = owner;
-        mProductViewModel.setContext(context);
         mProductViewModel = productViewModel;
+        mProductViewModel.setContext(context);
     }
 
 
@@ -54,6 +54,7 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
 
         Product product = mProductViewModel.getProductListLatest().get(position);
+        holder.bindLatestProductItem(product);
     }
 
     @Override

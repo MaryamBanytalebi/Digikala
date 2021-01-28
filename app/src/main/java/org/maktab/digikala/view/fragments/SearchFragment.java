@@ -77,9 +77,9 @@ public class SearchFragment extends Fragment {
         }
         setHasOptionsMenu(true);
 
-        mProductViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-        mProductViewModel.fetchSearchItemsAsync(mQuery);
-        mProductViewModel.setQueryInPreferences(mQuery);
+        mSearchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        mSearchViewModel.fetchSearchItemsAsync(mQuery);
+        mSearchViewModel.setQueryInPreferences(mQuery);
         mLiveDataSearchProducts = mSearchViewModel.getSearchItemsLiveData();
         mLiveDataSortedTopSellersSearchProducts = mSearchViewModel.getSortedTopSellersSearchItemsLiveData();
         mLiveDataSortedHighToLowSearchProducts = mSearchViewModel.getSortedHighToLowSearchItemsLiveData();

@@ -22,8 +22,8 @@ public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdap
     private final LifecycleOwner mOwner;
 
     public ProductDetailAdapter(LifecycleOwner owner, ProductViewModel productViewModel ) {
-        mProductViewModel = productViewModel;
         mOwner = owner;
+        mProductViewModel = productViewModel;
     }
 
 

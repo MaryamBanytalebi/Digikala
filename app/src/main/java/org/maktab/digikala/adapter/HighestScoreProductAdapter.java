@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
@@ -27,8 +28,8 @@ public class HighestScoreProductAdapter extends RecyclerView.Adapter<HighestScor
 
     public HighestScoreProductAdapter(LifecycleOwner owner, Context context, ProductViewModel productViewModel) {
         mOwner = owner;
-        mProductViewModel.setContext(context);
         mProductViewModel = productViewModel;
+        mProductViewModel.setContext(context);
     }
 
 
@@ -53,6 +54,7 @@ public class HighestScoreProductAdapter extends RecyclerView.Adapter<HighestScor
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
         //holder.bindHighestScoreProductItem(mProductList.get(position));
         Product product = mProductViewModel.getProductListHighestScore().get(position);
+        holder.bindHighestScoreProductItem(product);
 
     }
 
