@@ -22,7 +22,8 @@
         android:layout_width="match_parent"
         android:padding="16dp"
         android:layout_margin="8dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> categoryViewModel.onClickListItem(parentId,state)}">>
 
 
         <ImageView

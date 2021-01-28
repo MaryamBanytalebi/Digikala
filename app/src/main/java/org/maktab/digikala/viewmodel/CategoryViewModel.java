@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import org.maktab.digikala.model.Product;
 import org.maktab.digikala.model.ProductCategory;
 import org.maktab.digikala.repository.ProductRepository;
+import org.maktab.digikala.utilities.QueryPreferences;
 import org.maktab.digikala.view.activities.ProductDetailActivity;
 import org.maktab.digikala.view.activities.SubCategoryActivity;
 
@@ -71,5 +72,9 @@ public class CategoryViewModel extends AndroidViewModel {
             mContext.startActivity(ProductDetailActivity.newIntent(mContext,productId));
         else if (state.equalsIgnoreCase("category"))
             mContext.startActivity(SubCategoryActivity.newIntent(mContext,productId));
+    }
+
+    public String getQueryFromPreferences() {
+        return QueryPreferences.getSearchQuery(getApplication());
     }
 }

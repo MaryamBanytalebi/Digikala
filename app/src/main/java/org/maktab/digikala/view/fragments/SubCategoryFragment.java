@@ -2,6 +2,7 @@ package org.maktab.digikala.view.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
@@ -10,8 +11,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import org.maktab.digikala.R;
 import org.maktab.digikala.adapter.ProductAdapter;
@@ -20,6 +25,7 @@ import org.maktab.digikala.databinding.FragmentSubCategoryBinding;
 import org.maktab.digikala.model.Product;
 import org.maktab.digikala.model.ProductCategory;
 import org.maktab.digikala.repository.ProductRepository;
+import org.maktab.digikala.view.activities.SearchActivity;
 import org.maktab.digikala.viewmodel.CategoryViewModel;
 
 import java.util.ArrayList;
@@ -54,9 +60,44 @@ public class SubCategoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mParentId = getArguments().getInt(BUNDLE_PARENT_ID);
+        setHasOptionsMenu(true);
         getSubCategoryFromCategoryViewModel();
         setObserver();
+    }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.home, menu);
+
+        MenuItem searchMenuItem = menu.findItem(R.id.menu_item_search);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        setSearchViewListeners(searchView);
+    }
+
+    private void setSearchViewListeners(SearchView searchView) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                startActivity(SearchActivity.newIntent(getActivity(),query));
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String query = mCategoryViewModel.getQueryFromPreferences();
+                if (query != null)
+                    searchView.setQuery(query, false);
+            }
+        });
     }
 
     private void setObserver() {
