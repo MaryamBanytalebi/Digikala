@@ -152,11 +152,32 @@ public class ProductRepository {
         call.enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
+                Product items = response.body();
 
+                //update adapter of recyclerview
+                mProductLiveData.postValue(items);
             }
 
             @Override
             public void onFailure(Call<Product> call, Throwable t) {
+                Log.e(TAG, t.getMessage(), t);
+            }
+        });
+    }
+
+    public void fetchProductWithParentIdAsync(String id){
+        Call<List<Product>> call = mAPIServiceListOfProduct.Products(
+                NetWorkParams.getProductsWithParentId(id));
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                List<Product> items = response.body();
+                //update adapter of recyclerview
+                mProductWithParentIdLiveData.postValue(items);
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.e(TAG, t.getMessage(), t);
             }
         });
@@ -207,22 +228,6 @@ public class ProductRepository {
 
                 List<Product> items = response.body();
                 mLatestProductsLiveData.postValue(items);
-            }
-
-            @Override
-            public void onFailure(Call<List<Product>> call, Throwable t) {
-                Log.e(TAG, t.getMessage(), t);
-            }
-        });
-    }
-
-    public void fetchGetProductWithIdItemsAsync(String id){
-        Call<List<Product>> call = mAPIServiceListOfProduct.Products(
-                NetWorkParams.getProductsWithParentId(id));
-        call.enqueue(new Callback<List<Product>>() {
-            @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-
             }
 
             @Override

@@ -42,16 +42,20 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/textMostVisited"
-            android:layout_width="75dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/cardView_most_visited"
-            android:layout_alignTop="@id/cardView_most_visited"
-            android:layout_alignBottom="@id/cardView_most_visited"
+            android:id="@+id/textView_name_most_visited"
             style="@style/TextAppearance.AppCompat.Menu"
-            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:textAlignment="center"
+            android:layout_margin="6dp"
+            android:layout_marginTop="15dp"
             android:gravity="center"
-            android:text="TextView" />
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_below="@id/cardView_most_visited"
+            android:text="name" />
 
     </RelativeLayout>
 

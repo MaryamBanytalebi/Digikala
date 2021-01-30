@@ -41,6 +41,7 @@ public class SubCategoryFragment extends Fragment {
     private LiveData<List<Product>> mProductsLiveData;
     private CategoryViewModel mCategoryViewModel;
     private int mParentId;
+    private int mProductId;
     private FragmentSubCategoryBinding mSubCategoryBinding;
 
     public SubCategoryFragment() {
@@ -127,9 +128,9 @@ public class SubCategoryFragment extends Fragment {
         mProductsLiveData.observe(this, new Observer<List<Product>>() {
             @Override
             public void onChanged(List<Product> productList) {
-
+                mCategoryViewModel.setProductList(productList);
                 setProductAdapter();
-
+                mProductId=productList.get(0).getId();
             }
         });
     }

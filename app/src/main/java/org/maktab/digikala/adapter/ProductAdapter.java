@@ -30,6 +30,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         mCategoryViewModel.setContext(context);
     }
 
+    @Override
+    public int getItemCount() {
+        return mCategoryViewModel.getProductList().size();
+    }
 
     @NonNull
     @Override
@@ -47,11 +51,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     @Override
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
         holder.bindProductItem(mCategoryViewModel.getProductList().get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return mCategoryViewModel.getProductList().size();
     }
 
     class ProductHolder extends RecyclerView.ViewHolder{

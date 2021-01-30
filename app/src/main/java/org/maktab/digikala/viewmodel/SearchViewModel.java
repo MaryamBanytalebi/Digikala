@@ -68,6 +68,14 @@ public class SearchViewModel extends AndroidViewModel {
         mContext.startActivity(ProductDetailActivity.newIntent(mContext,productId));
     }
 
+    public void fetchProductItems(int productId){
+        mRepository.fetchProductItemsAsync(productId);
+    }
+
+    public LiveData<Product> getLiveDateProduct(){
+        return mRepository.getProductLiveData();
+    }
+
     ///
     public void fetchSearchItemsAsync(String query) {
         mRepository.fetchSearchItemsAsync(query);

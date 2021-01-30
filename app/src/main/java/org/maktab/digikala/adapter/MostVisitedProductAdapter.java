@@ -52,6 +52,7 @@ public class MostVisitedProductAdapter extends RecyclerView.Adapter<MostVisitedP
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
 
         Product product = mProductViewModel.getProductListMostVisited().get(position);
+        holder.bindMostVisitedProductItem(product);
     }
 
     @Override
@@ -72,10 +73,10 @@ public class MostVisitedProductAdapter extends RecyclerView.Adapter<MostVisitedP
             mItemMostVisitedBinding.setLifecycleOwner(mOwner);
         }
 
-        private void bindHighestScoreProductItem(Product product){
+        private void bindMostVisitedProductItem(Product product){
 
             mItemMostVisitedBinding.setProductId(product.getId());
-            mItemMostVisitedBinding.textMostVisited.setText(product.getTitle());
+            mItemMostVisitedBinding.textViewNameMostVisited.setText(product.getTitle());
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())
                     .into(mItemMostVisitedBinding.imageMostVisited);

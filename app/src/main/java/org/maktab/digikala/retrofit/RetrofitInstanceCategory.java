@@ -9,6 +9,7 @@ import org.maktab.digikala.model.Product;
 import org.maktab.digikala.model.ProductCategory;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 import retrofit2.Converter;
 import retrofit2.Retrofit;
@@ -39,7 +40,7 @@ public class RetrofitInstanceCategory {
     }
 
     private static Converter.Factory createGsonConverter() {
-        Type type = new TypeToken<ProductCategory>() {
+        Type type = new TypeToken<List<ProductCategory>>() {
         }.getType();
 
         GsonBuilder gsonBuilder = new GsonBuilder();

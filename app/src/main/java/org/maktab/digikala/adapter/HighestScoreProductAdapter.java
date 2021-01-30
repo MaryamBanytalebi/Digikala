@@ -32,7 +32,6 @@ public class HighestScoreProductAdapter extends RecyclerView.Adapter<HighestScor
         mProductViewModel.setContext(context);
     }
 
-
     public void setOnBottomReachedListener(OnBottomReachedListener onBottomReachedListener){
 
         mOnBottomReachedListener = onBottomReachedListener;

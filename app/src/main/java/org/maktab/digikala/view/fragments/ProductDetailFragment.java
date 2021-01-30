@@ -56,6 +56,19 @@ public class ProductDetailFragment extends Fragment {
         setObserver();
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        mProductDetailBinding = DataBindingUtil.inflate(inflater,
+                        R.layout.fragment_product_detail,
+                        container,
+                        false);
+        initView();
+
+        return mProductDetailBinding.getRoot();
+    }
+
     private void getProductFromProductViewModel() {
         mProductViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         mProductViewModel.fetchProductItems(mProductId);
@@ -81,20 +94,6 @@ public class ProductDetailFragment extends Fragment {
     private void setAdapterProductDetail() {
         mDetailAdapter = new ProductDetailAdapter(this,mProductViewModel);
         mProductDetailBinding.recyclerProductDetail.setAdapter(mDetailAdapter);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        FragmentProductDetailBinding binding =
-                DataBindingUtil.inflate(inflater,
-                        R.layout.fragment_product_detail,
-                        container,
-                        false);
-        initView();
-
-        return binding.getRoot();
     }
 
     private void initView() {

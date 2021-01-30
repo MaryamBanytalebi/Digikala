@@ -64,7 +64,7 @@ public class CategoryViewModel extends AndroidViewModel {
     }
 
     public void fetchProductItemsWithParentId(String parentId) {
-        mRepository.fetchGetProductWithIdItemsAsync(parentId);
+        mRepository.fetchProductWithParentIdAsync(parentId);
     }
 
     public void onClickListItem(int productId,String state) {
