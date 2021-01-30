@@ -6,17 +6,18 @@
 
     </data>
 
-    <LinearLayout
+    <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".view.fragments.ProductDetailFragment">
 
     <ScrollView
         android:layout_marginLeft="36dp"
         android:layout_marginRight="36dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginTop="24dp"
+        android:layout_above="@id/image_view_order"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -59,5 +60,27 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+        <ImageButton
+            android:id="@+id/image_view_order"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_add_shopping"/>
+        <TextView
+            android:id="@+id/text_view_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@id/image_view_order"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            style="@style/TextAppearance.AppCompat.Title"/>
+</RelativeLayout>
 </layout>
