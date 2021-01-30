@@ -4,6 +4,14 @@
 
     <data>
 
+        <variable
+            name="orderViewModel"
+            type="org.maktab.digikala.viewmodel.OrderViewModel" />
+
+        <variable
+            name="productId"
+            type="Integer" />
+
     </data>
 
     <RelativeLayout

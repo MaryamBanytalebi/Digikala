@@ -5,10 +5,12 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import org.maktab.digikala.NetWorkParams;
+import org.maktab.digikala.model.Customer;
 import org.maktab.digikala.model.Product;
 import org.maktab.digikala.model.ProductCategory;
 import org.maktab.digikala.retrofit.APIService;
 import org.maktab.digikala.retrofit.RetrofitInstanceCategory;
+import org.maktab.digikala.retrofit.RetrofitInstanceCustomer;
 import org.maktab.digikala.retrofit.RetrofitInstanceListOfProduct;
 import org.maktab.digikala.retrofit.RetrofitInstanceProduct;
 
@@ -27,6 +29,7 @@ public class ProductRepository {
     private APIService mAPIServiceProduct;
     private APIService mAPIServiceListOfProduct;
     private APIService mAPIServiceCategory;
+    private APIService mAPIServiceCustomer;
 
     private String mPage;
     private static int mSort;
@@ -41,6 +44,7 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mSortedLowToHighSearchProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSortedHighToLowSearchProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSortedTopSellersSearchProductsLiveData = new MutableLiveData<>();
+    private MutableLiveData<Customer> mCustomerLiveData = new MutableLiveData<>();
     private MutableLiveData<Product> mProductLiveData = new MutableLiveData<>();
 
     public static int getSort() {
@@ -95,6 +99,10 @@ public class ProductRepository {
         return mSortedTopSellersSearchProductsLiveData;
     }
 
+    public MutableLiveData<Customer> getCustomerLiveData() {
+        return mCustomerLiveData;
+    }
+
     public ProductRepository() {
 
         Retrofit retrofitProduct = RetrofitInstanceProduct.getInstance().getRetrofit();
@@ -106,6 +114,9 @@ public class ProductRepository {
 
         Retrofit retrofitCategoryProduct = RetrofitInstanceCategory.getInstance().getRetrofit();
         mAPIServiceCategory = retrofitCategoryProduct.create(APIService.class);
+
+        Retrofit retrofitCustomer = RetrofitInstanceCustomer.getInstance().getRetrofit();
+        mAPIServiceCustomer = retrofitCustomer.create(APIService.class);
     }
 
     public String getPage() {
@@ -335,6 +346,26 @@ public class ProductRepository {
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.e(TAG, t.getMessage(), t);
+            }
+        });
+    }
+
+    public void postCreateCustomerAsync(Customer customer) {
+        Call<Customer> call =
+                mAPIServiceCustomer.customer(customer.getEmail(),customer.getFirst_name(),
+                        customer.getLast_name(),customer.getUsername(),NetWorkParams.getMainAddress());
+
+        call.enqueue(new Callback<Customer>() {
+            @Override
+            public void onResponse(Call<Customer> call, Response<Customer> response) {
+                Customer items = response.body();
+
+                mCustomerLiveData.postValue(items);
+            }
+
+            @Override
+            public void onFailure(Call<Customer> call, Throwable t) {
                 Log.e(TAG, t.getMessage(), t);
             }
         });

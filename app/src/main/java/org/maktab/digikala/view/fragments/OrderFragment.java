@@ -12,10 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.maktab.digikala.R;
 import org.maktab.digikala.adapter.OrderProductAdapter;
 import org.maktab.digikala.databinding.FragmentOrderBinding;
+import org.maktab.digikala.model.Customer;
 import org.maktab.digikala.model.Product;
 import org.maktab.digikala.viewmodel.OrderViewModel;
 
@@ -32,6 +34,7 @@ public class OrderFragment extends Fragment {
     FragmentOrderBinding mFragmentOrderBinding;
     private OrderViewModel mOrderViewModel;
     private LiveData<Product> mProductLiveData;
+    private LiveData<Customer> mCustomerLiveData;
     private List<Product> mProductList;
     private OrderProductAdapter mOrderedProductAdapter;
 
@@ -72,6 +75,14 @@ public class OrderFragment extends Fragment {
                 mFragmentOrderBinding.totalPrice.setText(String.valueOf(totalPrice));
             }
         });
+
+        mCustomerLiveData.observe(this, new Observer<Customer>() {
+            @Override
+            public void onChanged(Customer customer) {
+                Toast.makeText(getActivity(),customer.getFirst_name() + "\t" + customer.getLast_name()
+                        + "\t" + customer.getEmail() + "\t" , Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -90,5 +101,7 @@ public class OrderFragment extends Fragment {
 
     private void initView() {
         mFragmentOrderBinding.recyclerOrder.setLayoutManager(new LinearLayoutManager(getContext()));
+        mFragmentOrderBinding.setOrderViewModel(mOrderViewModel);
+
     }
 }

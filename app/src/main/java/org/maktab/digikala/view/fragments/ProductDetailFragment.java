@@ -64,6 +64,7 @@ public class ProductDetailFragment extends Fragment {
         }
 
         mOrderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+        mOrderViewModel.setContext(getActivity());
         getProductFromProductViewModel();
         setObserver();
     }
@@ -83,15 +84,9 @@ public class ProductDetailFragment extends Fragment {
     }
 
     private void listeners() {
-        mProductDetailBinding.imageViewOrder
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-//                        startActivity(CartActivity.newIntent(getActivity()));
-                        mOrderViewModel.insertToOrder(new Order(mProductId));
-                        Toast.makeText(getActivity(),"add to cart",Toast.LENGTH_SHORT).show();
-                    }
-                });
+        mProductDetailBinding.setOrderViewModel(mOrderViewModel);
+        mProductDetailBinding.setLifecycleOwner(getActivity());
+        mProductDetailBinding.setProductId(mProductId);
     }
 
     private void getProductFromProductViewModel() {
