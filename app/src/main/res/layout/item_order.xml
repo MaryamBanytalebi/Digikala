@@ -107,7 +107,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@id/number_of_product"
-                android:src="@drawable/ic_add" />
+                android:src="@drawable/ic_add"
+                android:onClick="@{() -> orderViewModel.onClickToBuyAgain(productId)}" />
 
             <TextView
                 android:id="@+id/number_of_product"
@@ -135,7 +136,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/number_of_product"
-                android:src="@drawable/ic_delete"/>
+                android:src="@drawable/ic_delete"
+                android:onClick="@{() -> orderViewModel.onClickToDelete(productId)}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

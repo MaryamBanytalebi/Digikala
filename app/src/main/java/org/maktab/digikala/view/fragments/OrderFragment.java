@@ -31,7 +31,7 @@ public class OrderFragment extends Fragment {
     private LiveData<Product> mProductLiveData;
     private LiveData<Customer> mCustomerLiveData;
     private List<Product> mProductList;
-    private OrderProductAdapter mOrderedProductAdapter;
+    private OrderProductAdapter mOrderProductAdapter;
 
     public OrderFragment() {
         // Required empty public constructor
@@ -61,13 +61,25 @@ public class OrderFragment extends Fragment {
             public void onChanged(Product product) {
                 mProductList.add(product);
                 mOrderViewModel.setProductList(mProductList);
-                mOrderedProductAdapter = new OrderProductAdapter(getActivity(),getActivity(), mOrderViewModel);
-                mFragmentOrderBinding.recyclerOrder.setAdapter(mOrderedProductAdapter);
+                mOrderProductAdapter = new OrderProductAdapter(getActivity(),getActivity(), mOrderViewModel);
+                mFragmentOrderBinding.recyclerOrder.setAdapter(mOrderProductAdapter);
+                mOrderViewModel.setOrderedProductAdapter(mOrderProductAdapter);
                 int totalPrice = 0;
                 for (int i = 0; i < mProductList.size(); i++) {
-                    totalPrice += Integer.parseInt(mProductList.get(i).getPrice());
+                    int price = Integer.parseInt(mProductList.get(i).getPrice());
+                    int count = mOrderViewModel.getCart(mProductList.get(i).getId()).getProduct_count();
+                    totalPrice += (price * count);
                 }
                 mFragmentOrderBinding.totalPrice.setText(String.valueOf(totalPrice));
+
+                if (mProductList.size() == 0) {
+                    mFragmentOrderBinding.layoutEmptyCart.setVisibility(View.VISIBLE);
+                    mFragmentOrderBinding.constraintLayoutContinue.setVisibility(View.GONE);
+                }
+                else {
+                    mFragmentOrderBinding.layoutEmptyCart.setVisibility(View.GONE);
+                    mFragmentOrderBinding.constraintLayoutContinue.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -89,6 +101,7 @@ public class OrderFragment extends Fragment {
                 R.layout.fragment_order,
                 container,
                 false);
+        mOrderViewModel.setFragmentCartBinding(mFragmentOrderBinding);
 
         initView();
         return mFragmentOrderBinding.getRoot();
@@ -97,6 +110,8 @@ public class OrderFragment extends Fragment {
     private void initView() {
         mFragmentOrderBinding.recyclerOrder.setLayoutManager(new LinearLayoutManager(getContext()));
         mFragmentOrderBinding.setOrderViewModel(mOrderViewModel);
+        mFragmentOrderBinding.layoutEmptyCart.setVisibility(View.VISIBLE);
+        mFragmentOrderBinding.constraintLayoutContinue.setVisibility(View.GONE);
 
     }
 }

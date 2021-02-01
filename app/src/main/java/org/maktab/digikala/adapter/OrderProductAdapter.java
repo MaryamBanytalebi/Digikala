@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
 import org.maktab.digikala.databinding.ItemOrderBinding;
+import org.maktab.digikala.model.Order;
 import org.maktab.digikala.model.Product;
 import org.maktab.digikala.repository.OrderDBRepository;
 import org.maktab.digikala.viewmodel.OrderViewModel;
@@ -69,8 +70,15 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         }
 
         private void bindOrderProductItem(Product product){
+
+            Order order = mOrderDBRepository
+                    .getOrder(product.getId());
+            if (order != null) {
             mItemOrderBinding.setProductId(product.getId());
             mItemOrderBinding.textOrderProductName.setText(product.getTitle());
+            mItemOrderBinding.numberOfProduct
+                        .setText(String.valueOf(order.getProduct_count()));
+            }
             mItemOrderBinding.textOrderProductPrice.setText(product.getPrice());
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())

@@ -17,6 +17,9 @@ import androidx.room.PrimaryKey;
         @ColumnInfo(name = "product_id")
         private int product_id;
 
+        @ColumnInfo(name = "product_count")
+        private int product_count;
+
         public long getPrimaryId() {
             return primaryId;
         }
@@ -41,8 +44,17 @@ import androidx.room.PrimaryKey;
             this.product_id = product_id;
         }
 
-        public Order(int product_id) {
+        public int getProduct_count() {
+            return product_count;
+        }
+
+        public void setProduct_count(int product_count) {
+            this.product_count = product_count;
+        }
+
+        public Order(int product_id, int product_count) {
             this.product_id = product_id;
+            this.product_count = product_count;
         }
     }
 
