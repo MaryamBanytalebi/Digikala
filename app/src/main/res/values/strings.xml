@@ -22,5 +22,9 @@
     <string name="newest">Newest</string>
     <string name="order">Order</string>
     <string name="total">Total</string>
+    <string name="toman">Toman</string>
+    <string name="Continue">Continue</string>
+    <string name="product_specifications">Product Specifications:</string>
+
 
 </resources>

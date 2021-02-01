@@ -72,4 +72,9 @@ public class OrderDBRepository implements IRepository {
     public List<Order> getOrders() {
         return mOrderDao.getOrders();
     }
+
+    @Override
+    public Order getOrder(int productId) {
+        return mOrderDao.getOrder(productId);
+    }
 }

@@ -12,4 +12,6 @@ public interface IRepository {
     void deleteOrder(Order order);
     void deleteAllOrder();
     List<Order> getOrders();
+    Order getOrder(int productId);
+
 }
