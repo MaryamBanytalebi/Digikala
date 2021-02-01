@@ -81,7 +81,7 @@ public class OrderViewModel extends AndroidViewModel {
         mContext.startActivity(ProductDetailActivity.newIntent(mContext,productId));
     }
 
-    public void onClickToGoToCart() {
+    public void onClickToGoToOrder() {
         mContext.startActivity(OrderActivity.newIntent(getApplication()));
     }
 

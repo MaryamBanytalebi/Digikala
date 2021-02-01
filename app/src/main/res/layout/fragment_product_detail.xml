@@ -21,11 +21,6 @@
     tools:context=".view.fragments.ProductDetailFragment">
 
     <ScrollView
-        android:layout_marginLeft="36dp"
-        android:layout_marginRight="36dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_above="@id/image_view_order"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -52,7 +47,7 @@
 
             <TextView
                 android:padding="8dp"
-                android:id="@+id/textView4"
+                android:id="@+id/textView_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.AppCompat.Large"
@@ -66,18 +61,29 @@
                 android:layout_width="match_parent"
                 android:padding="16dp"
                 android:layout_height="wrap_content"/>
+
+            <ImageButton
+                android:id="@+id/button_cart"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_orders"
+                android:onClick="@{() -> orderViewModel.onClickToGoToOrder(productId)}"/>
+
         </LinearLayout>
     </ScrollView>
 
         <ImageButton
-            android:id="@+id/image_view_order"
+            android:id="@+id/image_view_buy"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
-            android:src="@drawable/ic_add_shopping"/>
+            android:src="@drawable/ic_add_shopping"
+            android:onClick="@{() -> orderViewModel.onClickToBuy()}"/>
         <TextView
             android:id="@+id/text_view_price"
             android:layout_width="wrap_content"
@@ -86,7 +92,6 @@
             android:gravity="center"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignTop="@id/image_view_order"
             android:layout_marginLeft="16dp"
             android:layout_marginBottom="16dp"
             style="@style/TextAppearance.AppCompat.Title"/>
