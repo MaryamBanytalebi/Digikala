@@ -32,5 +32,8 @@ public interface OrderDataBaseDao {
     @Query("SELECT * FROM cart")
     List<Order> getOrders();
 
+    @Query("SELECT * FROM cart WHERE product_id=:productId")
+    Order getOrder(int productId);
+
 
 }

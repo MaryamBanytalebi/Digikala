@@ -20,23 +20,34 @@ public class Customer {
     @SerializedName("username")
     @Expose
     private String  mUsername;
+    @SerializedName("billing")
+    @Expose
+    private BillingAddress  mBilling;
+    @SerializedName("shipping")
+    @Expose
+    private ShippingAddress  mShipping;
 
     public Customer(int id, String email, String first_name, String last_name,
-                    String username) {
+                    String username, BillingAddress billing,
+                    ShippingAddress shipping) {
         mId = id;
         mEmail = email;
         mFirst_name = first_name;
         mLast_name = last_name;
         mUsername = username;
-
+        mBilling = billing;
+        mShipping = shipping;
     }
 
     public Customer(String email, String first_name, String last_name,
-                    String username) {
+                    String username, BillingAddress billing,
+                    ShippingAddress shipping) {
         mEmail = email;
         mFirst_name = first_name;
         mLast_name = last_name;
         mUsername = username;
+        mBilling = billing;
+        mShipping = shipping;
 
     }
 
@@ -80,7 +91,21 @@ public class Customer {
         mUsername = username;
     }
 
+    public BillingAddress getBilling() {
+        return mBilling;
+    }
 
+    public void setBilling(BillingAddress billing) {
+        mBilling = billing;
+    }
+
+    public ShippingAddress getShipping() {
+        return mShipping;
+    }
+
+    public void setShipping(ShippingAddress shipping) {
+        mShipping = shipping;
+    }
 
     @Override
     public String toString() {
@@ -89,7 +114,9 @@ public class Customer {
                 ", mEmail='" + mEmail + '\'' +
                 ", mFirst_name='" + mFirst_name + '\'' +
                 ", mLast_name='" + mLast_name + '\'' +
-                ", mUsername='" + mUsername +
+                ", mUsername='" + mUsername + '\'' +
+                ", mBilling=" + mBilling +
+                ", mShipping=" + mShipping +
                 '}';
     }
 }

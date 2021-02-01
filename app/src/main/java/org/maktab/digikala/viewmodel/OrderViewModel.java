@@ -8,22 +8,26 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.maktab.digikala.model.BillingAddress;
 import org.maktab.digikala.model.Customer;
 import org.maktab.digikala.model.Order;
 import org.maktab.digikala.model.Product;
+import org.maktab.digikala.model.ShippingAddress;
 import org.maktab.digikala.repository.OrderDBRepository;
 import org.maktab.digikala.repository.ProductRepository;
 import org.maktab.digikala.view.activities.OrderActivity;
 import org.maktab.digikala.view.activities.ProductDetailActivity;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class OrderViewModel extends AndroidViewModel {
     private OrderDBRepository mOrderDBRepository;
-    private ProductRepository mStoreRepository;
+    private ProductRepository mProductRepository;
     private LiveData<Product> mProductLiveData;
-    private LiveData<List<Product>> mProductListLiveData;
     private LiveData<Customer> mCustomerLiveData;
+    private LiveData<List<Product>> mProductListLiveData;
     private List<Product> mProductList;
     private List<Product> mProductListMostVisited;
     private List<Product> mProductListLatest;
@@ -35,7 +39,7 @@ public class OrderViewModel extends AndroidViewModel {
     public OrderViewModel(@NonNull Application application) {
         super(application);
         mOrderDBRepository = OrderDBRepository.getInstance(application);
-        mStoreRepository = new ProductRepository();
+        mProductRepository = new ProductRepository();
 
     }
     public void insertToOrder(Order order){
@@ -46,19 +50,19 @@ public class OrderViewModel extends AndroidViewModel {
 
         List<Order> carts = mOrderDBRepository.getOrders();
         for (int i = 0; i < carts.size(); i++) {
-            mStoreRepository.fetchProductItemsAsync(carts.get(i).getProduct_id());
-            mProductLiveData = mStoreRepository.getProductLiveData();
+            mProductRepository.fetchProductItemsAsync(carts.get(i).getProduct_id());
+            mProductLiveData = mProductRepository.getProductLiveData();
 
         }
 
     }
 
     public LiveData<Product> getLiveDateProduct(){
-        return mStoreRepository.getProductLiveData();
+        return mProductRepository.getProductLiveData();
     }
 
-    public LiveData<Customer> getCustomerLiveData() {
-        return mCustomerLiveData;
+    public LiveData<Customer> getLiveDataCustomer() {
+        return mProductRepository.getCustomerLiveData();
     }
 
     public void setContext(Context context) {
@@ -87,6 +91,19 @@ public class OrderViewModel extends AndroidViewModel {
     }
 
     public void onClickContinueBuy(){
-        //TODO
+
+        Random random = new Random();
+        BillingAddress billingAddresses = new BillingAddress("maryam","banitalebi","maktab",
+                "poonak","nateghnoori","tehran","north","1473165569",
+                "iran","banytalebi.m@gmail.com","9013330520");
+
+        ShippingAddress shippingAddresses = new ShippingAddress("maryam","banitalebi","maktab",
+                "poonak","nateghnoori","tehran","north","1473165569",
+                "iran");
+        Customer customer = new Customer("banytalebi.m@gmail.com","maryam","banitalebi",
+                "maryam.banitalebi", billingAddresses,
+                shippingAddresses);
+
+        mProductRepository.postCreateCustomerAsync(customer);
     }
 }

@@ -107,7 +107,6 @@ public class ProductRepository {
 
         Retrofit retrofitProduct = RetrofitInstanceProduct.getInstance().getRetrofit();
         mAPIServiceProduct = retrofitProduct.create(APIService.class);
-        mPage = "1";
 
         Retrofit retrofitListOfProduct = RetrofitInstanceListOfProduct.getInstance().getRetrofit();
         mAPIServiceListOfProduct = retrofitListOfProduct.create(APIService.class);
@@ -117,6 +116,8 @@ public class ProductRepository {
 
         Retrofit retrofitCustomer = RetrofitInstanceCustomer.getInstance().getRetrofit();
         mAPIServiceCustomer = retrofitCustomer.create(APIService.class);
+        mPage = "1";
+
     }
 
     public String getPage() {
