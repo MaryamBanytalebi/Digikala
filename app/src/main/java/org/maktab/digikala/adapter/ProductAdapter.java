@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
+import org.maktab.digikala.databinding.ItemSubCategoryBinding;
 import org.maktab.digikala.view.activities.ProductDetailActivity;
 import org.maktab.digikala.databinding.ItemCategoryBinding;
 import org.maktab.digikala.model.Product;
@@ -39,9 +40,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        ItemCategoryBinding binding =
+        ItemSubCategoryBinding binding =
                 DataBindingUtil.inflate(LayoutInflater.from(mCategoryViewModel.getApplication()),
-                        R.layout.item_category,
+                        R.layout.item_sub_category,
                         parent,
                         false);
 
@@ -55,26 +56,27 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
     class ProductHolder extends RecyclerView.ViewHolder{
 
-        private ItemCategoryBinding mItemCategoryBinding;
+        private ItemSubCategoryBinding mItemSubCategoryBinding;
         private Product mProduct;
 
-        public ProductHolder(ItemCategoryBinding binding) {
+        public ProductHolder(ItemSubCategoryBinding binding) {
             super(binding.getRoot());
-            mItemCategoryBinding = binding;
+            mItemSubCategoryBinding = binding;
             //Product product = binding.getProduct();
             // as this :  mProduct = product;
-            mItemCategoryBinding.setCategoryViewModel(mCategoryViewModel);
-            mItemCategoryBinding.setState("product");
-            mItemCategoryBinding.setLifecycleOwner(mOwner);
+            mItemSubCategoryBinding.setCategoryViewModel(mCategoryViewModel);
+            mItemSubCategoryBinding.setState("product");
+            mItemSubCategoryBinding.setLifecycleOwner(mOwner);
         }
 
         private void bindProductItem(Product product){
-            mItemCategoryBinding.setParentId(product.getId());
+            mItemSubCategoryBinding.setParentId(product.getId());
             //mBinding.setProduct(product);
-            mItemCategoryBinding.textCategory.setText(product.getTitle());
+            mItemSubCategoryBinding.textNameSubcategory.setText(product.getTitle());
+            mItemSubCategoryBinding.textPriceSubcategory.setText(product.getPrice());
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())
-                    .into(mItemCategoryBinding.imageCategory);
+                    .into(mItemSubCategoryBinding.imageSubcategory);
         }
     }
 }
