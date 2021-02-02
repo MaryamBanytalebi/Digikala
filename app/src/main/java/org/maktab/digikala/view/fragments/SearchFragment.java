@@ -42,7 +42,6 @@ import java.util.List;
 public class SearchFragment extends Fragment {
 
     public static final String SEARCH_QUERY = "search_query";
-    public static final String EXTRA_SORT_ID = "extra_sort_id";
     public static final int REQUEST_CODE_Filter = 0;
     public static final String TAG_BOTTOM_SHEET_FILTER = "tag_Bottom_sheet_filter";
     public static final int REQUEST_CODE_SORT = 1;
@@ -152,10 +151,14 @@ public class SearchFragment extends Fragment {
             return;
 
         if (requestCode == REQUEST_CODE_Filter) {
-            Toast.makeText(getContext(),"filteeeeeeeer",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"filter",Toast.LENGTH_SHORT).show();
+            String color = data.getStringExtra(BottomSheetFilter.EXTRA_FILTER_COLOR);
+            mSearchViewModel.fetchSearchItemsAsync(mQuery + " " + color);
+            mSearchViewModel.setQueryInPreferences(mQuery);
+            observers();
         } else if (requestCode == REQUEST_CODE_SORT) {
-            Toast.makeText(getContext(),"SorrrrrrrT",Toast.LENGTH_SHORT).show();
-            checkSort(data.getIntExtra(EXTRA_SORT_ID,4));
+            Toast.makeText(getContext(),"SorT",Toast.LENGTH_SHORT).show();
+            checkSort(data.getIntExtra(BottomSheetSort.EXTRA_SORT_ID,4));
         }
     }
 
@@ -185,6 +188,7 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                mQuery = query;
                 mSearchViewModel.fetchSearchItemsAsync(query);
                 mSearchViewModel.setQueryInPreferences(query);
                 return true;

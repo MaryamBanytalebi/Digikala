@@ -21,6 +21,7 @@ import org.maktab.digikala.databinding.LayoutBottomSheetFilterBinding;
 
 public class BottomSheetFilter extends BottomSheetDialogFragment {
 
+    public static final String EXTRA_FILTER_COLOR = "extra_filter_color";
     BottomSheetBehavior bottomSheetBehavior;
     LayoutBottomSheetFilterBinding bi;
 
