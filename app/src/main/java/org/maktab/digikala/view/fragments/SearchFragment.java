@@ -127,6 +127,11 @@ public class SearchFragment extends Fragment {
                             SearchFragment.this,
                             REQUEST_CODE_FILTER_CATEGORY);
                 }else {
+                    String color = mSearchViewModel.getColorFromPreferences();
+                    if (color != null)
+                        mSearchViewModel.setColorInPreferences(color);
+                    else
+                        mSearchViewModel.setColorInPreferences("");
                     bottomSheetFilter.setTargetFragment(
                             SearchFragment.this,
                             REQUEST_CODE_FILTER);
