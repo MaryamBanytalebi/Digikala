@@ -49,6 +49,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 
+
     def retrofit_version = '2.9.0'
 
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -59,6 +60,8 @@ dependencies {
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
+
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

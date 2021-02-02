@@ -19,6 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
+
 import org.maktab.digikala.R;
 import org.maktab.digikala.adapter.HighestScoreProductAdapter;
 import org.maktab.digikala.adapter.LatestProductAdapter;
@@ -28,6 +31,7 @@ import org.maktab.digikala.model.Product;
 import org.maktab.digikala.view.activities.SearchActivity;
 import org.maktab.digikala.viewmodel.ProductViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomePageFragment extends Fragment {
@@ -71,6 +75,7 @@ public class HomePageFragment extends Fragment {
             public void onChanged(List<Product> products) {
                 mProductViewModel.setProductListMostVisited(products);
                 setAdapterMostVisited();
+                showSlideImage(products);
             }
         });
         mLatestProductItemsLiveData.observe(this, new Observer<List<Product>>() {
@@ -87,6 +92,16 @@ public class HomePageFragment extends Fragment {
                 setAdapterHighestScore();
             }
         });
+    }
+
+    private void showSlideImage(List<Product> products) {
+        List<SlideModel> slideModels = new ArrayList<>();
+        for (int i = 0; i < products.size(); i++) {
+            String uri = products.get(i).getImages().get(0).getSrc();
+            SlideModel slideModel = new SlideModel(uri,i + 1 + "", ScaleTypes.CENTER_CROP);
+            slideModels.add(slideModel);
+        }
+        mHomepageBinding.imageSlider.setImageList(slideModels);
     }
 
     @Override
