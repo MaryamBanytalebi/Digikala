@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 
 import org.maktab.digikala.R;
@@ -28,6 +29,7 @@ import org.maktab.digikala.adapter.LatestProductAdapter;
 import org.maktab.digikala.adapter.MostVisitedProductAdapter;
 import org.maktab.digikala.databinding.FragmentHomepageBinding;
 import org.maktab.digikala.model.Product;
+import org.maktab.digikala.view.activities.ProductDetailActivity;
 import org.maktab.digikala.view.activities.SearchActivity;
 import org.maktab.digikala.viewmodel.ProductViewModel;
 
@@ -45,6 +47,11 @@ public class HomePageFragment extends Fragment {
     private LiveData<List<Product>> mMostVisitedProductItemsLiveData;
     private LiveData<List<Product>> mLatestProductItemsLiveData;
     private LiveData<List<Product>> mHighestScoreProductItemsLiveData;
+    private LiveData<List<Product>> mSpecialProductsLiveData1;
+    private LiveData<List<Product>> mSpecialProductsLiveData2;
+    private LiveData<List<Product>> mSpecialProductsLiveData3;
+    private List<Product> mSpecialProducts;
+    List<SlideModel> mSlideModels;
     private LinearLayoutManager mLinearLayoutManager;
     private int loading = 1;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
@@ -65,8 +72,30 @@ public class HomePageFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+        mSpecialProducts = new ArrayList<>();
+        mSlideModels = new ArrayList<>();
         getProductsFromProductViewModel();
         setObserver();
+    }
+
+    private void getProductsFromProductViewModel() {
+        mProductViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        mProductViewModel.fetchMostVisitedProductItems();
+        mProductViewModel.fetchLatestProductItems();
+        mProductViewModel.fetchHighestScoreProductItems();
+        mMostVisitedProductItemsLiveData = mProductViewModel.getLiveDateMostVisitedProducts();
+        mLatestProductItemsLiveData = mProductViewModel.getLiveDateLatestProducts();
+        mHighestScoreProductItemsLiveData = mProductViewModel.getLiveDateHighestScoreProducts();
+        for (int i = 1; i < 4; i++) {
+            mProductViewModel.fetchSpecialProductItems(String.valueOf(119), i + "");
+            if (i == 1)
+                mSpecialProductsLiveData1 = mProductViewModel.getLiveDataSpecialProduct1();
+            else if (i==2)
+                mSpecialProductsLiveData2 = mProductViewModel.getLiveDataSpecialProduct2();
+            else if (i==3)
+                mSpecialProductsLiveData3 = mProductViewModel.getLiveDataSpecialProduct3();
+        }
+
     }
 
     private void setObserver() {
@@ -92,6 +121,29 @@ public class HomePageFragment extends Fragment {
                 setAdapterHighestScore();
             }
         });
+
+        mSpecialProductsLiveData1.observe(this, new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> productList) {
+                mSpecialProducts.addAll(productList);
+
+            }
+        });
+        mSpecialProductsLiveData2.observe(this, new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> productList) {
+                mSpecialProducts.addAll(productList);
+
+            }
+        });
+
+        mSpecialProductsLiveData3.observe(this, new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> productList) {
+                mSpecialProducts.addAll(productList);
+                showSlideImage(mSpecialProducts);
+            }
+        });
     }
 
     private void showSlideImage(List<Product> products) {
@@ -99,9 +151,19 @@ public class HomePageFragment extends Fragment {
         for (int i = 0; i < products.size(); i++) {
             String uri = products.get(i).getImages().get(0).getSrc();
             SlideModel slideModel = new SlideModel(uri,i + 1 + "", ScaleTypes.CENTER_CROP);
-            slideModels.add(slideModel);
+            mSlideModels.add(slideModel);
         }
-        mHomepageBinding.imageSlider.setImageList(slideModels);
+        mHomepageBinding.imageSlider.setImageList(mSlideModels);
+        mHomepageBinding.imageSlider.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onItemSelected(int i) {
+                String url = mSlideModels.get(i).getImageUrl();
+                for (int j = 0; j < mSpecialProducts.size(); j++) {
+                    if (mSpecialProducts.get(j).getImages().get(0).getSrc().equalsIgnoreCase(url))
+                        startActivity(ProductDetailActivity.newIntent(getActivity(),mSpecialProducts.get(j).getId()));
+                }
+            }
+        });
     }
 
     @Override
@@ -137,16 +199,6 @@ public class HomePageFragment extends Fragment {
                     searchView.setQuery(query, false);
             }
         });
-    }
-
-    private void getProductsFromProductViewModel() {
-        mProductViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-        mProductViewModel.fetchMostVisitedProductItems();
-        mProductViewModel.fetchLatestProductItems();
-        mProductViewModel.fetchHighestScoreProductItems();
-        mMostVisitedProductItemsLiveData = mProductViewModel.getLiveDateMostVisitedProducts();
-        mLatestProductItemsLiveData = mProductViewModel.getLiveDateLatestProducts();
-        mHighestScoreProductItemsLiveData = mProductViewModel.getLiveDateHighestScoreProducts();
     }
 
     @Override

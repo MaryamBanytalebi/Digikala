@@ -44,6 +44,9 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mSortedLowToHighSearchProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSortedHighToLowSearchProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSortedTopSellersSearchProductsLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Product>> mSpecialProductsLiveData1 = new MutableLiveData<>();
+    private MutableLiveData<List<Product>> mSpecialProductsLiveData2 = new MutableLiveData<>();
+    private MutableLiveData<List<Product>> mSpecialProductsLiveData3 = new MutableLiveData<>();
     private MutableLiveData<Customer> mCustomerLiveData = new MutableLiveData<>();
     private MutableLiveData<Product> mProductLiveData = new MutableLiveData<>();
 
@@ -97,6 +100,18 @@ public class ProductRepository {
 
     public MutableLiveData<List<Product>> getSortedTopSellersSearchProductsLiveData() {
         return mSortedTopSellersSearchProductsLiveData;
+    }
+
+    public MutableLiveData<List<Product>> getSpecialProductsLiveData1() {
+        return mSpecialProductsLiveData1;
+    }
+
+    public MutableLiveData<List<Product>> getSpecialProductsLiveData2() {
+        return mSpecialProductsLiveData2;
+    }
+
+    public MutableLiveData<List<Product>> getSpecialProductsLiveData3() {
+        return mSpecialProductsLiveData3;
     }
 
     public MutableLiveData<Customer> getCustomerLiveData() {
@@ -367,6 +382,34 @@ public class ProductRepository {
 
             @Override
             public void onFailure(Call<Customer> call, Throwable t) {
+                Log.e(TAG, t.getMessage(), t);
+            }
+        });
+    }
+
+    public void fetchSpecialProductItemsAsync(String id, String page) {
+        Call<List<Product>> call =
+                mAPIServiceListOfProduct.Products(NetWorkParams.getSpecialProducts(id, page));
+
+        call.enqueue(new Callback<List<Product>>() {
+
+            //this run on main thread
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                List<Product> items = response.body();
+
+                //update adapter of recyclerview
+                if (page.equalsIgnoreCase("1"))
+                    mSpecialProductsLiveData1.postValue(items);
+                else if (page.equalsIgnoreCase("2"))
+                    mSpecialProductsLiveData2.postValue(items);
+                else if (page.equalsIgnoreCase("3"))
+                    mSpecialProductsLiveData3.postValue(items);
+            }
+
+            //this run on main thread
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.e(TAG, t.getMessage(), t);
             }
         });

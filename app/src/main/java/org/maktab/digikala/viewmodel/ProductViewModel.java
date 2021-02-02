@@ -107,4 +107,20 @@ public class ProductViewModel extends AndroidViewModel {
         return QueryPreferences.getSearchQuery(getApplication());
     }
 
+    public void fetchSpecialProductItems(String parentId, String page) {
+        mRepository.fetchSpecialProductItemsAsync(parentId , page);
+    }
+
+    public LiveData<List<Product>> getLiveDataSpecialProduct1(){
+        return mRepository.getSpecialProductsLiveData1();
+    }
+
+    public LiveData<List<Product>> getLiveDataSpecialProduct2(){
+        return mRepository.getSpecialProductsLiveData2();
+    }
+
+    public LiveData<List<Product>> getLiveDataSpecialProduct3(){
+        return mRepository.getSpecialProductsLiveData3();
+    }
+
 }

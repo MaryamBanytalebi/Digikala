@@ -26,6 +26,7 @@ public class NetWorkParams {
     public static final String FILTER_ORDERBY_META_KEY = "filter[orderby_meta_key]";
     public static final String PRICE = "price";
     public static final String META_VALUE_NUM = "meta_value_num";
+    public static final String PAGE = "page";
 
 
 
@@ -38,7 +39,7 @@ public class NetWorkParams {
 
         Map<String,String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
-        products.put("page",page);
+        products.put(PAGE,page);
 
         return products;
     }
@@ -81,6 +82,15 @@ public class NetWorkParams {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
         products.put(PARENT_OF_CATEGORY, PARENT_CATEGORY);
+
+        return products;
+    }
+
+    public static Map<String, String> getSpecialProducts(String parentId,String page) {
+        Map<String, String> products = new HashMap<>();
+        products.putAll(BASE_OPTIONS);
+        products.put(CATEGORY,parentId);
+        products.put(PAGE,page);
 
         return products;
     }
