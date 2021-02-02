@@ -84,41 +84,42 @@ public class ProductDetailFragment extends Fragment {
     }
 
     private void checkRating(Product product) {
-        if (product.getAverageRating().equalsIgnoreCase("0.5")){
+        float rate = Float.parseFloat(product.getAverageRating());
+        if (rate > 0.0 && rate <= 0.5){
             mProductDetailBinding.imageViewStar1.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_half));
-        }else if (product.getAverageRating().equalsIgnoreCase("1.00")){
+        }else if (rate > 0.5 && rate <= 1.00){
             mProductDetailBinding.imageViewStar1.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
-        }else if (product.getAverageRating().equalsIgnoreCase("1.5")){
+        }else if (rate > 1.00 && rate <= 1.5){
             mProductDetailBinding.imageViewStar1.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar2.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_half));
-        }else if (product.getAverageRating().equalsIgnoreCase("2.00")){
+        }else if (rate > 1.5 && rate <= 2.00){
             mProductDetailBinding.imageViewStar1.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar2.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
-        }else if (product.getAverageRating().equalsIgnoreCase("2.5")){
+        }else if (rate > 2.00 && rate <= 2.5){
             mProductDetailBinding.imageViewStar1.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar2.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar3.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_half));
-        }else if (product.getAverageRating().equalsIgnoreCase("3.00")){
+        }else if (rate > 2.5 && rate <= 3.00){
             mProductDetailBinding.imageViewStar1.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar2.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar3.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
-        }else if (product.getAverageRating().equalsIgnoreCase("3.5")){
+        }else if (rate > 3.00 && rate <= 3.5){
             mProductDetailBinding.imageViewStar1.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar2.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar3.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar4.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_half));
-        }else if (product.getAverageRating().equalsIgnoreCase("4.00")){
+        }else if (rate > 3.5 && rate <= 4.00){
             mProductDetailBinding.imageViewStar1.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar2.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar3.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar4.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
-        }else if (product.getAverageRating().equalsIgnoreCase("4.5")){
+        }else if (rate > 4.00 && rate <= 4.5){
             mProductDetailBinding.imageViewStar1.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar2.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar3.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar4.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar5.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_half));
-        }else if (product.getAverageRating().equalsIgnoreCase("5.00")){
+        }else if (rate > 4.5 && rate <= 5.00){
             mProductDetailBinding.imageViewStar1.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar2.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
             mProductDetailBinding.imageViewStar3.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_rate));
