@@ -42,15 +42,18 @@ import java.util.List;
 public class SearchFragment extends Fragment {
 
     public static final String SEARCH_QUERY = "search_query";
-    public static final int REQUEST_CODE_Filter = 0;
+    public static final int REQUEST_CODE_FILTER = 0;
     public static final String TAG_BOTTOM_SHEET_FILTER = "tag_Bottom_sheet_filter";
     public static final int REQUEST_CODE_SORT = 1;
     public static final String TAG_BOTTOM_SHEET_SORT = "tag_bottom_sheet_sort";
+    public static final String REQUEST_CODE = "request_code";
+    public static final int REQUEST_CODE_FILTER_CATEGORY = 5;
 
     private ProductViewModel mProductViewModel;
     private SearchProductAdapter mSearchProductAdapter;
     private SearchViewModel mSearchViewModel;
     private String mQuery;
+    private String mRequestCode;
     private FragmentSearchBinding mFragmentSearchBinding;
     private LiveData<List<Product>> mLiveDataSearchProducts;
     private LiveData<List<Product>> mLiveDataSortedLowToHighSearchProducts;
@@ -60,10 +63,11 @@ public class SearchFragment extends Fragment {
     public SearchFragment() {
         // Required empty public constructor
     }
-    public static SearchFragment newInstance(String query) {
+    public static SearchFragment newInstance(String query,String requestCode) {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
         args.putString(SEARCH_QUERY,query);
+        args.putString(REQUEST_CODE,requestCode);
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,6 +77,7 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null){
             mQuery = getArguments().getString(SEARCH_QUERY);
+            mRequestCode = getArguments().getString(REQUEST_CODE);
         }
         setHasOptionsMenu(true);
 
@@ -117,9 +122,15 @@ public class SearchFragment extends Fragment {
             case R.id.filter_id:
                 BottomSheetFilter bottomSheetFilter =
                         new BottomSheetFilter();
-                bottomSheetFilter.setTargetFragment(
-                        SearchFragment.this,
-                        REQUEST_CODE_Filter);
+                if (mRequestCode.equalsIgnoreCase("category")) {
+                    bottomSheetFilter.setTargetFragment(
+                            SearchFragment.this,
+                            REQUEST_CODE_FILTER_CATEGORY);
+                }else {
+                    bottomSheetFilter.setTargetFragment(
+                            SearchFragment.this,
+                            REQUEST_CODE_FILTER);
+                }
 
                 bottomSheetFilter.show(
                         getActivity().getSupportFragmentManager(),
@@ -150,7 +161,7 @@ public class SearchFragment extends Fragment {
         if (resultCode != Activity.RESULT_OK || data == null)
             return;
 
-        if (requestCode == REQUEST_CODE_Filter) {
+        if (requestCode == REQUEST_CODE_FILTER) {
             Toast.makeText(getContext(),"filter",Toast.LENGTH_SHORT).show();
             String color = data.getStringExtra(BottomSheetFilter.EXTRA_FILTER_COLOR);
             mSearchViewModel.fetchSearchItemsAsync(mQuery + " " + color);

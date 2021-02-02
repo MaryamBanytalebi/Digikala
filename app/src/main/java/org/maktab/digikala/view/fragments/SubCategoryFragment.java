@@ -81,7 +81,7 @@ public class SubCategoryFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                startActivity(SearchActivity.newIntent(getActivity(),query));
+                startActivity(SearchActivity.newIntent(getActivity(),query,"cateegory"));
                 return true;
             }
 
