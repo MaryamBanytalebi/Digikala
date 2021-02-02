@@ -217,7 +217,7 @@ public class HomePageFragment extends Fragment {
 
     private void initViews() {
 
-        mHomepageBinding.recyclerHighestScoreProduct
+        mHomepageBinding.recyclerHighestScore
                 .setLayoutManager(new LinearLayoutManager(getContext(),
                         LinearLayoutManager.HORIZONTAL,
                         false));
@@ -245,6 +245,6 @@ public class HomePageFragment extends Fragment {
 
     private void setAdapterHighestScore() {
         mHighestScoreProductAdapter = new HighestScoreProductAdapter(this, getActivity(), mProductViewModel);
-        mHomepageBinding.recyclerHighestScoreProduct.setAdapter(mHighestScoreProductAdapter);
+        mHomepageBinding.recyclerHighestScore.setAdapter(mHighestScoreProductAdapter);
     }
 }

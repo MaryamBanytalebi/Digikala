@@ -76,6 +76,9 @@ public class HighestScoreProductAdapter extends RecyclerView.Adapter<HighestScor
 
         private void bindHighestScoreProductItem(Product product){
             mItemHighestScoreBinding.setProductId(product.getId());
+            mItemHighestScoreBinding.textViewNameHighestScore.setText(product.getTitle());
+            mItemHighestScoreBinding.textViewPriceHighestScore.setText(product.getPrice());
+
 
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())

@@ -72,11 +72,6 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
             mItemLatestBinding = binding;
             //Product product = mBinding.getProduct();
 
-            binding.textLatest.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-            binding.textLatest.setSingleLine(true);
-            binding.textLatest.setSelected(true);
-            binding.textLatest.setMarqueeRepeatLimit(-1);
-
             binding.setProductViewModel(mProductViewModel);
             binding.setLifecycleOwner(mOwner);
         }
@@ -84,7 +79,9 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
         private void bindLatestProductItem(Product product){
 
             mItemLatestBinding.setProductId(product.getId());
-            mItemLatestBinding.textLatest.setText(product.getPrice());
+            mItemLatestBinding.textViewPriceLatest.setText(product.getPrice());
+            mItemLatestBinding.textViewNameLatest.setText(product.getTitle());
+
             //mBinding.setProduct(product);
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())

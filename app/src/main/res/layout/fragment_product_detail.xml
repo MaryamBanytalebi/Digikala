@@ -186,8 +186,7 @@
                 android:layout_marginRight="16dp"
                 android:background="@null"
                 android:onClick="@{() -> orderViewModel.onClickToGoToOrder()}"
-                app:layout_constraintStart_toStartOf="@id/guideline_vertical_start"
-                app:src="@drawable/ic_orders" />
+                app:layout_constraintStart_toStartOf="@id/guideline_vertical_start" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier_bottom_action_buttons"

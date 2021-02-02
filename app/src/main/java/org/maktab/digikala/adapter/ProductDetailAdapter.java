@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
 import org.maktab.digikala.databinding.ItemHighestScoreBinding;
+import org.maktab.digikala.databinding.ItemImageDetailBinding;
 import org.maktab.digikala.model.Images;
 import org.maktab.digikala.viewmodel.ProductViewModel;
 
@@ -30,12 +31,12 @@ public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdap
     @NonNull
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemHighestScoreBinding binding =
+        ItemImageDetailBinding itemImageDetailBinding =
                 DataBindingUtil.inflate(LayoutInflater.from(mProductViewModel.getApplication()),
                         R.layout.item_highest_score,
                         parent,
                         false);
-        return new ProductHolder(binding);
+        return new ProductHolder(itemImageDetailBinding);
     }
 
     @Override
@@ -52,13 +53,13 @@ public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdap
 
     class ProductHolder extends RecyclerView.ViewHolder{
 
-        ItemHighestScoreBinding mItemHighestScoreBinding;
+        ItemImageDetailBinding mItemImageDetailBinding;
         private Images mImage;
 
-        public ProductHolder(ItemHighestScoreBinding binding) {
+        public ProductHolder(ItemImageDetailBinding binding) {
             super(binding.getRoot());
-            mItemHighestScoreBinding = binding;
-            mItemHighestScoreBinding.setLifecycleOwner(mOwner);
+            mItemImageDetailBinding = binding;
+            mItemImageDetailBinding.setLifecycleOwner(mOwner);
 
         }
 
@@ -67,7 +68,7 @@ public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdap
 
             Picasso.get()
                     .load(image.getSrc())
-                    .into(mItemHighestScoreBinding.imageHighestScore);
+                    .into(mItemImageDetailBinding.imageDetail);
         }
     }
 }
