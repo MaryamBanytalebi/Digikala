@@ -47,6 +47,7 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mSpecialProductsLiveData1 = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSpecialProductsLiveData2 = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSpecialProductsLiveData3 = new MutableLiveData<>();
+    private MutableLiveData<List<Product>> mSortedTotalSalesSearchProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<Customer> mCustomerLiveData = new MutableLiveData<>();
     private MutableLiveData<Product> mProductLiveData = new MutableLiveData<>();
 
@@ -408,6 +409,26 @@ public class ProductRepository {
             }
 
             //this run on main thread
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.e(TAG, t.getMessage(), t);
+            }
+        });
+
+    }
+
+    public void fetchSortedTotalSalesSearchItemsAsync(String query) {
+        Call<List<Product>> call =
+                mAPIServiceProduct.Products(NetWorkParams.getSortedTotalSalesSearchProducts(query));
+
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                List<Product> items = response.body();
+
+                mSortedTotalSalesSearchProductsLiveData.postValue(items);
+            }
+
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.e(TAG, t.getMessage(), t);

@@ -28,8 +28,10 @@ public class NetWorkParams {
     public static final String FILTER_ORDERBY = "filter[orderby]";
     public static final String FILTER_ORDERBY_META_KEY = "filter[orderby_meta_key]";
     public static final String PRICE = "price";
-    public static final String META_VALUE_NUM = "meta_value_num";
+    public static final String META_VALUE_NUM = "price";
     public static final String PAGE = "page";
+    public static final String TOTAL_SALES = "total_sales";
+
 
 
 
@@ -118,8 +120,8 @@ public class NetWorkParams {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
         products.put(SEARCH, query);
-        products.put(FILTER_ORDERBY, META_VALUE_NUM);
-        products.put(FILTER_ORDERBY_META_KEY, PRICE);
+        products.put(ORDERBY, PRICE);
+        products.put(ORDER, ASC);
 
         return products;
     }
@@ -127,19 +129,19 @@ public class NetWorkParams {
     public static Map<String, String> getSortedHighToLowSearchProducts(String query) {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
-        products.put(SEARCH, query+"&DESC");
-        products.put(FILTER_ORDERBY, META_VALUE_NUM);
-        products.put(FILTER_ORDERBY_META_KEY, PRICE);
+        products.put(SEARCH, query);
+        products.put(ORDERBY, PRICE);
+        products.put(ORDER, DESC);
 
         return products;
     }
 
-    public static Map<String, String> getSortedBestSellersSearchProducts(String query) {
+    public static Map<String, String> getSortedTotalSalesSearchProducts(String query) {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
         products.put(SEARCH, query);
-        products.put(FILTER_ORDERBY, META_VALUE_NUM);
-        products.put(FILTER_ORDERBY_META_KEY, PRICE);
+        products.put(ORDERBY, TOTAL_SALES);
+        products.put(ORDER, DESC);
 
         return products;
     }

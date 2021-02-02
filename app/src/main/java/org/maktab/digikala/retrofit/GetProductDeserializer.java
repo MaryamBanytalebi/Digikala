@@ -40,6 +40,7 @@ public class GetProductDeserializer implements JsonDeserializer<Product> {
         String short_description = bodyObject.get("short_description").getAsString();
         String average_rating = bodyObject.get("average_rating").getAsString();
         int rating_count = bodyObject.get("rating_count").getAsInt();
+        int total_sales = bodyObject.get("total_sales").getAsInt();
         JsonArray photoArray = bodyObject.get("images").getAsJsonArray();
         List<Images> imagesArray = new ArrayList<>();
         for (int j = 0; j < photoArray.size(); j++) {
@@ -51,7 +52,7 @@ public class GetProductDeserializer implements JsonDeserializer<Product> {
         }
 
         product = new Product(id,title,price,regular_price,sale_price,weight,length,width,height,description,short_description,
-                average_rating,rating_count, imagesArray);
+                average_rating,rating_count, total_sales, imagesArray);
 
 
         return product;
