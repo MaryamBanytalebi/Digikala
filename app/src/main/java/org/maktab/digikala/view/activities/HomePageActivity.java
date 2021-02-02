@@ -9,6 +9,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -23,6 +25,10 @@ public class HomePageActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityHomePageBinding mBinding;
+
+    public static Intent newIntent(Context context){
+        return new Intent(context,HomePageActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

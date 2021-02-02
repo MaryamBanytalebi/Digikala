@@ -3,6 +3,7 @@ package org.maktab.digikala.retrofit;
 import org.maktab.digikala.model.Customer;
 import org.maktab.digikala.model.Product;
 import org.maktab.digikala.model.ProductCategory;
+import org.maktab.digikala.model.SalesReport;
 
 import java.util.List;
 import java.util.Map;
@@ -32,8 +33,8 @@ public interface APIService {
     @GET("products/{id}")
     Call<Product> getProduct(@Path("id") int id,@QueryMap Map<String,String> options);
 
-    @GET("reports/sales/top_sellers")
-    Call<List<Product>> topSellers(@QueryMap Map<String,String> options);
+    @GET("reports/sales")
+    Call<SalesReport> sales(@QueryMap Map<String, String> options);
 
     @FormUrlEncoded
     @POST("customers")

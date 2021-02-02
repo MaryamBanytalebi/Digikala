@@ -24,7 +24,7 @@ import org.maktab.digikala.viewmodel.OrderViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderFragment extends Fragment {
+public class OrderFragment extends VisibleFragment {
 
     FragmentOrderBinding mFragmentOrderBinding;
     private OrderViewModel mOrderViewModel;

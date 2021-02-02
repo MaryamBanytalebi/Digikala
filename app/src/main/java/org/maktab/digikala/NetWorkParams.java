@@ -160,4 +160,11 @@ public class NetWorkParams {
 
         return products;
     }
+
+    public static Map<String, String> getTotalItemsSalesProducts() {
+        Map<String, String> products = new HashMap<>();
+        products.putAll(BASE_OPTIONS);
+
+        return products;
+    }
 }

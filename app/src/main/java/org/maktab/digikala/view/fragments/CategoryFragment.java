@@ -23,7 +23,7 @@ import org.maktab.digikala.viewmodel.CategoryViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryFragment extends Fragment {
+public class CategoryFragment extends VisibleFragment {
 
     private CategoryAdapter mCategoryAdapter;
     private LiveData<List<ProductCategory>> mCategoryItemsLiveData;

@@ -31,7 +31,7 @@ import org.maktab.digikala.viewmodel.CategoryViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubCategoryFragment extends Fragment {
+public class SubCategoryFragment extends VisibleFragment {
 
     public static final String BUNDLE_PARENT_ID = "bundle_parent_id";
     public static final String BUNDLE_PARENT_NAME = "bundle_parent_name";

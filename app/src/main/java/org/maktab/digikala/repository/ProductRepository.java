@@ -8,6 +8,7 @@ import org.maktab.digikala.NetWorkParams;
 import org.maktab.digikala.model.Customer;
 import org.maktab.digikala.model.Product;
 import org.maktab.digikala.model.ProductCategory;
+import org.maktab.digikala.model.SalesReport;
 import org.maktab.digikala.retrofit.APIService;
 import org.maktab.digikala.retrofit.RetrofitInstanceCategory;
 import org.maktab.digikala.retrofit.RetrofitInstanceCustomer;
@@ -48,6 +49,7 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mSpecialProductsLiveData2 = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSpecialProductsLiveData3 = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSortedTotalSalesSearchProductsLiveData = new MutableLiveData<>();
+    private MutableLiveData<SalesReport> mSalesReportMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Customer> mCustomerLiveData = new MutableLiveData<>();
     private MutableLiveData<Product> mProductLiveData = new MutableLiveData<>();
 
@@ -77,6 +79,10 @@ public class ProductRepository {
 
     public MutableLiveData<Product> getProductLiveData() {
         return mProductLiveData;
+    }
+
+    public MutableLiveData<SalesReport> getSalesReportMutableLiveData() {
+        return mSalesReportMutableLiveData;
     }
 
     public MutableLiveData<List<Product>> getProductWithParentIdLiveData() {
@@ -145,13 +151,13 @@ public class ProductRepository {
     }
 
     //This method can be run on background Thread
-    public List<Product> fetchProductItems(String page){
-        Call<List<Product>> call = mAPIServiceListOfProduct.Products(NetWorkParams.getProduct(page));
+    public SalesReport fetchProductItems(){
+        Call<SalesReport> call = mAPIServiceListOfProduct.sales(NetWorkParams.getTotalItemsSalesProducts());
         try {
-            Response<List<Product>> response = call.execute();
+            Response<SalesReport> response = call.execute();
             return response.body();
         } catch (IOException e) {
-            Log.e(TAG,e.getMessage());
+            Log.e(TAG, e.getMessage(), e);
             return null;
         }
     }
@@ -431,6 +437,25 @@ public class ProductRepository {
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.e(TAG, t.getMessage(), t);
+            }
+        });
+    }
+
+    public void fetchTotalItemsSalesItemsAsync() {
+        Call<SalesReport> call =
+                mAPIServiceProduct.sales(NetWorkParams.getTotalItemsSalesProducts());
+
+        call.enqueue(new Callback<SalesReport>() {
+            @Override
+            public void onResponse(Call<SalesReport> call, Response<SalesReport> response) {
+                SalesReport salesReport = response.body();
+
+                mSalesReportMutableLiveData.postValue(salesReport);
+            }
+
+            @Override
+            public void onFailure(Call<SalesReport> call, Throwable t) {
                 Log.e(TAG, t.getMessage(), t);
             }
         });

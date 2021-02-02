@@ -25,6 +25,11 @@
     <string name="toman">Toman</string>
     <string name="Continue">Continue</string>
     <string name="product_specifications">Product Specifications:</string>
+    <string name="channel_id">online_store_channel_id</string>
+    <string name="new_products_title">New Products</string>
+    <string name="new_products_text">You have new products in OnlineStore.</string>
+    <string name="channel_name">OnlineStore Channel</string>
+    <string name="channel_description">This is notification channel for OnlineStore</string>
 
 
 </resources>

@@ -27,7 +27,7 @@ import org.maktab.digikala.viewmodel.ProductViewModel;
 
 import java.util.List;
 
-public class ProductDetailFragment extends Fragment {
+public class ProductDetailFragment extends VisibleFragment {
 
     public static final String BUNDLE_KEY_PRODUCT_ID = "bundle key product id";
 

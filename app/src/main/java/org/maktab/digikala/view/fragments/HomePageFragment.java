@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.work.Worker;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,11 +33,12 @@ import org.maktab.digikala.model.Product;
 import org.maktab.digikala.view.activities.ProductDetailActivity;
 import org.maktab.digikala.view.activities.SearchActivity;
 import org.maktab.digikala.viewmodel.ProductViewModel;
+import org.maktab.digikala.worker.PollWorker;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomePageFragment extends Fragment {
+public class HomePageFragment extends VisibleFragment {
 
     private FragmentHomepageBinding mHomepageBinding;
     private Context mContext;
@@ -76,6 +78,8 @@ public class HomePageFragment extends Fragment {
         mSlideModels = new ArrayList<>();
         getProductsFromProductViewModel();
         setObserver();
+        PollWorker.enqueueWork(getActivity(), true);
+
     }
 
     private void getProductsFromProductViewModel() {
