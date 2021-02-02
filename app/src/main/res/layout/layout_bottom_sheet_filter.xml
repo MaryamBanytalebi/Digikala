@@ -148,6 +148,12 @@
                                 android:layout_height="57dp"
                                 android:text="Pink" />
 
+                            <RadioButton
+                                android:id="@+id/no_filter"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:text="No Filter" />
+
                         </RadioGroup>
 
                         <ImageView

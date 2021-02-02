@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import org.maktab.digikala.R;
 import org.maktab.digikala.databinding.LayoutBottomSheetFilterBinding;
 import org.maktab.digikala.databinding.LayoutBottomSheetFilterCategoryBinding;
+import org.maktab.digikala.viewmodel.SearchViewModel;
 
 public class BottomSheetFilter extends BottomSheetDialogFragment {
 
@@ -29,6 +31,7 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
     BottomSheetBehavior bottomSheetBehavior;
     LayoutBottomSheetFilterBinding mFilterBinding;
     LayoutBottomSheetFilterCategoryBinding mFilterCategoryBinding;
+    private SearchViewModel mSearchViewModel;
     private int REQUEST_CODE;
     String mColor;
 
@@ -42,6 +45,7 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
 
             setLayoutForFilterHome(bottomSheet);
 
+            mSearchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
             //aap bar cancel button clicked
             listeners();
 
@@ -60,6 +64,34 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
         }
 
         return bottomSheet;
+    }
+
+    private void updateUI() {
+        String color = mSearchViewModel.getColorFromPreferences();
+        if (color != null){
+            if (color.equalsIgnoreCase("مشکی"))
+                mFilterBinding.black.setChecked(true);
+            else if (color.equalsIgnoreCase("سفید"))
+                mFilterBinding.white.setChecked(true);
+            else if (color.equalsIgnoreCase("قهوه ای"))
+                mFilterBinding.brown.setChecked(true);
+            else if (color.equalsIgnoreCase("قرمز"))
+                mFilterBinding.red.setChecked(true);
+            else if (color.equalsIgnoreCase("نارنجی"))
+                mFilterBinding.orange.setChecked(true);
+            else if (color.equalsIgnoreCase("زرد"))
+                mFilterBinding.yellow.setChecked(true);
+            else if (color.equalsIgnoreCase("سبز"))
+                mFilterBinding.green.setChecked(true);
+            else if (color.equalsIgnoreCase("آبی"))
+                mFilterBinding.blue.setChecked(true);
+            else if (color.equalsIgnoreCase("بنفش"))
+                mFilterBinding.purple.setChecked(true);
+            else if (color.equalsIgnoreCase("صورتی"))
+                mFilterBinding.pink.setChecked(true);
+            else if (color.equalsIgnoreCase(""))
+                mFilterBinding.noFilter.setChecked(true);
+        }
     }
 
     private void setLayoutForFilterHome(BottomSheetDialog bottomSheet) {
@@ -169,6 +201,8 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mColor = "مشکی";
+                mSearchViewModel.setColorInPreferences(null);
+                mSearchViewModel.setColorInPreferences(mColor);
                 sendResult(mColor);
             }
         });
@@ -176,6 +210,8 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mColor = "سفید";
+                mSearchViewModel.setColorInPreferences(null);
+                mSearchViewModel.setColorInPreferences(mColor);
                 sendResult(mColor);
             }
         });
@@ -183,6 +219,8 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mColor = "قهوه ای";
+                mSearchViewModel.setColorInPreferences(null);
+                mSearchViewModel.setColorInPreferences(mColor);
                 sendResult(mColor);
             }
         });
@@ -190,6 +228,8 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mColor = "قرمز";
+                mSearchViewModel.setColorInPreferences(null);
+                mSearchViewModel.setColorInPreferences(mColor);
                 sendResult(mColor);
             }
         });
@@ -197,6 +237,8 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mColor = "نارنجی";
+                mSearchViewModel.setColorInPreferences(null);
+                mSearchViewModel.setColorInPreferences(mColor);
                 sendResult(mColor);
             }
         });
@@ -204,6 +246,8 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mColor = "زرد";
+                mSearchViewModel.setColorInPreferences(null);
+                mSearchViewModel.setColorInPreferences(mColor);
                 sendResult(mColor);
             }
         });
@@ -211,6 +255,8 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mColor = "سبز";
+                mSearchViewModel.setColorInPreferences(null);
+                mSearchViewModel.setColorInPreferences(mColor);
                 sendResult(mColor);
             }
         });
@@ -218,6 +264,8 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mColor = "آبی";
+                mSearchViewModel.setColorInPreferences(null);
+                mSearchViewModel.setColorInPreferences(mColor);
                 sendResult(mColor);
             }
         });
@@ -225,6 +273,8 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mColor = "بنفش";
+                mSearchViewModel.setColorInPreferences(null);
+                mSearchViewModel.setColorInPreferences(mColor);
                 sendResult(mColor);
             }
         });
@@ -232,6 +282,18 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mColor = "صورتی";
+                mSearchViewModel.setColorInPreferences(null);
+                mSearchViewModel.setColorInPreferences(mColor);
+                sendResult(mColor);
+            }
+        });
+
+        mFilterBinding.noFilter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mColor = "";
+                mSearchViewModel.setColorInPreferences(null);
+                mSearchViewModel.setColorInPreferences(mColor);
                 sendResult(mColor);
             }
         });
@@ -259,6 +321,8 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
             mColor = "بنفش";
         else if (mFilterBinding.white.isChecked())
             mColor = "صورتی";
+        else if (mFilterBinding.noFilter.isChecked())
+            mColor = "";
     }
 
     @Override
@@ -288,12 +352,12 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
     }
 
     private void sendResult(String color) {
+        mSearchViewModel.setColorInPreferences(color);
         Fragment fragment = getTargetFragment();
         int requestCode = getTargetRequestCode();
         int resultCode = Activity.RESULT_OK;
         Intent intent = new Intent();
         intent.putExtra(EXTRA_FILTER_COLOR, color);
-
         fragment.onActivityResult(requestCode, resultCode, intent);
     }
 }
