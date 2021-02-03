@@ -57,6 +57,7 @@ public class HomePageFragment extends VisibleFragment {
     private List<Product> mSpecialProducts;
     List<SlideModel> mSlideModels;
     private LinearLayoutManager mLinearLayoutManager;
+    private Menu mMenu;
     private int loading = 1;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
 
@@ -181,6 +182,17 @@ public class HomePageFragment extends VisibleFragment {
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
         setSearchViewListeners(searchView);
 
+        mMenu = menu;
+        checkNotificationTime(menu);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        checkNotificationTime(mMenu);
+    }
+
+    private void checkNotificationTime(@NonNull Menu menu) {
         MenuItem togglePollingItem = menu.findItem(R.id.menu_item_poll_toggling);
         if (mProductViewModel.isTaskScheduled()) {
             togglePollingItem.setIcon(R.drawable.ic_notifications_off);
