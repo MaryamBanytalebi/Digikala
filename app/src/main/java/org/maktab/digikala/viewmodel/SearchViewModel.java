@@ -17,10 +17,6 @@ import java.util.List;
 public class SearchViewModel extends AndroidViewModel {
 
     private ProductRepository mRepository;
-    private List<Product> mProductListMostVisited;
-    private List<Product> mProductListLatest;
-    private List<Product> mProductListHighestScore;
-    private List<Product> mProductList;
     private List<Product> mSearchProduct;
     private Context mContext;
 

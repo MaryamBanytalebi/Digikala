@@ -23,7 +23,6 @@ public class PollWorker extends androidx.work.Worker {
 
     private static final String TAG = "Worker";
     private static final String WORKER_NAME = "WorkerName";
-    private SettingViewModel mSettingViewModel;
 
     public PollWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);

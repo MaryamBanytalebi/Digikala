@@ -129,15 +129,6 @@ public class ProductViewModel extends AndroidViewModel {
         return mRepository.getSpecialProductsLiveData3();
     }
 
-    public void setColorInPreferences(String color) {
-        QueryPreferences.setFilterColor(getApplication(), color);
-    }
-
-    //
-    public String getColorFromPreferences() {
-        return QueryPreferences.getFilterColor(getApplication());
-    }
-
     /*public void setTotalItemsInPreferences(int totalItems) {
         QueryPreferences.setTotalItems(getApplication(), totalItems);
     }

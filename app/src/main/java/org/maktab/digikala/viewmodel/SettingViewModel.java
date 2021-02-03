@@ -20,7 +20,6 @@ public class SettingViewModel extends AndroidViewModel {
 
     private ProductRepository mRepository;
     private Context mContext;
-    private static Context mContextPref;
     private FragmentNotificationBinding mNotificationBinding;
 
     public void setNotificationBinding(FragmentNotificationBinding notificationBinding) {
@@ -34,7 +33,6 @@ public class SettingViewModel extends AndroidViewModel {
 
     public void setContext(Context context) {
         mContext = context;
-        mContextPref = context;
     }
 
     public void onClickNotificationItem() {
