@@ -83,13 +83,13 @@ public class OrderFragment extends VisibleFragment {
             }
         });
 
-        mCustomerLiveData.observe(this, new Observer<Customer>() {
+        /*mCustomerLiveData.observe(this, new Observer<Customer>() {
             @Override
             public void onChanged(Customer customer) {
                 Toast.makeText(getActivity(),customer.getFirst_name() + "\t" + customer.getLast_name()
                         + "\t" + customer.getEmail() + "\t" , Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
 
     @Override
