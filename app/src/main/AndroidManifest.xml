@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Digikala">
-        <activity android:name=".view.activities.OrderActivity"></activity>
+        <activity android:name=".view.activities.LocationActivity"></activity>
+        <activity android:name=".view.activities.NotificationActivity" />
+        <activity android:name=".view.activities.OrderActivity" />
         <activity android:name=".view.activities.SearchActivity" />
         <activity android:name=".view.activities.SplashActivity">
             <intent-filter>

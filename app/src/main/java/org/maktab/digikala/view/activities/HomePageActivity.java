@@ -53,7 +53,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     private void setNavigationView() {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_category)
+                R.id.nav_home, R.id.nav_category, R.id.nav_setting)
                 .setDrawerLayout(mBinding.drawerLayout)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
