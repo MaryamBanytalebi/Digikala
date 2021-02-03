@@ -25,7 +25,7 @@ public class ServicesUtils {
 
         ProductRepository repository = new ProductRepository();
 
-        String serverId = "4";
+        String serverId = "5";
         String lastSavedId = QueryPreferences.getNumberOfProduct(context);
         if (!serverId.equals(lastSavedId)) {
             Log.d(tag, "show notification");

@@ -13,6 +13,7 @@ import androidx.work.WorkManager;
 import androidx.work.WorkerParameters;
 
 import org.maktab.digikala.utilities.ServicesUtils;
+import org.maktab.digikala.viewmodel.SettingViewModel;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -22,6 +23,7 @@ public class PollWorker extends androidx.work.Worker {
 
     private static final String TAG = "Worker";
     private static final String WORKER_NAME = "WorkerName";
+    private SettingViewModel mSettingViewModel;
 
     public PollWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -34,7 +36,7 @@ public class PollWorker extends androidx.work.Worker {
         return Result.success();
     }
 
-    public static void enqueueWork(Context context, boolean isOn) {
+    public static void enqueueWork(Context context, boolean isOn, long notificationTime) {
         Log.d(TAG, "enqueueWork");
         WorkManager workManager = WorkManager.getInstance(context);
 
@@ -45,7 +47,7 @@ public class PollWorker extends androidx.work.Worker {
                     .build();
 
             PeriodicWorkRequest periodicWorkRequest =
-                    new PeriodicWorkRequest.Builder(PollWorker.class, 15, TimeUnit.MINUTES)
+                    new PeriodicWorkRequest.Builder(PollWorker.class, notificationTime, TimeUnit.HOURS)
                             .setConstraints(constraints)
                             .build();
 

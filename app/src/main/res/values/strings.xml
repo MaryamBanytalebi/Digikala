@@ -42,6 +42,12 @@
     <string name="location">Location</string>
     <string name="off">Off</string>
     <string name="on">On</string>
+    <string name="_3hour">3Hour</string>
+    <string name="_5hour">5Hour</string>
+    <string name="_8hour">8Hour</string>
+    <string name="_12hour">12Hour</string>
+    <string name="none_of_them">none of them</string>
+    <string name="save">Save</string>
 
 
 </resources>

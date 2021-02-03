@@ -33,6 +33,7 @@ import org.maktab.digikala.model.Product;
 import org.maktab.digikala.view.activities.ProductDetailActivity;
 import org.maktab.digikala.view.activities.SearchActivity;
 import org.maktab.digikala.viewmodel.ProductViewModel;
+import org.maktab.digikala.viewmodel.SettingViewModel;
 import org.maktab.digikala.worker.PollWorker;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class HomePageFragment extends VisibleFragment {
     private LatestProductAdapter mLatestProductAdapter;
     private MostVisitedProductAdapter mMostVisitedProductAdapter;
     private ProductViewModel mProductViewModel;
+    private SettingViewModel mSettingViewModel;
     private LiveData<List<Product>> mMostVisitedProductItemsLiveData;
     private LiveData<List<Product>> mLatestProductItemsLiveData;
     private LiveData<List<Product>> mHighestScoreProductItemsLiveData;
@@ -78,12 +80,11 @@ public class HomePageFragment extends VisibleFragment {
         mSlideModels = new ArrayList<>();
         getProductsFromProductViewModel();
         setObserver();
-        PollWorker.enqueueWork(getActivity(), true);
-
     }
 
     private void getProductsFromProductViewModel() {
         mProductViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        mSettingViewModel = new ViewModelProvider(this).get(SettingViewModel.class);
         mProductViewModel.fetchMostVisitedProductItems();
         mProductViewModel.fetchLatestProductItems();
         mProductViewModel.fetchHighestScoreProductItems();
@@ -185,6 +186,9 @@ public class HomePageFragment extends VisibleFragment {
             togglePollingItem.setIcon(R.drawable.ic_notifications_off);
         } else {
             togglePollingItem.setIcon(R.drawable.ic_notifications_active);
+        }
+        if (mSettingViewModel.getNotificationTime() == 0){
+            mSettingViewModel.setNotificationTime(3);
         }
     }
 

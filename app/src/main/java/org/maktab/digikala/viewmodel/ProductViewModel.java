@@ -149,7 +149,8 @@ public class ProductViewModel extends AndroidViewModel {
 
     public void togglePolling() {
         boolean isOn = PollWorker.isWorkEnqueued(getApplication());
-        PollWorker.enqueueWork(getApplication(), !isOn);
+        long time = QueryPreferences.getNotificationTime(getApplication());
+        PollWorker.enqueueWork(getApplication(), !isOn, time);
     }
 
     public boolean isTaskScheduled() {

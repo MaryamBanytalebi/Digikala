@@ -49,18 +49,45 @@ public class NotificationFragment extends Fragment {
 
         mSettingViewModel.setNotificationBinding(mNotificationBinding);
         mNotificationBinding.setSettingViewModel(mSettingViewModel);
+        mSettingViewModel.setContext(getActivity());
+        checkTime();
         initView();
         return mNotificationBinding.getRoot();
+    }
+
+    private void checkTime() {
+        mNotificationBinding.editTextTime.setVisibility(View.GONE);
+        long time = mSettingViewModel.getNotificationTime();
+        if (time == 3)
+            mNotificationBinding.radioButton3.setChecked(true);
+        else if (time == 5)
+            mNotificationBinding.radioButton5.setChecked(true);
+        else if (time == 8)
+            mNotificationBinding.radioButton8.setChecked(true);
+        else if (time == 12)
+            mNotificationBinding.radioButton12.setChecked(true);
+        else {
+            mNotificationBinding.radioButtonNoneOfThem.setChecked(true);
+            mNotificationBinding.editTextTime.setVisibility(View.VISIBLE);
+            mNotificationBinding.editTextTime.setText(String.valueOf(time));
+        }
+
     }
 
     private void initView() {
         if (mSettingViewModel.isTaskScheduled()) {
             mNotificationBinding.switchNotification.setText(R.string.on);
             mNotificationBinding.switchNotification.setChecked(true);
+            mNotificationBinding.radioGroupNotification.setVisibility(View.VISIBLE);
+            mNotificationBinding.buttonSaveNotification.setVisibility(View.VISIBLE);
+
             mSettingViewModel.togglePolling();
         } else {
             mNotificationBinding.switchNotification.setText(R.string.off);
             mNotificationBinding.switchNotification.setChecked(false);
+            mNotificationBinding.radioGroupNotification.setVisibility(View.GONE);
+            mNotificationBinding.buttonSaveNotification.setVisibility(View.GONE);
+
         }
     }
 }
