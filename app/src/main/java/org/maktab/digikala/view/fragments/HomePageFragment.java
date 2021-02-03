@@ -179,6 +179,25 @@ public class HomePageFragment extends VisibleFragment {
         MenuItem searchMenuItem = menu.findItem(R.id.menu_item_search);
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
         setSearchViewListeners(searchView);
+
+        MenuItem togglePollingItem = menu.findItem(R.id.menu_item_poll_toggling);
+        if (mProductViewModel.isTaskScheduled()) {
+            togglePollingItem.setTitle(R.string.stop_polling);
+        } else {
+            togglePollingItem.setTitle(R.string.start_polling);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_poll_toggling:
+                mProductViewModel.togglePolling();
+                getActivity().invalidateOptionsMenu();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void setSearchViewListeners(SearchView searchView) {

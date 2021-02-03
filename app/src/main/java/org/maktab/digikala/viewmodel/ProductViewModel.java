@@ -12,6 +12,7 @@ import org.maktab.digikala.model.SalesReport;
 import org.maktab.digikala.repository.ProductRepository;
 import org.maktab.digikala.utilities.QueryPreferences;
 import org.maktab.digikala.view.activities.ProductDetailActivity;
+import org.maktab.digikala.worker.PollWorker;
 
 import java.util.List;
 
@@ -144,6 +145,15 @@ public class ProductViewModel extends AndroidViewModel {
     //
     public int getTotalItemsFromPreferences() {
         return QueryPreferences.getTotalItems(getApplication());
+    }
+
+    public void togglePolling() {
+        boolean isOn = PollWorker.isWorkEnqueued(getApplication());
+        PollWorker.enqueueWork(getApplication(), !isOn);
+    }
+
+    public boolean isTaskScheduled() {
+        return PollWorker.isWorkEnqueued(getApplication());
     }
 
 }
