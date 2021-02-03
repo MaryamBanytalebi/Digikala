@@ -7,7 +7,8 @@ public class QueryPreferences {
 
     private static final String PREF_SEARCH_QUERY = "searchQuery";
     private static final String PREF_FILTER_COLOR = "filterColor";
-    private static final String PREF_TOTAL_ITEMS = "totalItems";
+    private static final String PREF_NUMBER_OF_PRODUCT = "lastId";
+
 
     public static String getSearchQuery(Context context) {
         return getSharedPreferences(context).getString(PREF_SEARCH_QUERY, null);
@@ -31,7 +32,7 @@ public class QueryPreferences {
                 .apply();
     }
 
-    public static int getTotalItems(Context context) {
+   /* public static int getTotalItems(Context context) {
         return getSharedPreferences(context).getInt(PREF_TOTAL_ITEMS,0);
     }
 
@@ -39,6 +40,17 @@ public class QueryPreferences {
         getSharedPreferences(context)
                 .edit()
                 .putInt(PREF_TOTAL_ITEMS, totalItems)
+                .apply();
+    }*/
+
+    public static String getNumberOfProduct(Context context) {
+        return getSharedPreferences(context).getString(PREF_NUMBER_OF_PRODUCT, null);
+    }
+
+    public static void setNumberOfProduct(Context context, String numberOfProduct) {
+        getSharedPreferences(context)
+                .edit()
+                .putString(PREF_NUMBER_OF_PRODUCT, numberOfProduct)
                 .apply();
     }
 

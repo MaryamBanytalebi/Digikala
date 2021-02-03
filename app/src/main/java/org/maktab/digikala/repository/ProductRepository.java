@@ -14,6 +14,7 @@ import org.maktab.digikala.retrofit.RetrofitInstanceCategory;
 import org.maktab.digikala.retrofit.RetrofitInstanceCustomer;
 import org.maktab.digikala.retrofit.RetrofitInstanceListOfProduct;
 import org.maktab.digikala.retrofit.RetrofitInstanceProduct;
+import org.maktab.digikala.retrofit.RetrofitInstanceSales;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,6 +32,7 @@ public class ProductRepository {
     private APIService mAPIServiceListOfProduct;
     private APIService mAPIServiceCategory;
     private APIService mAPIServiceCustomer;
+    private APIService mAPIServiceSalesReport;
 
     private String mPage;
     private static int mSort;
@@ -138,6 +140,9 @@ public class ProductRepository {
 
         Retrofit retrofitCustomer = RetrofitInstanceCustomer.getInstance().getRetrofit();
         mAPIServiceCustomer = retrofitCustomer.create(APIService.class);
+
+        Retrofit retrofitSalesReport = RetrofitInstanceSales.getInstance().getRetrofit();
+        mAPIServiceSalesReport = retrofitSalesReport.create(APIService.class);
         mPage = "1";
 
     }

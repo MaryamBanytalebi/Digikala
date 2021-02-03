@@ -138,14 +138,14 @@ public class ProductViewModel extends AndroidViewModel {
         return QueryPreferences.getFilterColor(getApplication());
     }
 
-    public void setTotalItemsInPreferences(int totalItems) {
+    /*public void setTotalItemsInPreferences(int totalItems) {
         QueryPreferences.setTotalItems(getApplication(), totalItems);
     }
 
     //
     public int getTotalItemsFromPreferences() {
         return QueryPreferences.getTotalItems(getApplication());
-    }
+    }*/
 
     public void togglePolling() {
         boolean isOn = PollWorker.isWorkEnqueued(getApplication());

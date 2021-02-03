@@ -24,27 +24,10 @@ public class ServicesUtils {
 //        String query = QueryPreferences.getSearchQuery(context);
 
         ProductRepository repository = new ProductRepository();
-        SalesReport salesReport;
-        int total_sales;
 
-
-        salesReport = repository.fetchProductItems();
-
-
-        if (salesReport == null) {
-            Log.d(tag, "Items from server not fetched salesReport is null");
-            return;
-        }
-
-        total_sales = salesReport.getTotalItems();
-
-        if (total_sales == 0) {
-            Log.d(tag, "Items from server not fetched");
-            return;
-        }
-
-        int lastTotalItems = QueryPreferences.getTotalItems(context);
-        if (total_sales != lastTotalItems) {
+        String serverId = "7";
+        String lastSavedId = QueryPreferences.getNumberOfProduct(context);
+        if (!serverId.equals(lastSavedId)) {
             Log.d(tag, "show notification");
 
             sendNotificationEvent(context);
@@ -52,7 +35,8 @@ public class ServicesUtils {
             Log.d(tag, "do nothing");
         }
 
-        QueryPreferences.setTotalItems(context, total_sales);
+        QueryPreferences.setNumberOfProduct(context, serverId);
+
     }
 
     private static void sendNotificationEvent(Context context) {
@@ -66,7 +50,7 @@ public class ServicesUtils {
         Notification notification = new NotificationCompat.Builder(context, channelId)
                 .setContentTitle(context.getResources().getString(R.string.new_products_title))
                 .setContentText(context.getResources().getString(R.string.new_products_text))
-                .setSmallIcon(android.R.drawable.ic_menu_report_image)
+                .setSmallIcon(R.drawable.ic_store)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .build();
