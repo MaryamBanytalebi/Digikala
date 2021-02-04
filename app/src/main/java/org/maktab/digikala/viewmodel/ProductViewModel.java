@@ -84,10 +84,6 @@ public class ProductViewModel extends AndroidViewModel {
         mRepository.fetchHighestScoreItemsAsync();
     }
 
-    public SalesReport fetchProductItemsSize(){
-        return mRepository.fetchProductItems();
-    }
-
     public LiveData<List<Product>> getLiveDateMostVisitedProducts(){
         return mRepository.getMostVisitedProductsLiveData();
     }
@@ -99,7 +95,6 @@ public class ProductViewModel extends AndroidViewModel {
     public LiveData<Product> getLiveDateProduct(){
         return mRepository.getProductLiveData();
     }
-
 
     public LiveData<List<Product>> getLiveDateHighestScoreProducts(){
         return mRepository.getHighestScoreProductsLiveData();
@@ -113,8 +108,8 @@ public class ProductViewModel extends AndroidViewModel {
         return QueryPreferences.getSearchQuery(getApplication());
     }
 
-    public void fetchSpecialProductItems(String parentId, String page) {
-        mRepository.fetchSpecialProductItemsAsync(parentId , page);
+    public void fetchSpecialProductItems(String parentId,String page) {
+        mRepository.fetchSpecialProductItemsAsync(parentId,page);
     }
 
     public LiveData<List<Product>> getLiveDataSpecialProduct1(){
@@ -129,19 +124,10 @@ public class ProductViewModel extends AndroidViewModel {
         return mRepository.getSpecialProductsLiveData3();
     }
 
-    /*public void setTotalItemsInPreferences(int totalItems) {
-        QueryPreferences.setTotalItems(getApplication(), totalItems);
-    }
-
-    //
-    public int getTotalItemsFromPreferences() {
-        return QueryPreferences.getTotalItems(getApplication());
-    }*/
-
     public void togglePolling() {
         boolean isOn = PollWorker.isWorkEnqueued(getApplication());
         long time = QueryPreferences.getNotificationTime(getApplication());
-        PollWorker.enqueueWork(getApplication(), !isOn, time);
+        PollWorker.enqueueWork(getApplication(), !isOn,time);
     }
 
     public boolean isTaskScheduled() {

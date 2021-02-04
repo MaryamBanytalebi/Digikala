@@ -259,19 +259,25 @@ public class ProductRepository {
     }
 
     public void fetchLatestItemsAsync(){
-        Call<List<Product>> call = mAPIServiceListOfProduct.Products(
-                NetWorkParams.getLatestProducts());
+        Call<List<Product>> call =
+                mAPIServiceListOfProduct.Products(NetWorkParams.getLatestProducts());
+
         call.enqueue(new Callback<List<Product>>() {
+
+            //this run on main thread
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-
                 List<Product> items = response.body();
+
+                //update adapter of recyclerview
                 mLatestProductsLiveData.postValue(items);
             }
 
+            //this run on main thread
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.e(TAG, t.getMessage(), t);
+                fetchLatestItemsAsync();
             }
         });
     }
