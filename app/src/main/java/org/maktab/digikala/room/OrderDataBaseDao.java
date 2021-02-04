@@ -50,4 +50,10 @@ public interface OrderDataBaseDao {
 
     @Query("SELECT * FROM address")
     List<MapAddress> getAddresses();
+
+    @Query("SELECT * FROM address WHERE selected_address=1")
+    MapAddress getAddress();
+
+    @Query("SELECT * FROM address WHERE primary_id=:addressId")
+    MapAddress getAddressWithId(long addressId);
 }

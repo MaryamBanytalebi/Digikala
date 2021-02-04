@@ -1,14 +1,19 @@
 package org.maktab.digikala.model;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import java.util.Objects;
 
 @Entity(tableName = "address")
 public class MapAddress {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "address_id")
+    @ColumnInfo(name = "primary_id")
     private long primaryId;
 
     @ColumnInfo(name = "address_name")
@@ -19,6 +24,9 @@ public class MapAddress {
 
     @ColumnInfo(name = "address_lng")
     private double address_lng;
+
+    @ColumnInfo(name = "selected_address")
+    private int selected_address;
 
     public long getPrimaryId() {
         return primaryId;
@@ -34,6 +42,14 @@ public class MapAddress {
 
     public void setAddressName(String addressName) {
         this.addressName = addressName;
+    }
+
+    public int getSelected_address() {
+        return selected_address;
+    }
+
+    public void setSelected_address(int selected_address) {
+        this.selected_address = selected_address;
     }
 
     public double getAddress_lat() {
@@ -52,9 +68,29 @@ public class MapAddress {
         this.address_lng = address_lng;
     }
 
-    public MapAddress(String addressName, double address_lat, double address_lng) {
+    public MapAddress(String addressName, double address_lat, double address_lng, int selected_address) {
         this.addressName = addressName;
         this.address_lat = address_lat;
         this.address_lng = address_lng;
+        this.selected_address = selected_address;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MapAddress that = (MapAddress) o;
+        return primaryId == that.primaryId &&
+                Double.compare(that.address_lat, address_lat) == 0 &&
+                Double.compare(that.address_lng, address_lng) == 0 &&
+                selected_address == that.selected_address &&
+                Objects.equals(addressName, that.addressName);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public int hashCode() {
+        return Objects.hash(primaryId, addressName, address_lat, address_lng, selected_address);
     }
 }

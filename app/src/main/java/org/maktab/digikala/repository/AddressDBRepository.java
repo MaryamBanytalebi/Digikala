@@ -2,6 +2,7 @@ package org.maktab.digikala.repository;
 
 import android.content.Context;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
 import org.maktab.digikala.model.MapAddress;
@@ -14,9 +15,8 @@ public class AddressDBRepository implements IAddressRepository {
 
     private static AddressDBRepository sInstance;
 
-    private OrderDataBaseDao mCartDAO;
     private Context mContext;
-    private List<MapAddress> mMapAddresses;
+    private MutableLiveData<List<MapAddress>> mListMutableLiveData;
     private OrderDataBaseDao mOrderDao;
 
     public static AddressDBRepository getInstance(Context context) {
@@ -35,6 +35,15 @@ public class AddressDBRepository implements IAddressRepository {
                 .build();
 
         mOrderDao = orderDatabase.getOrderDatabaseDao();
+        mListMutableLiveData = new MutableLiveData<>();
+    }
+
+    public MutableLiveData<List<MapAddress>> getListMutableLiveData() {
+        return mListMutableLiveData;
+    }
+
+    public void setListMutableLiveData(MutableLiveData<List<MapAddress>> listMutableLiveData) {
+        mListMutableLiveData = listMutableLiveData;
     }
 
     @Override
@@ -60,5 +69,15 @@ public class AddressDBRepository implements IAddressRepository {
     @Override
     public List<MapAddress> getMapAddresses() {
         return mOrderDao.getAddresses();
+    }
+
+    @Override
+    public MapAddress getAddress() {
+        return mOrderDao.getAddress();
+    }
+
+    @Override
+    public MapAddress getAddressWithId(long addressId) {
+        return mOrderDao.getAddressWithId(addressId);
     }
 }

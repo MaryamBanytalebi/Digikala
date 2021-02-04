@@ -5,6 +5,14 @@
 
     <data>
 
+        <variable
+            name="settingViewModel"
+            type="org.maktab.digikala.viewmodel.SettingViewModel" />
+
+        <variable
+            name="addressId"
+            type="Long" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,6 +37,16 @@
             android:textSize="16sp"
             style="@style/TextAppearance.AppCompat.Medium"
             tools:text="@string/menu_category" />
+
+        <ImageView
+            android:id="@+id/imageView_selected_address"
+            android:layout_width="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/text_view_address_name"
+            app:layout_constraintBottom_toBottomOf="@id/text_view_address_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="12dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_black" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

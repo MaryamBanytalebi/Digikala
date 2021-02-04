@@ -18,6 +18,7 @@ import org.maktab.digikala.model.Product;
 import org.maktab.digikala.model.ShippingAddress;
 import org.maktab.digikala.repository.OrderDBRepository;
 import org.maktab.digikala.repository.ProductRepository;
+import org.maktab.digikala.view.activities.BuyActivity;
 import org.maktab.digikala.view.activities.OrderActivity;
 import org.maktab.digikala.view.activities.ProductDetailActivity;
 
@@ -39,6 +40,8 @@ public class OrderViewModel extends AndroidViewModel {
     private List<Product> mProductListHighestScore;
     private List<Product> mSearchProduct;
     private Context mContext;
+    public static final int REQUEST_CODE_BUY_FRAGMENT = 0;
+
 
 
     public OrderViewModel(@NonNull Application application) {
@@ -94,13 +97,12 @@ public class OrderViewModel extends AndroidViewModel {
         Order oredr = mOrderDBRepository.getOrder(productId);
         if (oredr == null) {
             insertToOrder(new Order(productId,1));
-            Toast.makeText(mContext, "add to cart", Toast.LENGTH_SHORT).show();
         }else {
             int count = oredr.getProduct_count() + 1;
             oredr.setProduct_count(count);
             mOrderDBRepository.updateOrder(oredr);
-            Toast.makeText(mContext, "add to cart", Toast.LENGTH_SHORT).show();
         }
+        Toast.makeText(mContext, "add to cart", Toast.LENGTH_SHORT).show();
     }
 
     public void onClickToBuyAgain(int productId) {
@@ -158,8 +160,15 @@ public class OrderViewModel extends AndroidViewModel {
         return totalPrice;
     }
 
-    public void onClickContinueBuy(){
+    public void onClickContinueBuy() {
+        if (mProductList.size()==0){
+            Toast.makeText(mContext,"Your cart is Empty!",Toast.LENGTH_SHORT).show();
+        }else {
+            mContext.startActivity(BuyActivity.newIntent(mContext));
+        }
+    }
 
+    public void onclickBuy () {
         Random random = new Random();
         BillingAddress billingAddresses = new BillingAddress("maryam","banitalebi","maktab",
                 "poonak","nateghnoori","tehran","north","1473165569",

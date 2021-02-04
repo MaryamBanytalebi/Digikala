@@ -21,6 +21,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
 import org.maktab.digikala.R;
+import org.maktab.digikala.adapter.AddressAdapter;
 import org.maktab.digikala.databinding.FragmentNotificationBinding;
 import org.maktab.digikala.model.MapAddress;
 import org.maktab.digikala.repository.AddressDBRepository;
@@ -41,6 +42,9 @@ public class SettingViewModel extends AndroidViewModel {
     private FragmentNotificationBinding mNotificationBinding;
     private MutableLiveData<Location> mMyLocation = new MutableLiveData<>();
     private FusedLocationProviderClient mFusedLocationClient;
+    private MutableLiveData<List<MapAddress>> mLiveDataAddress = new MutableLiveData<>();
+    private AddressAdapter mAddressAdapter;
+
 
     public void setNotificationBinding(FragmentNotificationBinding notificationBinding) {
         mNotificationBinding = notificationBinding;
@@ -50,6 +54,11 @@ public class SettingViewModel extends AndroidViewModel {
         super(application);
         mRepository = AddressDBRepository.getInstance(application);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplication());
+        mLiveDataAddress = mRepository.getListMutableLiveData();
+    }
+
+    public MutableLiveData<List<MapAddress>> getLiveDataAddress() {
+        return mRepository.getListMutableLiveData();
     }
 
     public void setContext(Context context) {
@@ -170,7 +179,44 @@ public class SettingViewModel extends AndroidViewModel {
         mRepository.insertAddress(mapAddress);
     }
 
+    public MapAddress getSelectedAddress() {
+        return mRepository.getAddress();
+    }
+
+    public void updateAddress(MapAddress mapAddress) {
+        mRepository.updateAddress(mapAddress);
+    }
+
     public List<MapAddress> getAddresses(){
         return mRepository.getMapAddresses();
+    }
+
+    public MapAddress getAddressWithId(long addressId) {
+        return mRepository.getAddressWithId(addressId);
+    }
+
+    public AddressAdapter getAddressAdapter() {
+        return mAddressAdapter;
+    }
+
+    public void setAddressAdapter(AddressAdapter addressAdapter) {
+        mAddressAdapter = addressAdapter;
+    }
+
+    public void onClickSelectedAddress(long addressId) {
+        MapAddress prev_address = getSelectedAddress();
+        if (prev_address != null) {
+            prev_address.setSelected_address(0);
+            updateAddress(prev_address);
+        }
+        MapAddress new_address = getAddressWithId(addressId);
+        new_address.setSelected_address(1);
+        updateAddress(new_address);
+        List<MapAddress> mapAddressList = getAddresses();
+
+        mLiveDataAddress.setValue(mapAddressList);
+        mRepository.setListMutableLiveData(mLiveDataAddress);
+
+
     }
 }

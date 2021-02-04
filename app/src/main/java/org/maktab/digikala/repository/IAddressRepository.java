@@ -11,4 +11,6 @@ public interface IAddressRepository {
     void insertAddresses(List<MapAddress> mapAddresses);
     void deleteAddress(MapAddress mapAddress);
     List<MapAddress> getMapAddresses();
+    MapAddress getAddress();
+    MapAddress getAddressWithId(long addressId);
 }

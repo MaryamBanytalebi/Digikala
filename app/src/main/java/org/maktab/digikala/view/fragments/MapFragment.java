@@ -143,7 +143,7 @@ public class MapFragment extends SupportMapFragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.menu_fragment_location, menu);
+        inflater.inflate(R.menu.menu_fragment_map, menu);
     }
 
     @Override
@@ -159,13 +159,17 @@ public class MapFragment extends SupportMapFragment {
                 return true;
 
             case R.id.menu_item_done:
-                if (mLatLng != null && mAddress != null){
-                    MapAddress mapAddress = new MapAddress(mAddress,mLatLng.latitude,mLatLng.longitude);
+                if (mLatLng != null && mAddress != null) {
+                    MapAddress prev_address = mSettingViewModel.getSelectedAddress();
+                    if (prev_address != null) {
+                        prev_address.setSelected_address(0);
+                        mSettingViewModel.updateAddress(prev_address);
+                    }
+                    MapAddress mapAddress = new MapAddress(mAddress, mLatLng.latitude, mLatLng.longitude, 1);
                     mSettingViewModel.insertAddress(mapAddress);
                     Toast.makeText(getActivity(), "Done", Toast.LENGTH_SHORT).show();
-                }
-
-                else
+                    getActivity().finish();
+                } else
                     Toast.makeText(getActivity(), "Select Place", Toast.LENGTH_SHORT).show();
 
             default:

@@ -56,6 +56,8 @@
     <string name="path_of_permission">Location--> App permission--> OnlineStore--> Allow</string>
     <string name="permission_dialog_title">We need location Permission</string>
     <string name="location_dialog_title">Turn on location </string>
+    <string name="your_address">Your Address:</string>
+    <string name="discount_code">Discount code:</string>
 
 
 </resources>
