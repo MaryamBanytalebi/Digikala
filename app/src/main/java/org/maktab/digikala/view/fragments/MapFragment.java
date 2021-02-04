@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import org.json.JSONObject;
 import org.maktab.digikala.DirectionsJSONParser;
 import org.maktab.digikala.R;
+import org.maktab.digikala.model.MapAddress;
 import org.maktab.digikala.viewmodel.SettingViewModel;
 
 import java.io.BufferedReader;
@@ -66,14 +67,12 @@ public class MapFragment extends SupportMapFragment {
     private static final int NUMBER_OF_IMAGES = 3;
 
     private SettingViewModel mSettingViewModel;
-    private LatLng mItemLatLng;
-    private LatLng mEnd;
-    private LatLng mStart;
-    private Bitmap mItemBitmap;
+    private String mAddress;
     private GoogleMap mMap;
-    ArrayList markerPoints = new ArrayList();
-    MarkerOptions mMarkerOptions;
-    Marker mMarker;
+    private LatLng mLatLng;
+    private ArrayList markerPoints = new ArrayList();
+    private MarkerOptions mMarkerOptions;
+    private Marker mMarker;
 
     public MapFragment() {
         // Required empty public constructor
@@ -116,7 +115,15 @@ public class MapFragment extends SupportMapFragment {
             @Override
             public void onMapClick(LatLng latLng) {
 
-                mMarker.setPosition(latLng);
+                if (mMarker != null) {
+
+                    mMarker.setPosition(latLng);
+                }else {
+                    mMarkerOptions
+                            .position(latLng)
+                            .title("My Location");
+                    mMarker = mMap.addMarker(mMarkerOptions);
+                }
                 getAddress(latLng.latitude,latLng.longitude);
             }
         });
@@ -150,6 +157,17 @@ public class MapFragment extends SupportMapFragment {
                     requestLocationAccessPermission();
                 }
                 return true;
+
+            case R.id.menu_item_done:
+                if (mLatLng != null && mAddress != null){
+                    MapAddress mapAddress = new MapAddress(mAddress,mLatLng.latitude,mLatLng.longitude);
+                    mSettingViewModel.insertAddress(mapAddress);
+                    Toast.makeText(getActivity(), "Done", Toast.LENGTH_SHORT).show();
+                }
+
+                else
+                    Toast.makeText(getActivity(), "Select Place", Toast.LENGTH_SHORT).show();
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -243,23 +261,19 @@ public class MapFragment extends SupportMapFragment {
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
             Address obj = addresses.get(0);
-            String add = obj.getAddressLine(0);
-            add = add + "\n" + obj.getCountryName();
-            add = add + "\n" + obj.getCountryCode();
-            add = add + "\n" + obj.getAdminArea();
-            add = add + "\n" + obj.getPostalCode();
-            add = add + "\n" + obj.getSubAdminArea();
-            add = add + "\n" + obj.getLocality();
-            add = add + "\n" + obj.getSubThoroughfare();
+            mAddress = obj.getAddressLine(0);
+            mAddress = mAddress + "\n" + obj.getCountryName();
+            mAddress = mAddress + "\n" + obj.getCountryCode();
+            mAddress = mAddress + "\n" + obj.getAdminArea();
+            mAddress = mAddress + "\n" + obj.getPostalCode();
+            mAddress = mAddress + "\n" + obj.getSubAdminArea();
+            mAddress = mAddress + "\n" + obj.getLocality();
+            mAddress = mAddress + "\n" + obj.getSubThoroughfare();
 
-            Log.v("IGA", "Address" + add);
-            Toast.makeText(getActivity(), add, Toast.LENGTH_SHORT).show();
-            // Toast.makeText(this, "Address=>" + add,
-            // Toast.LENGTH_SHORT).show();
+            mLatLng = new LatLng(lat,lng);
 
-            // TennisAppActivity.showDialog(add);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }

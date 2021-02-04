@@ -22,6 +22,8 @@ import com.google.android.gms.location.LocationServices;
 
 import org.maktab.digikala.R;
 import org.maktab.digikala.databinding.FragmentNotificationBinding;
+import org.maktab.digikala.model.MapAddress;
+import org.maktab.digikala.repository.AddressDBRepository;
 import org.maktab.digikala.repository.ProductRepository;
 import org.maktab.digikala.utilities.QueryPreferences;
 import org.maktab.digikala.view.activities.LocationActivity;
@@ -30,9 +32,11 @@ import org.maktab.digikala.view.activities.NotificationActivity;
 import org.maktab.digikala.view.fragments.MapFragment;
 import org.maktab.digikala.worker.PollWorker;
 
+import java.util.List;
+
 public class SettingViewModel extends AndroidViewModel {
 
-    private ProductRepository mRepository;
+    private AddressDBRepository mRepository;
     private Context mContext;
     private FragmentNotificationBinding mNotificationBinding;
     private MutableLiveData<Location> mMyLocation = new MutableLiveData<>();
@@ -44,7 +48,7 @@ public class SettingViewModel extends AndroidViewModel {
 
     public SettingViewModel(@NonNull Application application) {
         super(application);
-        mRepository = new ProductRepository();
+        mRepository = AddressDBRepository.getInstance(application);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplication());
     }
 
@@ -160,5 +164,13 @@ public class SettingViewModel extends AndroidViewModel {
                 locationRequest,
                 locationCallback,
                 Looper.getMainLooper());
+    }
+
+    public void insertAddress(MapAddress mapAddress){
+        mRepository.insertAddress(mapAddress);
+    }
+
+    public List<MapAddress> getAddresses(){
+        return mRepository.getMapAddresses();
     }
 }

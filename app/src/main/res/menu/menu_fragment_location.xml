@@ -8,4 +8,10 @@
         android:title="@string/location"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/menu_item_done"
+        android:icon="@drawable/ic_done"
+        android:title="Done"
+        app:showAsAction="always" />
+
 </menu>

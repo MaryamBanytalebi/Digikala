@@ -59,7 +59,7 @@ public class OrderDBRepository implements IRepository {
     @Override
     public void deleteOrder(Order order) {
 
-        mOrderDao.deleteTask(order);
+        mOrderDao.deleteOrder(order);
     }
 
     @Override

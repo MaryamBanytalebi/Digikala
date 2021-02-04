@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.RoomDatabase;
 import androidx.room.Update;
 
+import org.maktab.digikala.model.MapAddress;
 import org.maktab.digikala.model.Order;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public interface OrderDataBaseDao {
     void insertOrders(List<Order> orders);
 
     @Delete
-    void deleteTask(Order order);
+    void deleteOrder(Order order);
 
     @Query("DELETE FROM cart")
     void deleteAllOrders();
@@ -35,4 +36,18 @@ public interface OrderDataBaseDao {
     @Query("SELECT * FROM cart WHERE product_id=:productId")
     Order getOrder(int productId);
 
+    @Update
+    void updateAddress(MapAddress mapAddress);
+
+    @Insert
+    void insertAddress(MapAddress mapAddress);
+
+    @Insert
+    void insertAddresses(List<MapAddress> mapAddresses);
+
+    @Delete
+    void deleteAddress(MapAddress mapAddress);
+
+    @Query("SELECT * FROM address")
+    List<MapAddress> getAddresses();
 }
