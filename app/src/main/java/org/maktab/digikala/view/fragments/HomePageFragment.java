@@ -190,6 +190,13 @@ public class HomePageFragment extends VisibleFragment {
     public void onPause() {
         super.onPause();
         checkNotificationTime(mMenu);
+        getProductsFromProductViewModel();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getProductsFromProductViewModel();
     }
 
     private void checkNotificationTime(@NonNull Menu menu) {

@@ -55,9 +55,14 @@
     <string name="permission_go_to">Go to:</string>
     <string name="path_of_permission">Location--> App permission--> OnlineStore--> Allow</string>
     <string name="permission_dialog_title">We need location Permission</string>
+
     <string name="location_dialog_title">Turn on location </string>
     <string name="your_address">Your Address:</string>
     <string name="discount_code">Discount code:</string>
+    <string name="location_dismiss_success">Location Dismissed Successfully.</string>
+    <string name="location_dismiss_undo">UNDO</string>
+    <string name="edit">Edit</string>
+    <string name="products">Products</string>
 
 
 </resources>

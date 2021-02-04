@@ -61,6 +61,10 @@ public class SettingViewModel extends AndroidViewModel {
         return mRepository.getListMutableLiveData();
     }
 
+    public void setLiveDataAddress(MutableLiveData<List<MapAddress>> mutableLiveData) {
+        mRepository.setListMutableLiveData(mutableLiveData);
+    }
+
     public void setContext(Context context) {
         mContext = context;
     }
@@ -217,6 +221,13 @@ public class SettingViewModel extends AndroidViewModel {
         mLiveDataAddress.setValue(mapAddressList);
         mRepository.setListMutableLiveData(mLiveDataAddress);
 
+    }
 
+    public void deleteLocationAddress(MapAddress mapAddress){
+        mRepository.deleteAddress(mapAddress);
+    }
+
+    public void insertLocationAddress(MapAddress mapAddress){
+        mRepository.insertAddress(mapAddress);
     }
 }

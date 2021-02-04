@@ -14,6 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/main_layout_constraint"
         tools:context=".view.fragment.LocationFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout

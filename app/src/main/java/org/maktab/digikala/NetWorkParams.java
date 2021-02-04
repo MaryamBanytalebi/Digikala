@@ -14,8 +14,8 @@ public class NetWorkParams {
     public static final String CONSUMER_SECRET = "cs_74c2f0d6cc6f9bcf6538b264a6ab515a1afec16e";
 
     public static final String RATING_COUNT = "rating count";
-    public static final String ORDER = "order";
-    public static final String ORDERBY = "order_by";
+    /*public static final String ORDER = "order";
+    public static final String ORDERBY = "order_by";*/
     public static final String ASC = "asc";
     public static final String DESC = "DESC";
     public static final String FIELDS = "fields";
@@ -52,8 +52,8 @@ public class NetWorkParams {
     public static Map<String, String> getMostVisitedProducts() {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
-        products.put(ORDER, ASC);
-        products.put(ORDERBY, "rating");
+        products.put(FILTER_ORDERBY, DESC);
+        products.put(FIELDS, RATING_COUNT);
 
         return products;
     }
@@ -61,8 +61,8 @@ public class NetWorkParams {
     public static Map<String,String> getHighestScoreProduct(){
         Map<String,String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
-        products.put(ORDERBY, "popularity");
-        products.put(ORDER, ASC);
+        products.put(FILTER_ORDERBY, DESC);
+        products.put(FIELDS, AVERAGE_RATING);
 
         return products;
     }
@@ -70,8 +70,8 @@ public class NetWorkParams {
     public static Map<String, String> getLatestProducts() {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
-        products.put(ORDERBY, CREATED_AT);
-        products.put(ORDER, DESC);
+        products.put(FILTER_ORDERBY, DESC);
+        products.put(FIELDS, CREATED_AT);
 
         return products;
     }
@@ -120,8 +120,8 @@ public class NetWorkParams {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
         products.put(SEARCH, query);
-        products.put(ORDERBY, PRICE);
-        products.put(ORDER, ASC);
+        products.put(FILTER_ORDERBY, META_VALUE_NUM);
+        products.put(FILTER_ORDERBY_META_KEY, PRICE);
 
         return products;
     }
@@ -130,8 +130,8 @@ public class NetWorkParams {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
         products.put(SEARCH, query);
-        products.put(ORDERBY, PRICE);
-        products.put(ORDER, DESC);
+        products.put(FILTER_ORDERBY, META_VALUE_NUM);
+        products.put(FILTER_ORDERBY_META_KEY, PRICE);
 
         return products;
     }
@@ -140,8 +140,8 @@ public class NetWorkParams {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
         products.put(SEARCH, query);
-        products.put(ORDERBY, TOTAL_SALES);
-        products.put(ORDER, DESC);
+        products.put(FILTER_ORDERBY, META_VALUE_NUM);
+        products.put(FILTER_ORDERBY_META_KEY, PRICE);
 
         return products;
     }

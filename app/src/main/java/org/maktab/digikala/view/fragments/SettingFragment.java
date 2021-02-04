@@ -48,14 +48,14 @@ public class SettingFragment extends Fragment {
         return mSettingBinding.getRoot();
     }
 
-    private void listeners() {
+    /*private void listeners() {
         mSettingBinding.imageViewLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mSettingViewModel.onClickLocationItem();
             }
         });
-    }
+    }*/
 
     private void initView() {
         mSettingViewModel.setContext(getActivity());

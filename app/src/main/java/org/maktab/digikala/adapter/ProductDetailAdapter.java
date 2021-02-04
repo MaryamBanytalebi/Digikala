@@ -33,7 +33,7 @@ public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdap
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemImageDetailBinding itemImageDetailBinding =
                 DataBindingUtil.inflate(LayoutInflater.from(mProductViewModel.getApplication()),
-                        R.layout.item_highest_score,
+                        R.layout.item_image_detail,
                         parent,
                         false);
         return new ProductHolder(itemImageDetailBinding);
