@@ -41,6 +41,8 @@ public class ProductDetailFragment extends VisibleFragment {
     private FragmentProductDetailBinding mProductDetailBinding;
     private ProductViewModel mProductViewModel;
     private OrderViewModel mOrderViewModel;
+    public static final int REQUEST_CODE_ADD_COMMENT = 0;
+    public static final String FRAGMENT_TAG_ADD = "AddComment";
 
     @NonNull
     @Override
@@ -134,9 +136,18 @@ public class ProductDetailFragment extends VisibleFragment {
     }
 
     private void listeners() {
-        mProductDetailBinding.setOrderViewModel(mOrderViewModel);
-        mProductDetailBinding.setLifecycleOwner(getActivity());
-        mProductDetailBinding.setProductId(mProductId);
+        mProductDetailBinding.layoutAddComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddCommentFragment addCommentFragment = AddCommentFragment.newInstance(mProductId);
+                addCommentFragment.setTargetFragment(
+                        ProductDetailFragment.this,
+                        REQUEST_CODE_ADD_COMMENT);
+                addCommentFragment.show(
+                        getActivity().getSupportFragmentManager(),
+                        FRAGMENT_TAG_ADD);
+            }
+        });
     }
 
     private void getProductFromProductViewModel() {
@@ -185,6 +196,9 @@ public class ProductDetailFragment extends VisibleFragment {
     }
 
     private void initView() {
+        mProductDetailBinding.setOrderViewModel(mOrderViewModel);
+        mProductDetailBinding.setLifecycleOwner(getActivity());
+        mProductDetailBinding.setProductId(mProductId);
         mProductDetailBinding.recyclerProductDetail
                 .setLayoutManager(new LinearLayoutManager(getContext(),
                         LinearLayoutManager.HORIZONTAL,
