@@ -61,7 +61,6 @@
     <string name="discount_code">Discount code:</string>
     <string name="location_dismiss_success">Location Dismissed Successfully.</string>
     <string name="location_dismiss_undo">UNDO</string>
-    <string name="edit">Edit</string>
     <string name="products">Products</string>
 
     <string name="user_comments">User comments:</string>
@@ -69,5 +68,8 @@
     <string name="your_name">Your Name</string>
     <string name="your_email">Your Email</string>
     <string name="your_comment">Your Comment</string>
+    <string name="edit_comment">Edit comment:</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
 
 </resources>

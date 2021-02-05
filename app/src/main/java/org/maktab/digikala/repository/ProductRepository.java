@@ -59,7 +59,8 @@ public class ProductRepository {
     private MutableLiveData<Product> mProductLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Comment>> mLiveDataComment = new MutableLiveData<>();
     private MutableLiveData<Comment> mCommentLiveData = new MutableLiveData<>();
-
+    private MutableLiveData<Comment> mLiveDataOneComment = new MutableLiveData<>();
+    private MutableLiveData<Comment> mLiveDataPUTComment = new MutableLiveData<>();
 
     public static int getSort() {
         return mSort;
@@ -141,7 +142,13 @@ public class ProductRepository {
         return mCommentLiveData;
     }
 
+    public MutableLiveData<Comment> getLiveDataPUTComment() {
+        return mLiveDataPUTComment;
+    }
 
+    public MutableLiveData<Comment> getLiveDataOneComment() {
+        return mLiveDataOneComment;
+    }
     public ProductRepository() {
 
         Retrofit retrofitProduct = RetrofitInstanceProduct.getInstance().getRetrofit();
@@ -511,6 +518,45 @@ public class ProductRepository {
                 Comment items = response.body();
 
                 mCommentLiveData.postValue(items);
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                Log.e(TAG, t.getMessage(), t);
+            }
+        });
+    }
+
+    public void fetchOneCommentAsync(int commentId) {
+        Call<Comment> call =
+                mAPIServiceComment.getCommentWithId(commentId,NetWorkParams.getAddCommentOfProduct());
+
+        call.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                Comment items = response.body();
+
+                mLiveDataOneComment.postValue(items);
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                Log.e(TAG, t.getMessage(), t);
+            }
+        });
+    }
+
+    public void fetchPUTCommentAsync(Comment comment) {
+        Call<Comment> call =
+                mAPIServiceComment.putCommentWithId(comment,comment.getId(),
+                        NetWorkParams.getAddCommentOfProduct());
+
+        call.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                Comment items = response.body();
+
+                mLiveDataPUTComment.postValue(items);
             }
 
             @Override

@@ -125,7 +125,7 @@ public class AddCommentFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 if (validateInput()) {
-                    Comment comment = new Comment(mRandom.nextInt(),
+                    Comment comment = new Comment(mRandom.nextInt(),mProductId,
                             new Date().toString(), mAddCommentBinding.nameInsert.getText().toString(),
                             mAddCommentBinding.emailInsert.getText().toString(),
                             mAddCommentBinding.commentInsert.getText().toString(),

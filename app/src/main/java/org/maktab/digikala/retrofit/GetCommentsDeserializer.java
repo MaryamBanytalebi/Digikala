@@ -21,6 +21,7 @@ public class GetCommentsDeserializer implements JsonDeserializer<Comment> {
 
         JsonObject bodyObject = json.getAsJsonObject();
         int id = bodyObject.get("id").getAsInt();
+        int product_id = bodyObject.get("product_id").getAsInt();
         String date_created_gmt = bodyObject.get("date_created_gmt").getAsString();
         String reviewer = bodyObject.get("reviewer").getAsString();
         String reviewer_email = bodyObject.get("reviewer_email").getAsString();
@@ -29,7 +30,7 @@ public class GetCommentsDeserializer implements JsonDeserializer<Comment> {
         boolean verified = bodyObject.get("verified").getAsBoolean();
 
 
-        comment = new Comment(id,date_created_gmt,reviewer,reviewer_email,review,rating,verified);
+        comment = new Comment(id,product_id,date_created_gmt,reviewer,reviewer_email,review,rating,verified);
 
 
         return comment;

@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.maktab.digikala.adapter.OrderProductAdapter;
+import org.maktab.digikala.databinding.FragmentEditCommentBinding;
 import org.maktab.digikala.databinding.FragmentOrderBinding;
 import org.maktab.digikala.model.BillingAddress;
 import org.maktab.digikala.model.Comment;
@@ -39,6 +40,11 @@ public class OrderViewModel extends AndroidViewModel {
     private List<Product> mProductList;
     private Context mContext;
     private MutableLiveData<Integer> mLiveDataRate = new MutableLiveData<>();
+    private FragmentEditCommentBinding mEditCommentBinding;
+
+    public void setEditCommentBinding(FragmentEditCommentBinding editCommentBinding) {
+        mEditCommentBinding = editCommentBinding;
+    }
 
 
     public OrderViewModel(@NonNull Application application) {
@@ -185,11 +191,38 @@ public class OrderViewModel extends AndroidViewModel {
         mProductRepository.fetchAddCommentAsync(comment);
     }
 
+    public void fetchOneComment(int commentId){
+        mProductRepository.fetchOneCommentAsync(commentId);
+    }
+
+    public void fetchPutComment(Comment comment){
+        mProductRepository.fetchPUTCommentAsync(comment);
+    }
+
+    public MutableLiveData<Comment> getLiveDataPutComment() {
+        return mProductRepository.getLiveDataPUTComment();
+    }
+
     public void onClickAddRate(int rate){
         mLiveDataRate.setValue(rate);
     }
 
     public MutableLiveData<Integer> getLiveDataRate() {
         return mLiveDataRate;
+    }
+
+    public void onClickEditComment(){
+        mEditCommentBinding.name.setEnabled(true);
+        mEditCommentBinding.email.setEnabled(true);
+        mEditCommentBinding.comment.setEnabled(true);
+        mEditCommentBinding.star1Edit.setEnabled(true);
+        mEditCommentBinding.star2Edit.setEnabled(true);
+        mEditCommentBinding.star3Edit.setEnabled(true);
+        mEditCommentBinding.star4Edit.setEnabled(true);
+        mEditCommentBinding.star5Edit.setEnabled(true);
+    }
+
+    public MutableLiveData<Comment> getLiveDataOneComment() {
+        return mProductRepository.getLiveDataOneComment();
     }
 }

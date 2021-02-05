@@ -186,7 +186,7 @@ public class ProductDetailFragment extends VisibleFragment {
     }
 
     private void setCommentAdapter() {
-        mCommentAdapter = new ProductCommentAdapter(this,mProductViewModel);
+        mCommentAdapter = new ProductCommentAdapter(this,mProductViewModel,getActivity());
         mProductDetailBinding.recyclerComment.setAdapter(mCommentAdapter);
     }
 

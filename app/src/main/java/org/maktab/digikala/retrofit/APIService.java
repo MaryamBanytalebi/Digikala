@@ -14,7 +14,9 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
@@ -47,7 +49,15 @@ public interface APIService {
     @POST("products/reviews")
     Call<Comment> addComment(@Body Comment comment, @QueryMap Map<String, String> options);
 
- @FormUrlEncoded
+    @GET("products/reviews/{id}")
+    Call<Comment> getCommentWithId(@Path("id") int id,@QueryMap Map<String, String> options);
+
+    @PUT("products/reviews/{id}")
+    @Headers({ "Content-Type: application/json"})
+    Call<Comment> putCommentWithId(@Body Comment comment,@Path("id") int id,@QueryMap Map<String, String> options);
+
+
+    @FormUrlEncoded
     @POST("customers")
     Call<Customer> customer(@Field("email") String email,
                             @Field("first_name") String first_name, @Field("last_name") String last_name,

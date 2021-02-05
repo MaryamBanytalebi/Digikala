@@ -6,6 +6,8 @@ public class Comment {
 
     @SerializedName("id")
     private int mId;
+    @SerializedName("product_id")
+    private int mProduct_id;
     @SerializedName("date_created_gmt")
     private String mDate_created_gmt;
     @SerializedName("reviewer")
@@ -25,6 +27,14 @@ public class Comment {
 
     public void setId(int id) {
         mId = id;
+    }
+
+    public int getProduct_id() {
+        return mProduct_id;
+    }
+
+    public void setProduct_id(int product_id) {
+        mProduct_id = product_id;
     }
 
     public String getDate_created_gmt() {
@@ -75,9 +85,10 @@ public class Comment {
         mVerified = verified;
     }
 
-    public Comment(int id, String date_created_gmt, String reviewer, String reviewer_email,
+    public Comment(int id, int product_id, String date_created_gmt, String reviewer, String reviewer_email,
                    String review, int rating, boolean verified) {
         mId = id;
+        mProduct_id = product_id;
         mDate_created_gmt = date_created_gmt;
         mReviewer = reviewer;
         mReviewer_email = reviewer_email;

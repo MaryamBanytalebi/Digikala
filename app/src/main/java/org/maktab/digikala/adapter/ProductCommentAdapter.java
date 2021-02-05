@@ -1,5 +1,6 @@
 package org.maktab.digikala.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -17,10 +18,12 @@ public class ProductCommentAdapter extends RecyclerView.Adapter<ProductCommentAd
 
     private final ProductViewModel mProductViewModel;
     private final LifecycleOwner mOwner;
+    private Context mContext;
 
-    public ProductCommentAdapter(LifecycleOwner owner, ProductViewModel productViewModel) {
+    public ProductCommentAdapter(LifecycleOwner owner, ProductViewModel productViewModel, Context context) {
         mOwner = owner;
         mProductViewModel = productViewModel;
+        mContext = context;
     }
 
     @Override
