@@ -199,6 +199,10 @@ public class OrderViewModel extends AndroidViewModel {
         mProductRepository.fetchPUTCommentAsync(comment);
     }
 
+    public void fetchDeleteComment(int commentId){
+        mProductRepository.fetchDeleteCommentAsync(commentId);
+    }
+
     public MutableLiveData<Comment> getLiveDataPutComment() {
         return mProductRepository.getLiveDataPUTComment();
     }

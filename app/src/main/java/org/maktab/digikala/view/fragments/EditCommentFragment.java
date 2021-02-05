@@ -25,6 +25,8 @@ import org.maktab.digikala.viewmodel.OrderViewModel;
 public class EditCommentFragment extends Fragment {
 
     public static final String BUNDLE_EDIT_COMMENT = "Bundle_edit_comment";
+    public static final String FRAGMENT_TAG_DELETE_COMMENT = "DeleteComment";
+    public static final int REQUEST_CODE_DELETE_COMMENT = 0;
     private int mCommentId;
     private FragmentEditCommentBinding mEditCommentBinding;
     private OrderViewModel mOrderViewModel;
@@ -150,6 +152,27 @@ public class EditCommentFragment extends Fragment {
                     mComment.setRating(mRate);
                     mOrderViewModel.fetchPutComment(mComment);
                     getActivity().finish();
+                }
+                else {
+                    checkInput();
+                }
+            }
+        });
+
+        mEditCommentBinding.btnDeleteEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (validateInput()) {
+                    DeleteCommentFragment deleteCommentFragment = DeleteCommentFragment.newInstance(mCommentId);
+
+                    deleteCommentFragment.setTargetFragment(
+                            EditCommentFragment.this,
+                            REQUEST_CODE_DELETE_COMMENT);
+
+                    deleteCommentFragment.show(
+                            getActivity().getSupportFragmentManager(),
+                            FRAGMENT_TAG_DELETE_COMMENT);
                 }
                 else {
                     checkInput();

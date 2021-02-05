@@ -71,5 +71,9 @@
     <string name="edit_comment">Edit comment:</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="delete_comment">Are you sure?</string>
+    <string name="delete_comment_title">Delete Comment:</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>

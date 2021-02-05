@@ -32,6 +32,8 @@ public class NetWorkParams {
     public static final String PAGE = "page";
     public static final String TOTAL_SALES = "total_sales";
     public static final String PRODUCT = "product";
+    public static final String FORCE = "force";
+    public static final String TRUE = "true";
 
     public static final Map<String, String> BASE_OPTIONS = new HashMap<String, String>() {{
         put("consumer_key", CONSUMER_KEY);
@@ -169,6 +171,14 @@ public class NetWorkParams {
     public static Map<String, String> getAddCommentOfProduct() {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
+
+        return products;
+    }
+
+    public static Map<String, String> deleteCommentOfProduct() {
+        Map<String, String> products = new HashMap<>();
+        products.putAll(BASE_OPTIONS);
+        products.put(FORCE, TRUE);
 
         return products;
     }
