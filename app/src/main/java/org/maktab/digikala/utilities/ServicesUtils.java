@@ -23,11 +23,15 @@ public class ServicesUtils {
     private static LiveData<SalesReport> sSalesReportLiveData;
 
     public static void pollAndShowNotification(Context context, String tag) {
-//        String query = QueryPreferences.getSearchQuery(context);
         ProductRepository productrepository = new ProductRepository();
         List<SalesReport> salesReports = productrepository.fetchSalesReport();
-        SalesReport salesReport = salesReports.get(0);
 
+        if (salesReports == null) {
+            Log.d(tag, "Items from server not fetched");
+            return;
+        }
+
+        SalesReport salesReport = salesReports.get(0);
 
         String serverId = String.valueOf(salesReport.getTotalItems());
         String lastSavedId = QueryPreferences.getNumberOfProduct(context);
