@@ -226,8 +226,4 @@ public class SettingViewModel extends AndroidViewModel {
     public void deleteLocationAddress(MapAddress mapAddress){
         mRepository.deleteAddress(mapAddress);
     }
-
-    public void insertLocationAddress(MapAddress mapAddress){
-        mRepository.insertAddress(mapAddress);
-    }
 }

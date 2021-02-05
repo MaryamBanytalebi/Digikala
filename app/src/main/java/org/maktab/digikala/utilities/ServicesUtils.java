@@ -15,6 +15,8 @@ import org.maktab.digikala.model.SalesReport;
 import org.maktab.digikala.repository.ProductRepository;
 import org.maktab.digikala.view.activities.HomePageActivity;
 
+import java.util.List;
+
 public class ServicesUtils {
 
     private static final int NOTIFICATION_ID = 1;
@@ -22,10 +24,12 @@ public class ServicesUtils {
 
     public static void pollAndShowNotification(Context context, String tag) {
 //        String query = QueryPreferences.getSearchQuery(context);
+        ProductRepository productrepository = new ProductRepository();
+        List<SalesReport> salesReports = productrepository.fetchSalesReport();
+        SalesReport salesReport = salesReports.get(0);
 
-        ProductRepository repository = new ProductRepository();
 
-        String serverId = "7";
+        String serverId = String.valueOf(salesReport.getTotalItems());
         String lastSavedId = QueryPreferences.getNumberOfProduct(context);
         if (!serverId.equals(lastSavedId)) {
             Log.d(tag, "show notification");

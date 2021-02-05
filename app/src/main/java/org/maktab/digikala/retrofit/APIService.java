@@ -37,7 +37,7 @@ public interface APIService {
     Call<List<Product>> topSellers(@QueryMap Map<String, String> options);
 
     @GET("reports/sales")
-    Call<SalesReport> sales(@QueryMap Map<String, String> options);
+    Call<List<SalesReport>> sales(@QueryMap Map<String, String> options);
 
     @FormUrlEncoded
     @POST("customers")

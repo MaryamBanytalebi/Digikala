@@ -155,8 +155,19 @@ public class ProductRepository {
         mPage = page;
     }
 
+    public List<SalesReport> fetchSalesReport() {
+        Call<List<SalesReport>> call = mAPIServiceSalesReport.sales(NetWorkParams.getTotalItemsSalesProducts());
+        try {
+            Response<List<SalesReport>> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            Log.e(TAG, e.getMessage(), e);
+            return null;
+        }
+    }
+
     //This method can be run on background Thread
-    public SalesReport fetchProductItems(){
+    /*public SalesReport fetchProductItems(){
         Call<SalesReport> call = mAPIServiceListOfProduct.sales(NetWorkParams.getTotalItemsSalesProducts());
         try {
             Response<SalesReport> response = call.execute();
@@ -165,7 +176,7 @@ public class ProductRepository {
             Log.e(TAG, e.getMessage(), e);
             return null;
         }
-    }
+    }*/
 
     public void fetchProductItemsAsync(String page){
         Call<List<Product>> call = mAPIServiceListOfProduct.Products(NetWorkParams.getProduct(page));
@@ -453,7 +464,7 @@ public class ProductRepository {
         });
     }
 
-    public void fetchTotalItemsSalesItemsAsync() {
+   /* public void fetchTotalItemsSalesItemsAsync() {
         Call<SalesReport> call =
                 mAPIServiceProduct.sales(NetWorkParams.getTotalItemsSalesProducts());
 
@@ -470,5 +481,5 @@ public class ProductRepository {
                 Log.e(TAG, t.getMessage(), t);
             }
         });
-    }
+    }*/
 }
