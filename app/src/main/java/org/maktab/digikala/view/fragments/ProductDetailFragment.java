@@ -16,8 +16,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.maktab.digikala.R;
+import org.maktab.digikala.adapter.ProductCommentAdapter;
 import org.maktab.digikala.adapter.ProductDetailAdapter;
 import org.maktab.digikala.databinding.FragmentProductDetailBinding;
+import org.maktab.digikala.model.Comment;
 import org.maktab.digikala.model.Images;
 import org.maktab.digikala.model.Order;
 import org.maktab.digikala.model.Product;
@@ -33,7 +35,9 @@ public class ProductDetailFragment extends VisibleFragment {
 
     private int mProductId;
     private ProductDetailAdapter mDetailAdapter;
+    private ProductCommentAdapter mCommentAdapter;
     private LiveData<Product> mProductLiveData;
+    private LiveData<List<Comment>> mCommentLiveData;
     private FragmentProductDetailBinding mProductDetailBinding;
     private ProductViewModel mProductViewModel;
     private OrderViewModel mOrderViewModel;
@@ -138,7 +142,9 @@ public class ProductDetailFragment extends VisibleFragment {
     private void getProductFromProductViewModel() {
         mProductViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         mProductViewModel.fetchProductItems(mProductId);
+        mProductViewModel.fetchComment(String.valueOf(mProductId));
         mProductLiveData = mProductViewModel.getLiveDateProduct();
+        mCommentLiveData = mProductViewModel.getLiveDateComment();
     }
 
     private void setObserver() {
@@ -156,6 +162,21 @@ public class ProductDetailFragment extends VisibleFragment {
 
             }
         });
+
+        mCommentLiveData.observe(this, new Observer<List<Comment>>() {
+            @Override
+            public void onChanged(List<Comment> comments) {
+                if (comments != null) {
+                    mProductViewModel.setCommentList(comments);
+                    setCommentAdapter();
+                }
+            }
+        });
+    }
+
+    private void setCommentAdapter() {
+        mCommentAdapter = new ProductCommentAdapter(this,mProductViewModel);
+        mProductDetailBinding.recyclerComment.setAdapter(mCommentAdapter);
     }
 
     private void setAdapterProductDetail() {
@@ -165,6 +186,11 @@ public class ProductDetailFragment extends VisibleFragment {
 
     private void initView() {
         mProductDetailBinding.recyclerProductDetail
+                .setLayoutManager(new LinearLayoutManager(getContext(),
+                        LinearLayoutManager.HORIZONTAL,
+                        false));
+
+        mProductDetailBinding.recyclerComment
                 .setLayoutManager(new LinearLayoutManager(getContext(),
                         LinearLayoutManager.HORIZONTAL,
                         false));

@@ -64,5 +64,8 @@
     <string name="edit">Edit</string>
     <string name="products">Products</string>
 
+    <string name="user_comments">User comments:</string>
+    <string name="add_comment">Add comment</string>
+
 
 </resources>

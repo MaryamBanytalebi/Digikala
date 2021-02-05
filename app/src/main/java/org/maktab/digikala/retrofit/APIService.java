@@ -1,5 +1,6 @@
 package org.maktab.digikala.retrofit;
 
+import org.maktab.digikala.model.Comment;
 import org.maktab.digikala.model.Customer;
 import org.maktab.digikala.model.Product;
 import org.maktab.digikala.model.ProductCategory;
@@ -38,6 +39,9 @@ public interface APIService {
 
     @GET("reports/sales")
     Call<List<SalesReport>> sales(@QueryMap Map<String, String> options);
+
+    @GET("products/reviews")
+    Call<List<Comment>> comments(@QueryMap Map<String, String> options);
 
     @FormUrlEncoded
     @POST("customers")

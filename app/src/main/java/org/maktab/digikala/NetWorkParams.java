@@ -31,9 +31,7 @@ public class NetWorkParams {
     public static final String META_VALUE_NUM = "price";
     public static final String PAGE = "page";
     public static final String TOTAL_SALES = "total_sales";
-
-
-
+    public static final String PRODUCT = "product";
 
     public static final Map<String, String> BASE_OPTIONS = new HashMap<String, String>() {{
         put("consumer_key", CONSUMER_KEY);
@@ -146,14 +144,6 @@ public class NetWorkParams {
         return products;
     }
 
-    public static Uri getPhotoPageUri(Images images) {
-        Uri uri = Uri.parse(images.getSrc())
-                .buildUpon()
-                .build();
-
-        return uri;
-    }
-
     public static Map<String, String> getMainAddress() {
         Map<String, String> products = new HashMap<>();
         products.putAll(BASE_OPTIONS);
@@ -166,5 +156,21 @@ public class NetWorkParams {
         products.putAll(BASE_OPTIONS);
 
         return products;
+    }
+
+    public static Map<String, String> getCommentOfProduct(String productId) {
+        Map<String, String> products = new HashMap<>();
+        products.putAll(BASE_OPTIONS);
+        products.put(PRODUCT, productId);
+
+        return products;
+    }
+
+    public static Uri getPhotoPageUri(Images images) {
+        Uri uri = Uri.parse(images.getSrc())
+                .buildUpon()
+                .build();
+
+        return uri;
     }
 }

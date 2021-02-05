@@ -5,12 +5,14 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import org.maktab.digikala.NetWorkParams;
+import org.maktab.digikala.model.Comment;
 import org.maktab.digikala.model.Customer;
 import org.maktab.digikala.model.Product;
 import org.maktab.digikala.model.ProductCategory;
 import org.maktab.digikala.model.SalesReport;
 import org.maktab.digikala.retrofit.APIService;
 import org.maktab.digikala.retrofit.RetrofitInstanceCategory;
+import org.maktab.digikala.retrofit.RetrofitInstanceComments;
 import org.maktab.digikala.retrofit.RetrofitInstanceCustomer;
 import org.maktab.digikala.retrofit.RetrofitInstanceListOfProduct;
 import org.maktab.digikala.retrofit.RetrofitInstanceProduct;
@@ -28,11 +30,12 @@ public class ProductRepository {
 
     public static final String TAG = "product repository";
 
-    private APIService mAPIServiceProduct;
-    private APIService mAPIServiceListOfProduct;
-    private APIService mAPIServiceCategory;
-    private APIService mAPIServiceCustomer;
-    private APIService mAPIServiceSalesReport;
+    private final APIService mAPIServiceProduct;
+    private final APIService mAPIServiceListOfProduct;
+    private final APIService mAPIServiceCategory;
+    private final APIService mAPIServiceCustomer;
+    private final APIService mAPIServiceSalesReport;
+    private final APIService mAPIServiceComment;
 
     private String mPage;
     private static int mSort;
@@ -54,6 +57,7 @@ public class ProductRepository {
     private MutableLiveData<SalesReport> mSalesReportMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Customer> mCustomerLiveData = new MutableLiveData<>();
     private MutableLiveData<Product> mProductLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Comment>> mLiveDataComment = new MutableLiveData<>();
 
     public static int getSort() {
         return mSort;
@@ -127,6 +131,10 @@ public class ProductRepository {
         return mCustomerLiveData;
     }
 
+    public MutableLiveData<List<Comment>> getLiveDataComment() {
+        return mLiveDataComment;
+    }
+
     public ProductRepository() {
 
         Retrofit retrofitProduct = RetrofitInstanceProduct.getInstance().getRetrofit();
@@ -143,6 +151,9 @@ public class ProductRepository {
 
         Retrofit retrofitSalesReport = RetrofitInstanceSales.getInstance().getRetrofit();
         mAPIServiceSalesReport = retrofitSalesReport.create(APIService.class);
+
+        Retrofit retrofitComment = RetrofitInstanceComments.getInstance().getRetrofit();
+        mAPIServiceComment = retrofitComment.create(APIService.class);
         mPage = "1";
 
     }
@@ -459,6 +470,25 @@ public class ProductRepository {
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.e(TAG, t.getMessage(), t);
+            }
+        });
+    }
+
+    public void fetchCommentAsync(String productId) {
+        Call<List<Comment>> call =
+                mAPIServiceComment.comments(NetWorkParams.getCommentOfProduct(productId));
+
+        call.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                List<Comment> items = response.body();
+
+                mLiveDataComment.postValue(items);
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
                 Log.e(TAG, t.getMessage(), t);
             }
         });
