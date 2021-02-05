@@ -5,6 +5,11 @@
 
     <data>
 
+        <variable
+            name="orderViewModel"
+            type="org.maktab.digikala.viewmodel.OrderViewModel" />
+
+
     </data>
 
     <RelativeLayout
@@ -68,7 +73,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/ic_star_border" />
+                android:src="@drawable/ic_star_border"
+                android:onClick="@{() -> orderViewModel.onClickAddRate(1)}" />
 
             <ImageView
                 android:id="@+id/star2"
@@ -78,7 +84,8 @@
                 app:layout_constraintStart_toEndOf="@id/star1"
                 app:layout_constraintEnd_toStartOf="@id/star3"
                 android:layout_weight="1"
-                android:src="@drawable/ic_star_border" />
+                android:src="@drawable/ic_star_border"
+                android:onClick="@{() -> orderViewModel.onClickAddRate(2)}"/>
 
             <ImageView
                 android:id="@+id/star3"
@@ -88,7 +95,8 @@
                 app:layout_constraintEnd_toStartOf="@id/star4"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_weight="1"
-                android:src="@drawable/ic_star_border" />
+                android:src="@drawable/ic_star_border"
+                android:onClick="@{() -> orderViewModel.onClickAddRate(3)}"/>
 
             <ImageView
                 android:id="@+id/star4"
@@ -98,7 +106,8 @@
                 app:layout_constraintEnd_toStartOf="@id/star5"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_weight="1"
-                android:src="@drawable/ic_star_border" />
+                android:src="@drawable/ic_star_border"
+                android:onClick="@{() -> orderViewModel.onClickAddRate(4)}"/>
 
             <ImageView
                 android:id="@+id/star5"
@@ -107,7 +116,8 @@
                 app:layout_constraintStart_toEndOf="@id/star4"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_weight="1"
-                android:src="@drawable/ic_star_border" />
+                android:src="@drawable/ic_star_border"
+                android:onClick="@{() -> orderViewModel.onClickAddRate(5)}"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView

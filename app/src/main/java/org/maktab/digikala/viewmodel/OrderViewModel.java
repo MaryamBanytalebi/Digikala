@@ -8,10 +8,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.maktab.digikala.adapter.OrderProductAdapter;
 import org.maktab.digikala.databinding.FragmentOrderBinding;
 import org.maktab.digikala.model.BillingAddress;
+import org.maktab.digikala.model.Comment;
 import org.maktab.digikala.model.Customer;
 import org.maktab.digikala.model.Order;
 import org.maktab.digikala.model.Product;
@@ -35,13 +37,8 @@ public class OrderViewModel extends AndroidViewModel {
     private LiveData<Customer> mCustomerLiveData;
     private LiveData<List<Product>> mProductListLiveData;
     private List<Product> mProductList;
-    private List<Product> mProductListMostVisited;
-    private List<Product> mProductListLatest;
-    private List<Product> mProductListHighestScore;
-    private List<Product> mSearchProduct;
     private Context mContext;
-    public static final int REQUEST_CODE_BUY_FRAGMENT = 0;
-
+    private MutableLiveData<Integer> mLiveDataRate = new MutableLiveData<>();
 
 
     public OrderViewModel(@NonNull Application application) {
@@ -59,7 +56,7 @@ public class OrderViewModel extends AndroidViewModel {
         List<Order> carts = mOrderDBRepository.getOrders();
         for (int i = 0; i < carts.size(); i++) {
             mProductRepository.fetchProductItemsAsync(carts.get(i).getProduct_id());
-            mProductLiveData = mProductRepository.getProductLiveData();
+           // mProductLiveData = mProductRepository.getProductLiveData();
 
         }
 
@@ -182,5 +179,17 @@ public class OrderViewModel extends AndroidViewModel {
                 shippingAddresses);
 
         mProductRepository.postCreateCustomerAsync(customer);
+    }
+
+    public void onClickAddComment(Comment comment){
+        mProductRepository.fetchAddCommentAsync(comment);
+    }
+
+    public void onClickAddRate(int rate){
+        mLiveDataRate.setValue(rate);
+    }
+
+    public MutableLiveData<Integer> getLiveDataRate() {
+        return mLiveDataRate;
     }
 }

@@ -58,6 +58,8 @@ public class ProductRepository {
     private MutableLiveData<Customer> mCustomerLiveData = new MutableLiveData<>();
     private MutableLiveData<Product> mProductLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Comment>> mLiveDataComment = new MutableLiveData<>();
+    private MutableLiveData<Comment> mCommentLiveData = new MutableLiveData<>();
+
 
     public static int getSort() {
         return mSort;
@@ -134,6 +136,11 @@ public class ProductRepository {
     public MutableLiveData<List<Comment>> getLiveDataComment() {
         return mLiveDataComment;
     }
+
+    public MutableLiveData<Comment> getCommentLiveData() {
+        return mCommentLiveData;
+    }
+
 
     public ProductRepository() {
 
@@ -489,6 +496,25 @@ public class ProductRepository {
 
             @Override
             public void onFailure(Call<List<Comment>> call, Throwable t) {
+                Log.e(TAG, t.getMessage(), t);
+            }
+        });
+    }
+
+    public void fetchAddCommentAsync(Comment comment) {
+        Call<Comment> call =
+                mAPIServiceComment.addComment(comment,NetWorkParams.getAddCommentOfProduct());
+
+        call.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                Comment items = response.body();
+
+                mCommentLiveData.postValue(items);
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
                 Log.e(TAG, t.getMessage(), t);
             }
         });
