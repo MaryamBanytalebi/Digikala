@@ -1,5 +1,7 @@
 package org.maktab.digikala.retrofit;
 
+import android.text.Html;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -53,7 +55,7 @@ public class GetListOfProductDeserializer implements JsonDeserializer<List<Produ
             }
 
             Product item = new Product(id,title,price,regularPrice,salePrice,weight,length,width,
-                    height,description,shortDescription,
+                    height, Html.fromHtml(description).toString(),shortDescription,
                     averageRating,ratingCount, total_sales, imagesArray);
             items.add(item);
         }

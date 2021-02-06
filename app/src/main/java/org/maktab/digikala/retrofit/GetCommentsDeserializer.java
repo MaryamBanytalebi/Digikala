@@ -1,5 +1,7 @@
 package org.maktab.digikala.retrofit;
 
+import android.text.Html;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -30,7 +32,8 @@ public class GetCommentsDeserializer implements JsonDeserializer<Comment> {
         boolean verified = bodyObject.get("verified").getAsBoolean();
 
 
-        comment = new Comment(id,product_id,date_created_gmt,reviewer,reviewer_email,review,rating,verified);
+        comment = new Comment(id,product_id,date_created_gmt,reviewer,reviewer_email,
+                Html.fromHtml(review).toString(),rating,verified);
 
 
         return comment;

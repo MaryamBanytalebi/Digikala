@@ -79,6 +79,8 @@ public class MostVisitedProductAdapter extends RecyclerView.Adapter<MostVisitedP
             mItemMostVisitedBinding.textViewNameMostVisited.setText(product.getTitle());
             mItemMostVisitedBinding.textViewPriceMostVisited.setText(product.getPrice());
 
+            if (product.getImages().size()==0)
+                return;
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())
                     .into(mItemMostVisitedBinding.imageMostVisited);

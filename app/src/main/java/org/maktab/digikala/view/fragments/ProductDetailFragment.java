@@ -1,8 +1,11 @@
 package org.maktab.digikala.view.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
@@ -44,7 +47,7 @@ public class ProductDetailFragment extends VisibleFragment {
     private OrderViewModel mOrderViewModel;
     public static final int REQUEST_CODE_ADD_COMMENT = 0;
     public static final String FRAGMENT_TAG_ADD = "AddComment";
-    private MutableLiveData<Comment> mLiveDataPUTComment;
+    //private MutableLiveData<Comment> mLiveDataPUTComment;
 
 
     @NonNull
@@ -90,6 +93,29 @@ public class ProductDetailFragment extends VisibleFragment {
         listeners();
 
         return mProductDetailBinding.getRoot();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK || data == null)
+            return;
+        if (requestCode == REQUEST_CODE_ADD_COMMENT){
+            fetchComment();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mCommentAdapter != null) {
+            fetchComment();
+        }
+    }
+
+    private void fetchComment() {
+        mProductViewModel.fetchComment(String.valueOf(mProductId));
+        mCommentLiveData = mProductViewModel.getLiveDateComment();
     }
 
     private void checkRating(Product product) {
@@ -156,10 +182,11 @@ public class ProductDetailFragment extends VisibleFragment {
     private void getProductFromProductViewModel() {
         mProductViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         mProductViewModel.fetchProductItems(mProductId);
-        mProductViewModel.fetchComment(String.valueOf(mProductId));
+        fetchComment();
+        //.fetchComment(String.valueOf(mProductId));
         mProductLiveData = mProductViewModel.getLiveDateProduct();
-        mCommentLiveData = mProductViewModel.getLiveDateComment();
-        mLiveDataPUTComment = mOrderViewModel.getLiveDataPutComment();
+       /* mCommentLiveData = mProductViewModel.getLiveDateComment();
+        mLiveDataPUTComment = mOrderViewModel.getLiveDataPutComment();*/
 
     }
 
@@ -184,17 +211,12 @@ public class ProductDetailFragment extends VisibleFragment {
             public void onChanged(List<Comment> comments) {
                 if (comments != null) {
                     mProductViewModel.setCommentList(comments);
-                    setCommentAdapter();
-                }
-            }
-        });
-
-        mLiveDataPUTComment.observe(this, new Observer<Comment>() {
-            @Override
-            public void onChanged(Comment comment) {
-                if (comment != null) {
-                    mProductViewModel.fetchComment(String.valueOf(mProductId));
-                    mCommentLiveData = mProductViewModel.getLiveDateComment();
+                    if (mCommentAdapter == null) {
+                        setCommentAdapter();
+                    }
+                    else {
+                        mCommentAdapter.notifyItemRangeChanged(0,comments.size());
+                    }
                 }
             }
         });

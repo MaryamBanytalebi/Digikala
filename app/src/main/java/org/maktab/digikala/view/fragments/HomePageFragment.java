@@ -83,6 +83,47 @@ public class HomePageFragment extends VisibleFragment {
         setObserver();
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        mHomepageBinding = DataBindingUtil.inflate(inflater,
+                R.layout.fragment_homepage,
+                container,
+                false);
+
+        initViews();
+
+        return mHomepageBinding.getRoot();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.home, menu);
+
+        MenuItem searchMenuItem = menu.findItem(R.id.menu_item_search);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        setSearchViewListeners(searchView);
+
+        mMenu = menu;
+        checkNotificationTime(menu);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        checkNotificationTime(mMenu);
+        getProductsFromProductViewModel();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getProductsFromProductViewModel();
+    }
+
     private void getProductsFromProductViewModel() {
         mProductViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         mSettingViewModel = new ViewModelProvider(this).get(SettingViewModel.class);
@@ -153,7 +194,7 @@ public class HomePageFragment extends VisibleFragment {
     }
 
     private void showSlideImage(List<Product> products) {
-        List<SlideModel> slideModels = new ArrayList<>();
+        //List<SlideModel> slideModels = new ArrayList<>();
         for (int i = 0; i < products.size(); i++) {
             String uri = products.get(i).getImages().get(0).getSrc();
             SlideModel slideModel = new SlideModel(uri,i + 1 + "", ScaleTypes.CENTER_CROP);
@@ -170,33 +211,6 @@ public class HomePageFragment extends VisibleFragment {
                 }
             }
         });
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.home, menu);
-
-        MenuItem searchMenuItem = menu.findItem(R.id.menu_item_search);
-        SearchView searchView = (SearchView) searchMenuItem.getActionView();
-        setSearchViewListeners(searchView);
-
-        mMenu = menu;
-        checkNotificationTime(menu);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        checkNotificationTime(mMenu);
-        getProductsFromProductViewModel();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getProductsFromProductViewModel();
     }
 
     private void checkNotificationTime(@NonNull Menu menu) {
@@ -245,20 +259,6 @@ public class HomePageFragment extends VisibleFragment {
                     searchView.setQuery(query, false);
             }
         });
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        mHomepageBinding = DataBindingUtil.inflate(inflater,
-                R.layout.fragment_homepage,
-                container,
-                false);
-
-        initViews();
-
-        return mHomepageBinding.getRoot();
     }
 
     private void initViews() {

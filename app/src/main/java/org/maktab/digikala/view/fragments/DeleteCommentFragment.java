@@ -1,8 +1,10 @@
 package org.maktab.digikala.view.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,6 +31,7 @@ import org.maktab.digikala.viewmodel.OrderViewModel;
  */
 public class DeleteCommentFragment extends DialogFragment {
 
+    public static final String DELETE_RESULT = "DeleteResult";
     private int mCommentId;
     private Comment mComment;
     public static final String BUNDLE_DELETE_COMMENT = "Bundle_edit_comment";
@@ -74,7 +77,9 @@ public class DeleteCommentFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mCartViewModel.fetchDeleteComment(mComment.getId());
-                Toast.makeText(getContext(),mComment.getReviewer(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),mComment.getReviewer() + "'s comment was deleted",
+                        Toast.LENGTH_SHORT).show();
+                sendResult();
                 dismiss();
 
             }
@@ -94,5 +99,16 @@ public class DeleteCommentFragment extends DialogFragment {
 
             }
         });
+    }
+
+    private void sendResult() {
+        Fragment fragment = getTargetFragment();
+
+        int requestCode = getTargetRequestCode();
+        int resultCode = Activity.RESULT_OK;
+        Intent intent = new Intent();
+//        intent.putExtra(DELETE_RESULT,true);
+
+        fragment.onActivityResult(requestCode, resultCode, intent);
     }
 }

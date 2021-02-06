@@ -62,7 +62,8 @@ public class OrderViewModel extends AndroidViewModel {
         List<Order> carts = mOrderDBRepository.getOrders();
         for (int i = 0; i < carts.size(); i++) {
             mProductRepository.fetchProductItemsAsync(carts.get(i).getProduct_id());
-           // mProductLiveData = mProductRepository.getProductLiveData();
+            //mProductLiveData = mProductRepository.getProductLiveData();
+
 
         }
 
@@ -203,9 +204,9 @@ public class OrderViewModel extends AndroidViewModel {
         mProductRepository.fetchDeleteCommentAsync(commentId);
     }
 
-    public MutableLiveData<Comment> getLiveDataPutComment() {
+    /*public MutableLiveData<Comment> getLiveDataPutComment() {
         return mProductRepository.getLiveDataPUTComment();
-    }
+    }*/
 
     public void onClickAddRate(int rate){
         mLiveDataRate.setValue(rate);

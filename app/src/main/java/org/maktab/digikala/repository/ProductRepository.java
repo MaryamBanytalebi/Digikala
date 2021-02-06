@@ -37,7 +37,7 @@ public class ProductRepository {
     private final APIService mAPIServiceSalesReport;
     private final APIService mAPIServiceComment;
 
-    private String mPage;
+    //private String mPage;
     private static int mSort;
 
     private MutableLiveData<List<Product>> mMostVisitedProductsLiveData = new MutableLiveData<>();
@@ -63,10 +63,6 @@ public class ProductRepository {
     private MutableLiveData<Comment> mLiveDataPUTComment = new MutableLiveData<>();
     private MutableLiveData<Comment> mLiveDataDeleteComment = new MutableLiveData<>();
 
-    public MutableLiveData<Comment> getLiveDataDeleteComment() {
-        return mLiveDataDeleteComment;
-    }
-
     public static int getSort() {
         return mSort;
     }
@@ -87,9 +83,9 @@ public class ProductRepository {
         return mHighestScoreProductsLiveData;
     }
 
-    public MutableLiveData<List<Product>> getProductItemsLiveData() {
+    /*public MutableLiveData<List<Product>> getProductItemsLiveData() {
         return mProductItemsLiveData;
-    }
+    }*/
 
     public MutableLiveData<Product> getProductLiveData() {
         return mProductLiveData;
@@ -147,13 +143,18 @@ public class ProductRepository {
         return mCommentLiveData;
     }
 
-    public MutableLiveData<Comment> getLiveDataPUTComment() {
-        return mLiveDataPUTComment;
-    }
-
     public MutableLiveData<Comment> getLiveDataOneComment() {
         return mLiveDataOneComment;
     }
+
+    /*public MutableLiveData<Comment> getLiveDataPUTComment() {
+        return mLiveDataPUTComment;
+    }
+
+    public MutableLiveData<Comment> getLiveDataDeleteComment() {
+        return mLiveDataDeleteComment;
+    }*/
+
     public ProductRepository() {
 
         Retrofit retrofitProduct = RetrofitInstanceProduct.getInstance().getRetrofit();
@@ -173,17 +174,17 @@ public class ProductRepository {
 
         Retrofit retrofitComment = RetrofitInstanceComments.getInstance().getRetrofit();
         mAPIServiceComment = retrofitComment.create(APIService.class);
-        mPage = "1";
+        //mPage = "1";
 
     }
 
-    public String getPage() {
+    /*public String getPage() {
         return mPage;
     }
 
     public void setPage(String page) {
         mPage = page;
-    }
+    }*/
 
     public List<SalesReport> fetchSalesReport() {
         Call<List<SalesReport>> call = mAPIServiceSalesReport.sales(NetWorkParams.getTotalItemsSalesProducts());
@@ -515,7 +516,9 @@ public class ProductRepository {
 
     public void fetchAddCommentAsync(Comment comment) {
         Call<Comment> call =
-                mAPIServiceComment.addComment(comment,NetWorkParams.getAddCommentOfProduct());
+                mAPIServiceComment.addComment(comment.getProduct_id(),comment.getReview()
+                        ,comment.getReviewer(),comment.getReviewer_email(),comment.getRating(),
+                        NetWorkParams.getAddCommentOfProduct());
 
         call.enqueue(new Callback<Comment>() {
             @Override

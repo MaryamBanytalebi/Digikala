@@ -83,6 +83,8 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
             mItemLatestBinding.textViewNameLatest.setText(product.getTitle());
 
             //mBinding.setProduct(product);
+            if (product.getImages().size()==0)
+                return;
             Picasso.get()
                     .load(product.getImages().get(0).getSrc())
                     .into(mItemLatestBinding.imageLatest);

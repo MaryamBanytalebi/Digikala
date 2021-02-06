@@ -1,7 +1,10 @@
 package org.maktab.digikala.view.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
@@ -60,6 +63,31 @@ public class EditCommentFragment extends Fragment {
         mLiveDataRate = mOrderViewModel.getLiveDataRate();
         observer();
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        mEditCommentBinding = DataBindingUtil.inflate(inflater,
+                R.layout.fragment_edit_comment,
+                container,
+                false );
+
+        mEditCommentBinding.setCartViewModel(mOrderViewModel);
+        mOrderViewModel.setEditCommentBinding(mEditCommentBinding);
+        listeners();
+        return mEditCommentBinding.getRoot();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK || data == null)
+            return;
+        if (requestCode == REQUEST_CODE_DELETE_COMMENT){
+            getActivity().finish();
+        }
     }
 
     private void observer() {
@@ -126,36 +154,17 @@ public class EditCommentFragment extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        mEditCommentBinding = DataBindingUtil.inflate(inflater,
-                R.layout.fragment_edit_comment,
-                container,
-                false );
-
-        mEditCommentBinding.setCartViewModel(mOrderViewModel);
-        mOrderViewModel.setEditCommentBinding(mEditCommentBinding);
-        listeners();
-        return mEditCommentBinding.getRoot();
-    }
-
     private void listeners() {
         mEditCommentBinding.btnSaveEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validateInput()) {
+
                     mComment.setReviewer(mEditCommentBinding.name.getText().toString());
                     mComment.setReviewer_email(mEditCommentBinding.email.getText().toString());
                     mComment.setReview(mEditCommentBinding.comment.getText().toString());
                     mComment.setRating(mRate);
                     mOrderViewModel.fetchPutComment(mComment);
                     getActivity().finish();
-                }
-                else {
-                    checkInput();
-                }
             }
         });
 

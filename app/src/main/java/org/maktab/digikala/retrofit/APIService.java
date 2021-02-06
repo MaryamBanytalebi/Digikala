@@ -47,8 +47,8 @@ public interface APIService {
     @GET("products/reviews")
     Call<List<Comment>> comments(@QueryMap Map<String, String> options);
 
-    @POST("products/reviews")
-    Call<Comment> addComment(@Body Comment comment, @QueryMap Map<String, String> options);
+    /*@POST("products/reviews")
+    Call<Comment> addComment(@Body Comment comment, @QueryMap Map<String, String> options);*/
 
     @GET("products/reviews/{id}")
     Call<Comment> getCommentWithId(@Path("id") int id,@QueryMap Map<String, String> options);
@@ -60,8 +60,18 @@ public interface APIService {
     @DELETE("products/reviews/{id}")
     Call<Comment> deleteCommentWithId(@Path("id") int id,@QueryMap Map<String, String> options);
 
+   /* @FormUrlEncoded
+    @POST("customers")
+    Call<Customer> customer(@Body Customer customer,@QueryMap Map<String, String> options);*/
 
- @FormUrlEncoded
+
+    @FormUrlEncoded
+    @POST("products/reviews")
+    Call<Comment> addComment(@Field("product_id") int product_id,@Field("review") String review,
+                             @Field("reviewer") String reviewer,@Field("reviewer_email") String reviewer_email,
+                             @Field("rating") int rating,@QueryMap Map<String, String> options);
+
+    @FormUrlEncoded
     @POST("customers")
     Call<Customer> customer(@Field("email") String email,
                             @Field("first_name") String first_name, @Field("last_name") String last_name,
