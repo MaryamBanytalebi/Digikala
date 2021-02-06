@@ -131,6 +131,10 @@ public class Product {
         return mImages;
     }
 
+    public void setImages(List<Images> images) {
+        mImages = images;
+    }
+
     public void setId(int id) {
         mId = id;
     }
@@ -207,7 +211,4 @@ public class Product {
         mTotal_sales = total_sales;
     }
 
-    public void setImages(List<Images> images) {
-        mImages = images;
-    }
 }

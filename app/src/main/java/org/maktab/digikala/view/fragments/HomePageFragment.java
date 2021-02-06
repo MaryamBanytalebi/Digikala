@@ -115,13 +115,25 @@ public class HomePageFragment extends VisibleFragment {
     public void onPause() {
         super.onPause();
         checkNotificationTime(mMenu);
-        getProductsFromProductViewModel();
+        //getProductsFromProductViewModel();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         getProductsFromProductViewModel();
+    }
+
+    private void checkNotificationTime(@NonNull Menu menu) {
+        MenuItem togglePollingItem = menu.findItem(R.id.menu_item_poll_toggling);
+        if (mProductViewModel.isTaskScheduled()) {
+            togglePollingItem.setIcon(R.drawable.ic_notifications_off);
+        } else {
+            togglePollingItem.setIcon(R.drawable.ic_notifications_active);
+        }
+        if (mSettingViewModel.getNotificationTime() == 0){
+            mSettingViewModel.setNotificationTime(3);
+        }
     }
 
     private void getProductsFromProductViewModel() {
@@ -151,7 +163,7 @@ public class HomePageFragment extends VisibleFragment {
             public void onChanged(List<Product> products) {
                 mProductViewModel.setProductListMostVisited(products);
                 setAdapterMostVisited();
-                showSlideImage(products);
+                //showSlideImage(products);
             }
         });
         mLatestProductItemsLiveData.observe(this, new Observer<List<Product>>() {
@@ -211,18 +223,6 @@ public class HomePageFragment extends VisibleFragment {
                 }
             }
         });
-    }
-
-    private void checkNotificationTime(@NonNull Menu menu) {
-        MenuItem togglePollingItem = menu.findItem(R.id.menu_item_poll_toggling);
-        if (mProductViewModel.isTaskScheduled()) {
-            togglePollingItem.setIcon(R.drawable.ic_notifications_off);
-        } else {
-            togglePollingItem.setIcon(R.drawable.ic_notifications_active);
-        }
-        if (mSettingViewModel.getNotificationTime() == 0){
-            mSettingViewModel.setNotificationTime(3);
-        }
     }
 
     @Override
