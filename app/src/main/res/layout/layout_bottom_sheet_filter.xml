@@ -89,64 +89,40 @@
                             android:layout_height="match_parent">
 
                             <RadioButton
-                                android:id="@+id/white"
+                                android:id="@+id/blue"
                                 android:layout_width="match_parent"
                                 android:layout_height="55dp"
                                 android:text="White" />
 
                             <RadioButton
-                                android:id="@+id/black"
+                                android:id="@+id/white"
                                 android:layout_width="match_parent"
                                 android:layout_height="55dp"
                                 android:text="Black" />
 
                             <RadioButton
-                                android:id="@+id/brown"
+                                android:id="@+id/pink"
                                 android:layout_width="match_parent"
                                 android:layout_height="56dp"
                                 android:text="Brown" />
 
                             <RadioButton
-                                android:id="@+id/red"
+                                android:id="@+id/coral"
                                 android:layout_width="match_parent"
                                 android:layout_height="56dp"
                                 android:text="Red" />
 
                             <RadioButton
-                                android:id="@+id/orange"
+                                android:id="@+id/black"
                                 android:layout_width="match_parent"
                                 android:layout_height="57dp"
                                 android:text="Orange" />
 
                             <RadioButton
-                                android:id="@+id/yellow"
+                                android:id="@+id/orange"
                                 android:layout_width="match_parent"
                                 android:layout_height="55dp"
                                 android:text="Yellow" />
-
-                            <RadioButton
-                                android:id="@+id/green"
-                                android:layout_width="match_parent"
-                                android:layout_height="56dp"
-                                android:text="Green" />
-
-                            <RadioButton
-                                android:id="@+id/blue"
-                                android:layout_width="match_parent"
-                                android:layout_height="56dp"
-                                android:text="Blue" />
-
-                            <RadioButton
-                                android:id="@+id/purple"
-                                android:layout_width="match_parent"
-                                android:layout_height="56dp"
-                                android:text="Purple" />
-
-                            <RadioButton
-                                android:id="@+id/pink"
-                                android:layout_width="match_parent"
-                                android:layout_height="57dp"
-                                android:text="Pink" />
 
                             <RadioButton
                                 android:id="@+id/no_filter"
@@ -216,35 +192,7 @@
                             android:layout_height="?attr/actionBarSize"
                             android:layout_alignParentRight="true"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_color_green" />
-
-                        <ImageView
-                            android:id="@+id/color_8"
-                            android:layout_below="@id/color_7"
-                            android:layout_width="?attr/actionBarSize"
-                            android:layout_height="?attr/actionBarSize"
-                            android:layout_alignParentRight="true"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_color_blue"/>
-
-                        <ImageView
-                            android:id="@+id/color_9"
-                            android:layout_below="@id/color_8"
-                            android:layout_width="?attr/actionBarSize"
-                            android:layout_height="?attr/actionBarSize"
-                            android:layout_alignParentRight="true"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_color_purple" />
-
-                        <ImageView
-                            android:id="@+id/color_10"
-                            android:layout_below="@id/color_9"
-                            android:layout_width="?attr/actionBarSize"
-                            android:layout_height="?attr/actionBarSize"
-                            android:layout_alignParentRight="true"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_color_pink" />
-
+                            android:src="@drawable/ic_color_coral" />
 
                     </RelativeLayout>
 

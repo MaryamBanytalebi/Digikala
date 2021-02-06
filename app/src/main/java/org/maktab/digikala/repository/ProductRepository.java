@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import org.maktab.digikala.NetWorkParams;
+import org.maktab.digikala.model.ColorAttribute;
 import org.maktab.digikala.model.Comment;
 import org.maktab.digikala.model.Customer;
 import org.maktab.digikala.model.Product;
@@ -12,6 +13,7 @@ import org.maktab.digikala.model.ProductCategory;
 import org.maktab.digikala.model.SalesReport;
 import org.maktab.digikala.retrofit.APIService;
 import org.maktab.digikala.retrofit.RetrofitInstanceCategory;
+import org.maktab.digikala.retrofit.RetrofitInstanceColor;
 import org.maktab.digikala.retrofit.RetrofitInstanceComments;
 import org.maktab.digikala.retrofit.RetrofitInstanceCustomer;
 import org.maktab.digikala.retrofit.RetrofitInstanceListOfProduct;
@@ -36,6 +38,8 @@ public class ProductRepository {
     private final APIService mAPIServiceCustomer;
     private final APIService mAPIServiceSalesReport;
     private final APIService mAPIServiceComment;
+    private final APIService mAPIServiceColor;
+
 
     //private String mPage;
     private static int mSort;
@@ -54,6 +58,7 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mSpecialProductsLiveData2 = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSpecialProductsLiveData3 = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSortedTotalSalesSearchProductsLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<ColorAttribute>> mLiveDataColor = new MutableLiveData<>();
     private MutableLiveData<SalesReport> mSalesReportMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Customer> mCustomerLiveData = new MutableLiveData<>();
     private MutableLiveData<Product> mProductLiveData = new MutableLiveData<>();
@@ -147,6 +152,10 @@ public class ProductRepository {
         return mLiveDataOneComment;
     }
 
+    public MutableLiveData<List<ColorAttribute>> getLiveDataColor() {
+        return mLiveDataColor;
+    }
+
     /*public MutableLiveData<Comment> getLiveDataPUTComment() {
         return mLiveDataPUTComment;
     }
@@ -174,6 +183,9 @@ public class ProductRepository {
 
         Retrofit retrofitComment = RetrofitInstanceComments.getInstance().getRetrofit();
         mAPIServiceComment = retrofitComment.create(APIService.class);
+
+        Retrofit retrofitColor = RetrofitInstanceColor.getInstance().getRetrofit();
+        mAPIServiceColor = retrofitColor.create(APIService.class);
         //mPage = "1";
 
     }
@@ -427,6 +439,25 @@ public class ProductRepository {
         });
     }
 
+    public void fetchColorAttributeAsync() {
+        Call<List<ColorAttribute>> call =
+                mAPIServiceComment.colors(NetWorkParams.getMainAddress());
+
+        call.enqueue(new Callback<List<ColorAttribute>>() {
+            @Override
+            public void onResponse(Call<List<ColorAttribute>> call, Response<List<ColorAttribute>> response) {
+                List<ColorAttribute> items = response.body();
+
+                mLiveDataColor.postValue(items);
+            }
+
+            @Override
+            public void onFailure(Call<List<ColorAttribute>> call, Throwable t) {
+                Log.e(TAG, t.getMessage(), t);
+            }
+        });
+    }
+
     public void postCreateCustomerAsync(Customer customer) {
         Call<Customer> call =
                 mAPIServiceCustomer.customer(customer.getEmail(),customer.getFirst_name(),
@@ -518,7 +549,7 @@ public class ProductRepository {
         Call<Comment> call =
                 mAPIServiceComment.addComment(comment.getProduct_id(),comment.getReview()
                         ,comment.getReviewer(),comment.getReviewer_email(),comment.getRating(),
-                        NetWorkParams.getAddCommentOfProduct());
+                        NetWorkParams.getMainAddress());
 
         call.enqueue(new Callback<Comment>() {
             @Override
@@ -537,7 +568,7 @@ public class ProductRepository {
 
     public void fetchOneCommentAsync(int commentId) {
         Call<Comment> call =
-                mAPIServiceComment.getCommentWithId(commentId,NetWorkParams.getAddCommentOfProduct());
+                mAPIServiceComment.getCommentWithId(commentId,NetWorkParams.getMainAddress());
 
         call.enqueue(new Callback<Comment>() {
             @Override
@@ -557,7 +588,7 @@ public class ProductRepository {
     public void fetchPUTCommentAsync(Comment comment) {
         Call<Comment> call =
                 mAPIServiceComment.putCommentWithId(comment,comment.getId(),
-                        NetWorkParams.getAddCommentOfProduct());
+                        NetWorkParams.getMainAddress());
 
         call.enqueue(new Callback<Comment>() {
             @Override

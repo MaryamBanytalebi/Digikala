@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.maktab.digikala.model.ColorAttribute;
 import org.maktab.digikala.model.Product;
 import org.maktab.digikala.repository.ProductRepository;
 import org.maktab.digikala.utilities.QueryPreferences;
@@ -59,6 +60,10 @@ public class SearchViewModel extends AndroidViewModel {
         return mRepository.getSortedTopSellersSearchProductsLiveData();
     }
 
+    public LiveData<List<ColorAttribute>> getColorsLiveData() {
+        return mRepository.getLiveDataColor();
+    }
+
     //
     public void onClickListItem(int productId) {
         mContext.startActivity(ProductDetailActivity.newIntent(mContext,productId));
@@ -83,6 +88,10 @@ public class SearchViewModel extends AndroidViewModel {
 
     public void fetchSortedHighToLowSearchItemsAsync(String query) {
         mRepository.fetchSortedHighToLowSearchItemsAsync(query);
+    }
+
+    public void fetchColorAttributeAsync() {
+        mRepository.fetchColorAttributeAsync();
     }
 
     ///

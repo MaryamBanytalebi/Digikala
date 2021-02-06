@@ -1,5 +1,6 @@
 package org.maktab.digikala.retrofit;
 
+import org.maktab.digikala.model.ColorAttribute;
 import org.maktab.digikala.model.Comment;
 import org.maktab.digikala.model.Customer;
 import org.maktab.digikala.model.Product;
@@ -44,7 +45,11 @@ public interface APIService {
     @GET("reports/sales")
     Call<List<SalesReport>> sales(@QueryMap Map<String, String> options);
 
-    @GET("products/reviews")
+    @GET("products/attributes/3/terms")
+    Call<List<ColorAttribute>> colors(@QueryMap Map<String, String> options);
+
+
+ @GET("products/reviews")
     Call<List<Comment>> comments(@QueryMap Map<String, String> options);
 
     /*@POST("products/reviews")
