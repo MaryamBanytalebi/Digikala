@@ -40,6 +40,8 @@ public class Product {
     private int mTotal_sales;
     @SerializedName("images")
     private List<Images> mImages;
+    @SerializedName("attributes")
+    private List<Attributes> mAttributes;
 
     public Product() {
     }
@@ -47,7 +49,8 @@ public class Product {
     public Product(int id, String title, String price, String regularPrice, String salePrice,
                    String weight, String length,
                    String width, String height, String description, String shortDescription,
-                   String averageRating, int ratingCount, int total_sales, List<Images> images) {
+                   String averageRating, int ratingCount, int total_sales, List<Images> images,
+                   List<Attributes> attributes) {
         mId = id;
         mTitle = title;
         mPrice = price;
@@ -65,6 +68,7 @@ public class Product {
         mRatingCount = ratingCount;
         mTotal_sales = total_sales;
         mImages = images;
+        mAttributes = attributes;
     }
 
     public int getId() {
@@ -209,6 +213,14 @@ public class Product {
 
     public void setTotal_sales(int total_sales) {
         mTotal_sales = total_sales;
+    }
+
+    public List<Attributes> getAttributes() {
+        return mAttributes;
+    }
+
+    public void setAttributes(List<Attributes> attributes) {
+        mAttributes = attributes;
     }
 
 }

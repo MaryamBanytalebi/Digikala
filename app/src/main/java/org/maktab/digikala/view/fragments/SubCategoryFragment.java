@@ -42,6 +42,7 @@ public class SubCategoryFragment extends VisibleFragment {
     private CategoryViewModel mCategoryViewModel;
     private int mParentId;
     private int mProductId;
+
     private FragmentSubCategoryBinding mSubCategoryBinding;
 
     public SubCategoryFragment() {
@@ -81,7 +82,7 @@ public class SubCategoryFragment extends VisibleFragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                startActivity(SearchActivity.newIntent(getActivity(),query,"cateegory"));
+                startActivity(SearchActivity.newIntent(getActivity(),query,"cateegory",String.valueOf(mProductId)));
                 return true;
             }
 

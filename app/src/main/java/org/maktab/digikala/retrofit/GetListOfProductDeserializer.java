@@ -9,6 +9,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
+import org.maktab.digikala.model.Attributes;
 import org.maktab.digikala.model.Images;
 import org.maktab.digikala.model.Product;
 
@@ -54,9 +55,26 @@ public class GetListOfProductDeserializer implements JsonDeserializer<List<Produ
                 imagesArray.add(images);
             }
 
+            JsonArray attributesArray = productObject.get("attributes").getAsJsonArray();
+            List<Attributes> attributesList = new ArrayList<>();
+            for (int j = 0; j < attributesArray.size(); j++) {
+                JsonObject attributeObject = attributesArray.get(j).getAsJsonObject();
+                int attributeId = attributeObject.get("id").getAsInt();
+                String attributeName = attributeObject.get("name").getAsString();
+                int attributePosition = attributeObject.get("position").getAsInt();
+                JsonArray options= attributeObject.get("options").getAsJsonArray();
+                List<String> attributeOptions = new ArrayList<>();
+                for (int k = 0; k < options.size(); k++) {
+                    attributeOptions.add(options.get(k).toString());
+                }
+                Attributes attributes = new Attributes(attributeId,attributeName,attributePosition,
+                        attributeOptions);
+                attributesList.add(attributes);
+            }
+
             Product item = new Product(id,title,price,regularPrice,salePrice,weight,length,width,
                     height, Html.fromHtml(description).toString(),shortDescription,
-                    averageRating,ratingCount, total_sales, imagesArray);
+                    averageRating,ratingCount, total_sales, imagesArray, attributesList);
             items.add(item);
         }
 

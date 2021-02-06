@@ -26,7 +26,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import org.maktab.digikala.R;
 import org.maktab.digikala.databinding.LayoutBottomSheetFilterBinding;
 import org.maktab.digikala.databinding.LayoutBottomSheetFilterCategoryBinding;
+import org.maktab.digikala.model.Attributes;
 import org.maktab.digikala.model.ColorAttribute;
+import org.maktab.digikala.model.Product;
 import org.maktab.digikala.viewmodel.SearchViewModel;
 
 import java.util.ArrayList;
@@ -43,18 +45,20 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
     private LiveData<List<ColorAttribute>> mColorsLiveData;
     private String mColor;
     private List<ColorAttribute> mColorAttributes;
+    private int mProductId;
+    private LiveData<Product> mProductLiveData;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         BottomSheetDialog bottomSheet = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
-
         REQUEST_CODE = getTargetRequestCode();
+        mSearchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         //inflating layout
         if (REQUEST_CODE == 0) {
 
             setLayoutForFilterHome(bottomSheet);
 
-            mSearchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+            //mSearchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
             //aap bar cancel button clicked
             mSearchViewModel.fetchColorAttributeAsync();
             mColorAttributes = new ArrayList<>();
@@ -70,6 +74,11 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
 
         }else {
             setLayoutForFilter(bottomSheet);
+            String id = mSearchViewModel.getProductIdForFilterFromPreferences();
+            mProductId = Integer.parseInt(id);
+            mSearchViewModel.fetchProductItems(mProductId);
+            mProductLiveData = mSearchViewModel.getLiveDateProduct();
+            observerCategory();
             //aap bar cancel button clicked
             listenersForFilterCategory();
 
@@ -88,6 +97,22 @@ public class BottomSheetFilter extends BottomSheetDialogFragment {
                 mColorAttributes.addAll(colorAttributes);
                 setColorToView();
                 updateUI();
+            }
+        });
+    }
+
+    private void observerCategory() {
+        if (mProductLiveData == null)
+            return;
+        mProductLiveData.observe(this, new Observer<Product>() {
+            @Override
+            public void onChanged(Product product) {
+                List<Attributes> attributesList = product.getAttributes();
+                StringBuilder attribute = new StringBuilder();
+                for (int i = 0; i < attributesList.size(); i++) {
+                    attribute.append(attributesList.get(i).getName());
+                }
+                mFilterCategoryBinding.userName.setText(attribute + "Attributes");
             }
         });
     }

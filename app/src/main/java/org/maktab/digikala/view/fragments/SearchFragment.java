@@ -48,12 +48,14 @@ public class SearchFragment extends VisibleFragment {
     public static final String TAG_BOTTOM_SHEET_SORT = "tag_bottom_sheet_sort";
     public static final String REQUEST_CODE = "request_code";
     public static final int REQUEST_CODE_FILTER_CATEGORY = 5;
+    public static final String PRODUCT_ID = "productId";
 
     private ProductViewModel mProductViewModel;
     private SearchProductAdapter mSearchProductAdapter;
     private SearchViewModel mSearchViewModel;
     private String mQuery;
     private String mRequestCode;
+    private String mProductId;
     private FragmentSearchBinding mFragmentSearchBinding;
     private LiveData<List<Product>> mLiveDataSearchProducts;
     private LiveData<List<Product>> mLiveDataSortedLowToHighSearchProducts;
@@ -63,11 +65,12 @@ public class SearchFragment extends VisibleFragment {
     public SearchFragment() {
         // Required empty public constructor
     }
-    public static SearchFragment newInstance(String query,String requestCode) {
+    public static SearchFragment newInstance(String query,String requestCode,String productId) {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
         args.putString(SEARCH_QUERY,query);
         args.putString(REQUEST_CODE,requestCode);
+        args.putString(PRODUCT_ID, productId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,6 +81,7 @@ public class SearchFragment extends VisibleFragment {
         if (getArguments() != null){
             mQuery = getArguments().getString(SEARCH_QUERY);
             mRequestCode = getArguments().getString(REQUEST_CODE);
+            mProductId = getArguments().getString(PRODUCT_ID);
         }
         setHasOptionsMenu(true);
 
@@ -126,12 +130,14 @@ public class SearchFragment extends VisibleFragment {
                     bottomSheetFilter.setTargetFragment(
                             SearchFragment.this,
                             REQUEST_CODE_FILTER_CATEGORY);
+                    mSearchViewModel.setProductIdForFilterInPreferences(mProductId);
                 }else {
                     String color = mSearchViewModel.getColorFromPreferences();
                     if (color != null)
                         mSearchViewModel.setColorInPreferences(color);
                     else
                         mSearchViewModel.setColorInPreferences("");
+                    mSearchViewModel.setProductIdForFilterInPreferences("0");
                     bottomSheetFilter.setTargetFragment(
                             SearchFragment.this,
                             REQUEST_CODE_FILTER);

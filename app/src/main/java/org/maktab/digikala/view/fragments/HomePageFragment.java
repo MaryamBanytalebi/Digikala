@@ -241,7 +241,7 @@ public class HomePageFragment extends VisibleFragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                startActivity(SearchActivity.newIntent(getActivity(),query,"home"));
+                startActivity(SearchActivity.newIntent(getActivity(),query,"home", "0"));
                 return true;
             }
 

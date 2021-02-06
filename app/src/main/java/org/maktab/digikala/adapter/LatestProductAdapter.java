@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import org.maktab.digikala.R;
@@ -83,12 +84,19 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
             mItemLatestBinding.textViewNameLatest.setText(product.getTitle());
 
             //mBinding.setProduct(product);
+            /*if (product.getImages().size() == 0){
+                Glide.with(mItemLatestBinding.getRoot())
+                        .load(R.drawable.ic_image)
+                        .centerCrop()
+                        .placeholder(R.mipmap.ic_launcher)
+                        .into(mItemLatestBinding.imageLatest);
+            }else {*/
             if (product.getImages().size()==0)
                 return;
-            Picasso.get()
-                    .load(product.getImages().get(0).getSrc())
-                    .into(mItemLatestBinding.imageLatest);
 
+                Picasso.get()
+                        .load(product.getImages().get(0).getSrc())
+                        .into(mItemLatestBinding.imageLatest);
         }
     }
 }
