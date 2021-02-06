@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.maktab.digikala.R;
 import org.maktab.digikala.adapter.BuyProductAdapter;
 import org.maktab.digikala.databinding.FragmentBuyBinding;
+import org.maktab.digikala.model.Customer;
 import org.maktab.digikala.model.Product;
 import org.maktab.digikala.view.activities.LocationActivity;
 import org.maktab.digikala.viewmodel.OrderViewModel;
@@ -32,8 +34,9 @@ public class BuyFragment extends Fragment {
 
     private FragmentBuyBinding mBuyBinding;
     private SettingViewModel mSettingViewModel;
-    private OrderViewModel mCartViewModel;
+    private OrderViewModel mOrderViewModel;
     private LiveData<Product> mProductLiveData;
+    private LiveData<Customer> mCustomerLiveData;
     private BuyProductAdapter mBuyProductAdapter;
     private List<Product> mProductList;
 
@@ -57,10 +60,10 @@ public class BuyFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSettingViewModel = new ViewModelProvider(this).get(SettingViewModel.class);
-        mCartViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+        mOrderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
         mProductList = new ArrayList<>();
-        mCartViewModel.getOrderedProduct();
-        mProductLiveData = mCartViewModel.getLiveDateProduct();
+        mOrderViewModel.getOrderedProduct();
+        mProductLiveData = mOrderViewModel.getLiveDateProduct();
         observer();
     }
 
@@ -82,13 +85,13 @@ public class BuyFragment extends Fragment {
             @Override
             public void onChanged(Product product) {
                 mProductList.add(product);
-                mCartViewModel.setProductList(mProductList);
-                mBuyProductAdapter = new BuyProductAdapter(getActivity(), getActivity(), mCartViewModel);
+                mOrderViewModel.setProductList(mProductList);
+                mBuyProductAdapter = new BuyProductAdapter(getActivity(), getActivity(), mOrderViewModel);
                 mBuyBinding.recyclerCart.setAdapter(mBuyProductAdapter);
                 int totalPrice = 0;
                 for (int i = 0; i < mProductList.size(); i++) {
                     int price = Integer.parseInt(mProductList.get(i).getPrice());
-                    int count = mCartViewModel.getCart(mProductList.get(i).getId()).getProduct_count();
+                    int count = mOrderViewModel.getCart(mProductList.get(i).getId()).getProduct_count();
                     totalPrice += (price * count);
                 }
                 mBuyBinding.totalPrice.setText(String.valueOf(totalPrice));
@@ -104,6 +107,21 @@ public class BuyFragment extends Fragment {
                 startActivityForResult(LocationActivity.newIntent(getActivity()), REQUEST_CODE_LOCATION);
             }
         });
+
+        mBuyBinding.buttonContinueBuying.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mSettingViewModel.getSelectedAddress() == null)
+                    Toast.makeText(getContext(), R.string.enter_address, Toast.LENGTH_SHORT).show();
+                else {
+                    mOrderViewModel.onclickBuy();
+                    mCustomerLiveData = mOrderViewModel.getLiveDataCustomer();
+                    observerCustomer();
+                    Toast.makeText(getActivity(),"in else",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -116,6 +134,22 @@ public class BuyFragment extends Fragment {
         }
     }
 
+    private void observerCustomer() {
+        mCustomerLiveData.observe(this, new Observer<Customer>() {
+            @Override
+            public void onChanged(Customer customer) {
+                if (customer != null)
+                    Toast.makeText(getActivity(),customer.getFirst_name().toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setLocation();
+    }
+
     private void initView() {
         setLocation();
 
@@ -126,7 +160,9 @@ public class BuyFragment extends Fragment {
     }
 
     private void setLocation() {
-        String[] name = mSettingViewModel.getSelectedAddress().getAddressName().split("\n");
-        mBuyBinding.textViewAddressName.setText(name[0] + "\t" + name[1]);
+        if (mSettingViewModel.getSelectedAddress() != null) {
+            String[] name = mSettingViewModel.getSelectedAddress().getAddressName().split("\n");
+            mBuyBinding.textViewAddressName.setText(name[0] + "\t" + name[1]);
+        }
     }
 }

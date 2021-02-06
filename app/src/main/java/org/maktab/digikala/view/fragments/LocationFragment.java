@@ -69,6 +69,7 @@ public class LocationFragment extends Fragment {
 
         mLocationBinding.setSettingViewModel(mSettingViewModel);
         mSettingViewModel.setContext(getActivity());
+        mLiveDataAddress = mSettingViewModel.getLiveDataAddress();
 
         if (mSettingViewModel.getAddresses().size() != 0)
             setProductAdapter();

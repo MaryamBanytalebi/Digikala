@@ -122,7 +122,8 @@
                 android:textColor="@color/white"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/guideline_end" />
+                app:layout_constraintEnd_toStartOf="@id/guideline_end"
+                android:onClick="@{() -> orderViewModel.onClickContinueBuy()}"/>
 
 
             <TextView
